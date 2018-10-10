@@ -84,3 +84,9 @@ button.btn i {margin-right: 5px}
 	font-size: 90px;
 	margin-top: 12%;
 }
+.logo{
+	position: fixed;
+    top: 26%;
+    left: 10px;
+    height: 40px;
+}
