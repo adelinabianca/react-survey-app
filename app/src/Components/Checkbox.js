@@ -4,9 +4,9 @@ export class Checkbox extends Component {
   render() {
       const answer = this.props.answer;
     return (
-        <label class="checkboxContainer">{answer}
+        <label className="checkboxContainer">{answer}
             <input type="checkbox" />
-            <span class="checkmark"></span>
+            <span className="checkmark"></span>
         </label>
     )
   }
