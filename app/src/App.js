@@ -3,10 +3,25 @@ import './App.css';
 import Question from './Components/Question'
 
 class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            questionIndex: 0
+        };
+        this.handleNextQuestion  = this.handleNextQuestion.bind(this);
+        this.handlePreviousQuestion = this.handlePreviousQuestion.bind(this);
+    }
+    handleNextQuestion(currentIndex) {
+        this.setState({questionIndex: currentIndex + 1});
+    }
+    handlePreviousQuestion(currentIndex) {
+        this.setState({questionIndex: currentIndex - 1});
+    }
   render() {
-      const questions = [{question: 'I\'m a ___ developer', subtitle:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua', answers: ['QA', 'Scala', '.Net', 'Frontend'], answerType: 'single'},
-                         {question: 'I\'m currently using ___ technologies', subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua', answers: ['Scala 2.12.4', 'AngularJs', '.Net Core', 'Java 11'], answerType: 'multiple'}, 
-                         {question: 'I have this ___  to say', subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua', answers: '', answerType: 'input'}];
+      const questions = [{id: 1, question: 'I\'m a ___ developer', subtitle:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua', answers: ['QA', 'Scala', '.Net', 'Frontend'], answerType: 'single'},
+                         {id: 2, question: 'I\'m currently using ___ technologies', subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua', answers: ['Scala 2.12.4', 'AngularJs', '.Net Core', 'Java 11'], answerType: 'multiple'}, 
+                         {id: 3, question: 'I have this ___  to say', subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua', answers: '', answerType: 'input'}];
+      
     return (
       <div>
       <section className="header1 cover-photo" id="header1-3">
@@ -24,11 +39,15 @@ class App extends Component {
             </div>
         </div>
       </section>
-      {/* <section className="engine"><a>LeviNine Tech Survey 2018</a></section> */}
       <section  className="mbr-section content4 cid-r5TcdM8O84" id="content4-6">
         <div className="align-center container">
           <form>
-            <Question questionCard={questions[1]} />
+            <Question 
+                questionIndex={this.state.questionIndex}
+                lastQuestionIndex={questions.length - 1}
+                questionCard={questions[this.state.questionIndex]}
+                onNextButtonClicked={this.handleNextQuestion}
+                onPreviousButtonClicked={this.handlePreviousQuestion} />
           </form>
         </div>
       </section>
