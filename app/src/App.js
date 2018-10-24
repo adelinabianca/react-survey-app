@@ -1,27 +1,53 @@
 import React, { Component } from 'react';
 import './App.css';
-import Question from './Components/Question'
+import Question from './Components/Question';
+
+import questionnaireConfig from './questionnaireConfig.json';
 
 class App extends Component {
     constructor(props) {
         super(props);
+
+        const config = questionnaireConfig;
         this.state = {
-            questionIndex: 0
+            questionIndex: 0,
+            answers: [],
+            questionnaireConfig: config,
+            previousAnswer: [] // {questionId: '', answers: []}
         };
-        this.handleNextQuestion  = this.handleNextQuestion.bind(this);
-        this.handlePreviousQuestion = this.handlePreviousQuestion.bind(this);
     }
-    handleNextQuestion(currentIndex) {
-        this.setState({questionIndex: currentIndex + 1});
+
+    saveQuestionAnswer = (answer) => {
+        this.setState( (prevState) => ({answers: [...prevState.answers, answer]}));
     }
-    handlePreviousQuestion(currentIndex) {
-        this.setState({questionIndex: currentIndex - 1});
+
+    goToNextQuestion = () => {
+        const { questionIndex } = this.state;
+
+        this.setState ({questionIndex: questionIndex + 1});
     }
+
+    goToPreviousQuestion= () => {
+        const { questionIndex } = this.state;
+
+        this.setState( (prevState) => ({questionIndex: questionIndex - 1,
+                                        answers: prevState.answers.filter(prevAnswer => prevAnswer.questionId !== this.state.questionIndex),
+                                        previousAnswer: prevState.answers.filter(prevAnswer => prevAnswer.questionId === this.state.questionIndex)}));
+    }
+
+    checkIfQuestionHasAnswer = () => {
+        const { answers } = this.state;
+        const { questionnaireConfig: { questions } } = this.state;
+        const previousAnswer = answers.find(a => a.questionId === questions[this.state.questionIndex].id); 
+
+        this.setState(() => ({
+            previousAnswer : previousAnswer
+        }));
+    }
+
   render() {
-      const questions = [{id: 1, question: 'I\'m a ___ developer', subtitle:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua', answers: ['QA', 'Scala', '.Net', 'Frontend'], answerType: 'single'},
-                         {id: 2, question: 'I\'m currently using ___ technologies', subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua', answers: ['Scala 2.12.4', 'AngularJs', '.Net Core', 'Java 11'], answerType: 'multiple'}, 
-                         {id: 3, question: 'I have this ___  to say', subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua', answers: '', answerType: 'input'}];
-      
+      console.log(this.state)
+      const { questionnaireConfig: { questions } } = this.state;
     return (
       <div>
       <section className="header1 cover-photo" id="header1-3">
@@ -45,9 +71,12 @@ class App extends Component {
             <Question 
                 questionIndex={this.state.questionIndex}
                 lastQuestionIndex={questions.length - 1}
-                questionCard={questions[this.state.questionIndex]}
-                onNextButtonClicked={this.handleNextQuestion}
-                onPreviousButtonClicked={this.handlePreviousQuestion} />
+                question={questions[this.state.questionIndex]}
+                goToNextQuestion={this.goToNextQuestion}
+                goToPreviousQuestion={this.goToPreviousQuestion} 
+                saveQuestionAnswer={this.saveQuestionAnswer}
+                checkIfQuestionHasAnswer={this.checkIfQuestionHasAnswer}
+                previousAnswer={this.state.previousAnswer} />
           </form>
         </div>
       </section>

@@ -9,9 +9,10 @@ export class Button extends Component {
 
     return (
       <button type="button" 
+              disabled={this.props.disabled}
               onClick={() => {buttonText === 'Next' ? 
-                              this.props.onNextButtonClicked(this.props.questionIndex) :
-                              this.props.onPreviousButtonClicked(this.props.questionIndex)}} 
+                              this.props.onNextButtonClicked() :
+                              buttonText === 'Previous' ? this.props.onPreviousButtonClicked() : this.props.onSubmitButtonClicked()}} 
               className={`btn ${buttonClassName}`}>
               <i className={`fa ${iconClassName}`}></i>
               {buttonText}

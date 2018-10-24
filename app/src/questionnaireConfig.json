@@ -1,0 +1,23 @@
+{
+	"questions": [{
+        "id": 1,
+        "question": "Question title 1 ?",
+        "subtitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+		"answerType": "single",
+		"answerOptions": ["1", "2", "3", "4"]
+    },
+    {
+        "id": 2,
+        "question": "Question title 2 ?",
+        "subtitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+		"answerType": "multiple",
+		"answerOptions": ["A", "B", "C", "D"]
+    },
+    {
+        "id": 3,
+        "question": "Question title 3 ?",
+        "subtitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+		"answerType": "input",
+		"answerOptions": ""
+    }]
+}
