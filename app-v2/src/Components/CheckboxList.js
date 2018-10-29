@@ -37,7 +37,9 @@ export class CheckboxList extends Component {
             this.setState(prevState => ({checkedAnswers: [...prevState.checkedAnswers, answer]}), () => this.props.saveAnswers(this.state.checkedAnswers))
         }
         else {
-            this.setState(prevState => ({checkedAnswers: prevState.checkedAnswers.filter( prevAnswer => prevAnswer !== answer)}), () => this.props.saveAnswers(this.state.checkedAnswers))
+            if(answer === 'Other') {}
+            this.setState(prevState => ({checkedAnswers: prevState.checkedAnswers.filter( prevAnswer => prevAnswer !== answer && (answer === 'Other' ? !prevAnswer.includes('Other:') : true))}),
+                         () => this.props.saveAnswers(this.state.checkedAnswers))
         }
     }
     handleInputOptionChange = (event) => {
