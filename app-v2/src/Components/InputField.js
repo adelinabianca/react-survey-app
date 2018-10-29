@@ -1,8 +1,9 @@
-import React from 'react'
+import React from 'react';
+import './InputField.css'
 
 const InputField = (props) => {
   return (
-    <input
+    <input className="inputField"
           type="text"
           key="inputCheckbox"
           name="inputOption"

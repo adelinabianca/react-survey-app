@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import RadioButton from './RadioButton';
 
-import InputField from './InputField';
+
 
 export class RadioButtonList extends Component {
     constructor(props) {
@@ -54,17 +54,17 @@ export class RadioButtonList extends Component {
         <div className="col-12 cold-md-8 question-options">
             <div className="align-left">
                 {answerOptions.map((answer, index) => (
-                    <React.Fragment key={answer + index + 'radio'}>
                         <RadioButton 
+                                key={answer + index + 'radio'}
                                 answer={answer} 
                                 checked={this.state.checkedAnswer ===  answer }
                                 onChange={this.handleChange}
+                                value={this.state.inputAnswer}
+                                onInputOptionChange={this.handleInputOptionChange}
+                                answerType={this.props.answerType}
+                                answerOptions={answerOptions}
+                                index={index}
                         />
-                        {this.props.answerType === "single with other" && index === answerOptions.length -1 && 
-                                <InputField checked={this.state.checkedAnswer ===  answer}
-                                            value={this.state.inputAnswer}
-                                            onInputOptionChange={this.handleInputOptionChange}/>} 
-                    </React.Fragment>
                 ))}
             </div>
         </div>

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import  Checkbox  from './Checkbox';
-import InputField  from './InputField';
 
 export class CheckboxList extends Component {
     constructor(props) {
@@ -55,17 +54,16 @@ export class CheckboxList extends Component {
         <div className="col-12 cold-md-8 question-options">
             <div className="align-left">
                     {answerOptions.map((answer, index) => (
-                        <React.Fragment key={answer + index + 'checkbox'}>
-                            <Checkbox  
+                            <Checkbox  key={answer + index + 'checkbox'}
                                     answer={answer}
                                     checked={this.state.checkedAnswers.indexOf(answer) > -1}
                                     onChange={this.handleChange}
+                                    value={this.state.inputAnswer}
+                                    onInputOptionChange={this.handleInputOptionChange}
+                                    answerType={this.props.answerType}
+                                    index={index}
+                                    answerOptions={answerOptions}
                             />
-                            {this.props.answerType === "multiple with other" && index === answerOptions.length -1 && 
-                            <InputField checked={this.state.checkedAnswers.indexOf(answer) > -1}
-                                        value={this.state.inputAnswer}
-                                        onInputOptionChange={this.handleInputOptionChange}/>} 
-                        </React.Fragment>
                     ))}
             </div>
         </div>

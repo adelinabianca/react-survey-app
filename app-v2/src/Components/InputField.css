@@ -1,0 +1,7 @@
+input.inputField {
+    top: 0;
+    left: 100%;
+    opacity: 1;
+    margin-left: 10px;
+    cursor: text;
+}
