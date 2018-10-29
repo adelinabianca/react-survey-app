@@ -10,7 +10,7 @@ const Checkbox = props => {
           value={props.answer}
           name={props.answer}
           checked={props.checked}
-          onChange={event => props.onChange(event, props.index)}
+          onChange={event => props.onChange(event)}
         />
         <span className="checkmark" />
       </label>

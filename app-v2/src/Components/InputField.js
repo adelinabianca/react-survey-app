@@ -8,7 +8,6 @@ const InputField = (props) => {
           name="inputOption"
           value={props.value}
           disabled={!props.checked}
-          checked={true}
           onChange={event => props.onInputOptionChange(event)}
           onBlur={event => (!props.checked ?  event.target.value = '' : null)}
         />

@@ -20,12 +20,16 @@ export class CheckboxList extends Component {
     }
     componentWillReceiveProps(nextProps) {
         if(this.props.previousAnswer !== nextProps.previousAnswer || this.props.answerOptions !== nextProps.answerOptions) {
-            this.setState({checkedAnswers: nextProps.previousAnswer !== '' ? nextProps.previousAnswer.answers : []})
+            this.setState({checkedAnswers: nextProps.previousAnswer !== '' ? nextProps.previousAnswer.answers : [],
+                            inputAnswer: nextProps.previousAnswer !== '' ? 
+                                            nextProps.previousAnswer.answers.filter(prevAnswer => prevAnswer.includes('Other:')).map(e => e.substring(7))[0] : 
+                                                []
+                          })
         }
     }
 
 
-    handleChange = (event, answerIndex) => {
+    handleChange = (event) => {
         const answer = event.target.value;
         const isChecked = event.target.checked;
         
@@ -50,13 +54,10 @@ export class CheckboxList extends Component {
             <div className="align-left">
                     {answerOptions.map((answer, index) => (
                         <React.Fragment key={answer + index + 'checkbox'}>
-                            <Checkbox key={answer + index + 'checkbox'} 
+                            <Checkbox  
                                     answer={answer}
                                     checked={this.state.checkedAnswers.indexOf(answer) > -1}
                                     onChange={this.handleChange}
-                                    answerType={this.props.answerType} 
-                                    index={index}
-                                    lastOptionIndex={answerOptions.length - 1}
                             />
                             {this.props.answerType === "multiple with other" && index === answerOptions.length -1 && 
                             <InputField checked={this.state.checkedAnswers.indexOf(answer) > -1}
