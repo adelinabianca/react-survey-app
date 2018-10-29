@@ -10,8 +10,8 @@
         "id": 2,
         "question": "Question title 1.1 ?",
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-		"answerType": "single",
-		"answerOptions": ["51", "52", "53", "54"]
+		"answerType": "single with other",
+		"answerOptions": ["51", "52", "53", "Other"]
     },
     {
         "id": 3,
@@ -24,8 +24,8 @@
         "id": 4,
         "question": "Question title 2.2 ?",
         "description": "sdaLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-		"answerType": "multiple",
-		"answerOptions": ["ZAA", "ZBA", "ZCA", "ZDA"]
+		"answerType": "multiple with other",
+		"answerOptions": ["ZAA", "ZBA", "ZCA", "Other"]
     },
     {
         "id": 5,

@@ -12,18 +12,17 @@ export class Question extends Component {
             };
     }
     saveAnswers = (chosenAnswers) => {
-        
         this.setState({ 
             questionAnswers: {questionId: this.props.question.id, answers: chosenAnswers}
         });
     }
 
     showAnswerOptions(answerType, answerOptions) {
-        if (answerType === 'single') {
-            return <RadioButtonList answerOptions={answerOptions} saveAnswers={this.saveAnswers} previousAnswer={this.props.previousAnswer} />
+        if (answerType === 'single' || answerType === 'single with other') {
+            return <RadioButtonList answerOptions={answerOptions} saveAnswers={this.saveAnswers} previousAnswer={this.props.previousAnswer} answerType={answerType} />
         }
-        if (answerType === 'multiple') {
-            return <CheckboxList answerOptions={answerOptions} saveAnswers={this.saveAnswers} previousAnswer={this.props.previousAnswer}/>
+        if (answerType === 'multiple' || answerType === 'multiple with other') {
+            return <CheckboxList answerOptions={answerOptions} saveAnswers={this.saveAnswers} previousAnswer={this.props.previousAnswer} answerType={answerType} />
         }
         return <Textarea saveAnswers={this.saveAnswers} previousAnswer={this.props.previousAnswer} questionIndex={this.props.questionIndex} />;
     }
@@ -44,7 +43,7 @@ export class Question extends Component {
   render() {
     const {question} = this.props;
     const isDisabled = !((this.props.question.id === this.state.questionAnswers.questionId && this.state.questionAnswers.answers.length !== 0) || 
-                        (this.props.previousAnswer !== ''  && this.props.question.id !== this.state.questionAnswers.questionId  && this.props.previousAnswer.answers.length !== 0))
+                        (this.props.previousAnswer !== ''  && this.props.question.id !== this.state.questionAnswers.questionId  && this.props.previousAnswer.answers.length !== 0));
     return (
         <div className="question">
             <h2 className="pb-3 pt-3 mbr-fonts-style display-2">

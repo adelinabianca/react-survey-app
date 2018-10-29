@@ -6,9 +6,12 @@ export class RadioButtonList extends Component {
         super(props);
 
         this.state = {
-            checkedAnswer: ''
+            checkedAnswer: '',
+            inputAnswer: ''
         };
+        
     }
+     inputAnswer = ''
     componentWillMount() {
         if(this.props.previousAnswer !== ''){
             this.setState({checkedAnswer: this.props.previousAnswer.answers})
@@ -19,8 +22,17 @@ export class RadioButtonList extends Component {
             this.setState({checkedAnswer: nextProps.previousAnswer !== '' ? nextProps.previousAnswer.answers : ''})
         }
     }
+    shouldComponentUpdate(nextProps, nextState) {
+        if(this.state !== nextState) {
+            return true;
+        }
+        return false
+    }
     handleChange = (event) => {
-        this.setState({checkedAnswer: event.target.value}, () => this.props.saveAnswers(this.state.checkedAnswer));
+        this.setState({checkedAnswer: event.target.value, inputAnswer: ''}, () => this.props.saveAnswers(this.state.checkedAnswer));
+    }
+    handleInputOptionChange = (event) => {
+        this.setState({inputAnswer: event.target.value}, () => this.props.saveAnswers('Other: ' + this.state.inputAnswer));
     }
     
   render() {
@@ -30,11 +42,14 @@ export class RadioButtonList extends Component {
             <div className="align-left">
                 {answerOptions.map((answer, index) => (
                     <RadioButton 
-                            key={new Date().getTime() + index}
+                            key={answer + index + 'radio'}
                             answer={answer} 
                             checked={this.state.checkedAnswer ===  answer }
-                            // checked={this.props.previousAnswer !== '' ? this.props.previousAnswer.answers === answer : this.state.checkedAnswer === answer}
-                            onChange={this.handleChange} 
+                            onChange={this.handleChange}
+                            onInputOptionChange={this.handleInputOptionChange}
+                            answerType={this.props.answerType} 
+                            index={index}
+                            lastOptionIndex={answerOptions.length - 1}
                     />
                 ))}
             </div>

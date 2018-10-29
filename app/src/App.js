@@ -46,7 +46,6 @@ class App extends Component {
     }
 
   render() {
-      console.log(this.state)
       const { questionnaireConfig: { questions } } = this.state;
     return (
       <div>

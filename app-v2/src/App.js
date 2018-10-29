@@ -17,6 +17,45 @@ class App extends Component {
         };
     }
 
+    // componentDidMount() {
+    //     this.hydrateStateWithLocalStorage();
+    
+    //     window.addEventListener(
+    //       "beforeunload",
+    //       this.saveStateToLocalStorage.bind(this)
+    //     );
+    //   }
+    
+    //   componentWillUnmount() {
+    //     window.removeEventListener(
+    //       "beforeunload",
+    //       this.saveStateToLocalStorage.bind(this)
+    //     );
+    
+    //     this.saveStateToLocalStorage();
+    //   }
+
+    // hydrateStateWithLocalStorage() {
+    //     for (let key in this.state) {
+    //       if (localStorage.hasOwnProperty(key)) {
+    //         let value = localStorage.getItem(key);
+    
+    //         try {
+    //           value = JSON.parse(value);
+    //           this.setState({ [key]: value });
+    //         } catch (e) {
+    //           this.setState({ [key]: value });
+    //         }
+    //       }
+    //     }
+    //   }
+
+    //   saveStateToLocalStorage() {
+    //     for (let key in this.state) {
+    //       localStorage.setItem(key, JSON.stringify(this.state[key]));
+    //     }
+    //   }
+
     saveQuestionAnswer = (answer) => {
         const index = this.state.answers.map(ans => ans.questionId).indexOf(answer.questionId);
         if(index === -1) {
