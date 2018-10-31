@@ -1,0 +1,40 @@
+{
+	"info": {
+		"_postman_id": "89b75089-b7d3-493d-a15d-bad5a84bd9b2",
+		"name": "Survey",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:64282/api/submit",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"SessionId\":\"0ef482bb-ea41-4781-9b8a-56b3b08547e9\",\n\t\"Answers\":\n\t[{\n\t\t\"QuestionId\": 34,\n\t\t\"AnswerValue\": \"C#\"\n\t},\n\t{\n\t\t\"QuestionId\": 108,\n\t\t\"AnswerValue\": \"Windows\"\n\t},\n\t{\n\t\t\"QuestionId\": 55,\n\t\t\"AnswerValue\": \".NET Framework, .NET Core\"\n\t},\n\t{\n\t\t\"QuestionId\": 82,\n\t\t\"AnswerValue\": \"Docker\"\n\t}]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:64282/api/submit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "64282",
+					"path": [
+						"api",
+						"submit"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
