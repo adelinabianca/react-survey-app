@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import axios from 'axios'
+
 import './App.css';
 import { Question } from './Components/Question';
 
@@ -15,6 +17,17 @@ class App extends Component {
             questionnaireConfig: config,
             previousAnswer: ''
         };
+    }
+    componentWillMount() {
+      const url = window.location.href;
+      const startChar = url.indexOf('/', 8);
+      const userId = url.substr(startChar + 1, url.length);
+      // axios.get(URLforGETQuestions).then(response => {
+      //   this.setState({questionnaireConfig: response.data})
+      // });
+      // axios.get(URLforPOSTAnswers, userId).then( response => {
+      //   this.setState({answers: response.data.answers})
+      // });
     }
 
     componentDidMount() {
@@ -98,6 +111,7 @@ class App extends Component {
 
   render() {
     const { questionnaireConfig: { questions } } = this.state;
+    
     return (
       <div>
       <section className="header1 cover-photo" id="header1-3">
@@ -131,6 +145,7 @@ class App extends Component {
                           goToPreviousQuestion={this.goToPreviousQuestion}
                           checkIfPreviousQuestionHasAnswer={this.checkIfPreviousQuestionHasAnswer}
                           checkIfNextQuestionHasAnswer={this.checkIfNextQuestionHasAnswer}
+                          answers={this.state.answers}
                     />
                 </div>
               </div>
