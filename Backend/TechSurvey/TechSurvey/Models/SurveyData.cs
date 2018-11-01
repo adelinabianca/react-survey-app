@@ -5,7 +5,7 @@ namespace TechSurvey.Models
 {
     public class SurveyData
     {
-        public Guid SessionId { get; set; }
+        public string UserId { get; set; }
         public IEnumerable<Answer> Answers { get; set; }
     }
 }
