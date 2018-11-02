@@ -21,15 +21,24 @@ class App extends Component {
     componentWillMount() {
       const url = window.location.href;
       const startChar = url.indexOf('/', 8);
-      const userId = url.substr(startChar + 1, url.length);
-      // axios.get(URLforGETQuestions).then(response => {
-      //   this.setState({questionnaireConfig: response.data})
+      const jobCode = url.substr(startChar + 1, url.length);
+      // axios.get(URLforGETQuestions, jobCode).then(response => {
+      //   const questions = response.data.questions;
+      //   this.setState({
+      //     questionnaireConfig: questions,
+      //     answers: questions.map(question => { return {questionId: question.id, answers: question.selectedAnswers}}),
+      //     questionIndex: questions.indexOf(questions.find(question => question.selectedAnswers.length === 0))
+      //   })
       // });
-      // axios.get(URLforPOSTAnswers, userId).then( response => {
-      //   this.setState({answers: response.data.answers})
-      // });
+  
+      // Just for the mock 
+      const { questionnaireConfig: { questions } } = this.state;
+      const prevAnswers = questions.map(question => { return {questionId: question.id, answers: question.selectedAnswers}});
+      const lastIndex = questions.indexOf(questions.find(question => question.selectedAnswers.length === 0))
+      this.setState({answers: prevAnswers, questionIndex: lastIndex})
     }
 
+    // Save state to local storage
     componentDidMount() {
         this.hydrateStateWithLocalStorage();
     
@@ -68,17 +77,20 @@ class App extends Component {
           localStorage.setItem(key, JSON.stringify(this.state[key]));
         }
       }
+      // ------
 
     saveQuestionAnswer = (answer) => {
-        const index = this.state.answers.map(ans => ans.questionId).indexOf(answer.questionId);
-        if(index === -1) {
-        this.setState( prevState => ({answers: [...prevState.answers, answer]}));
-        } else {
-            let updatedAnswers =  this.state.answers.slice();
-            updatedAnswers = updatedAnswers.filter(prevAnswer => prevAnswer.questionId !== answer.questionId);
-            updatedAnswers = updatedAnswers.concat(answer);
-            this.setState({answers: updatedAnswers})
+        const { questionnaireConfig: { questions } } = this.state;
+        const indexOfQuestion = questions.map(question => question.id).indexOf(answer.questionId);
+        let questionnaire = questionnaireConfig;
+        let updatedAnswers =  this.state.answers.slice();
+        if(answer.length !== 0) {
+          questionnaire.questions[indexOfQuestion].selectedAnswers = answer.answers;
+          updatedAnswers = updatedAnswers.filter(prevAnswer => prevAnswer.questionId !== answer.questionId);
+          updatedAnswers = updatedAnswers.concat(answer);
         }
+        this.setState({answers: updatedAnswers, questionnaireConfig: questionnaire})
+        
     }
 
     goToNextQuestion = () => {
@@ -107,6 +119,22 @@ class App extends Component {
         this.setState(() => ({
             previousAnswer : previousAnswer || ''
         }));
+    }
+
+    onSubmitQuestionnaire = (answer) => {
+      const { questionnaireConfig: { questions } } = this.state;
+      const indexOfQuestion = questions.map(question => question.id).indexOf(answer.questionId);
+      let questionnaire = questionnaireConfig;
+      let updatedAnswers =  this.state.answers.slice();
+      if(answer.length !== 0) {
+        questionnaire.questions[indexOfQuestion].selectedAnswers = answer.answers;
+        updatedAnswers = updatedAnswers.filter(prevAnswer => prevAnswer.questionId !== answer.questionId);
+        updatedAnswers = updatedAnswers.concat(answer);
+      }
+      this.setState({answers: updatedAnswers, questionnaireConfig: questionnaire})
+      // axios.post(URLforPOSTAnswers, questionnaire).then( response => {
+      //     console.log(response)
+      // });
     }
 
   render() {
@@ -141,6 +169,7 @@ class App extends Component {
                           previousAnswer={this.state.previousAnswer}
                           lastQuestionIndex={questions.length - 1}
                           saveQuestionAnswer={this.saveQuestionAnswer}
+                          onSubmitQuestionnaire={this.onSubmitQuestionnaire}
                           goToNextQuestion={this.goToNextQuestion}
                           goToPreviousQuestion={this.goToPreviousQuestion}
                           checkIfPreviousQuestionHasAnswer={this.checkIfPreviousQuestionHasAnswer}

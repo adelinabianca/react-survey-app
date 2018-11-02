@@ -4,41 +4,47 @@
         "question": "Question title 1 ?",
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
 		"answerType": "single",
-		"answerOptions": ["1", "2", "3", "4"]
+        "answerOptions": ["1", "2", "3", "4"],
+        "selectedAnswers": ""
     },
     {
         "id": 2,
         "question": "Question title 1.1 ?",
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
 		"answerType": "single with other",
-		"answerOptions": ["51", "52", "53", "Other"]
+		"answerOptions": ["51", "52", "53", "Other"],
+        "selectedAnswers": ""
     },
     {
         "id": 3,
         "question": "Question title 2 ?",
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
 		"answerType": "multiple",
-		"answerOptions": ["A", "B", "C", "D"]
+		"answerOptions": ["A", "B", "C", "D"],
+        "selectedAnswers": []
     },
     {
         "id": 4,
         "question": "Question title 2.2 ?",
         "description": "sdaLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
 		"answerType": "multiple with other",
-		"answerOptions": ["ZAA", "ZBA", "ZCA", "Other"]
+		"answerOptions": ["ZAA", "ZBA", "ZCA", "Other"],
+        "selectedAnswers": []
     },
     {
         "id": 5,
         "question": "Question title 3 ?",
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
 		"answerType": "input",
-		"answerOptions": ""
+		"answerOptions": "",
+        "selectedAnswers": ""
     },
     {
         "id": 6,
         "question": "Question title 4 ?",
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
 		"answerType": "input",
-		"answerOptions": ""
+		"answerOptions": "",
+        "selectedAnswers": ""
     }]
 }

@@ -39,19 +39,8 @@ export class Question extends Component {
         this.props.goToPreviousQuestion();
     }
     onSubmit = () => {
-        const { saveQuestionAnswer } = this.props;
-        saveQuestionAnswer(this.state.questionAnswers);
-        // post method
-        const answersToSave = this.props.answers.filter(prevAnswer => prevAnswer.questionId !== this.state.questionAnswers.questionId).concat(this.state.questionAnswers)
-        const url = window.location.href;
-        const startChar = url.indexOf(':', 8);
-        const userId = url.substr(startChar + 1, url.length);
-        const finalAnswers = {
-            userId: userId,
-            answers: answersToSave
-        };
-        // console.log(JSON.stringify(finalAnswers))
-        // axios.post(urlForPOSTAnswers, JSON.stringify(finalAnswers)).then(response => console.log(response));
+        const { onSubmitQuestionnaire } = this.props;
+        onSubmitQuestionnaire(this.state.questionAnswers);
         this.props.goToNextQuestion();
     }
 
@@ -103,10 +92,7 @@ export class Question extends Component {
     }
 
   render() {
-    // const {question} = this.props;
-    // const isDisabled = !((this.props.question.id === this.state.questionAnswers.questionId && this.state.questionAnswers.answers.length !== 0) || 
-    //                     (this.props.previousAnswer !== ''  && this.props.question.id !== this.state.questionAnswers.questionId  && this.props.previousAnswer.answers.length !== 0));
-    return (
+        return (
         <div>
             {this.showComponent()}
         </div>
