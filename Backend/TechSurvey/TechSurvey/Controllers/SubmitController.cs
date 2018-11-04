@@ -17,7 +17,7 @@ namespace TechSurvey.Controllers
         public IHttpActionResult Post([FromBody]SurveyData surveyData)
         {
             var answerService = new AnswerService();
-            answerService.SaveAnswers(surveyData);
+            answerService.UpdateAnswers(surveyData);
             return Ok(surveyData);
         }
     }
