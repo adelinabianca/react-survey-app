@@ -30,7 +30,7 @@ namespace TechSurvey.Infrastructure.Repositories
             if (surveyData == null) return;
             var answerToUpdate = GetAnswersByUid(surveyData.UserId);
 
-            answerToUpdate.Answers = JsonConvert.SerializeObject(surveyData.Answers);
+            answerToUpdate.Answers = JsonConvert.SerializeObject(surveyData.Questions);
 
             dbContext.SaveChanges();
         }

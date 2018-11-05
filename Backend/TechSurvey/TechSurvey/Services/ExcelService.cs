@@ -1,4 +1,5 @@
-﻿using Microsoft.Office.Interop.Excel;
+﻿using System.Linq;
+using Microsoft.Office.Interop.Excel;
 using TechSurvey.Models;
 
 namespace TechSurvey.Services
@@ -33,11 +34,11 @@ namespace TechSurvey.Services
             var cellGuid = (Range) worksheetCells.Item[rowIdx, columnIndex];
             cellGuid.Value = surveyData.UserId;
 
-            foreach (var answer in surveyData.Answers)
+            foreach (var answer in surveyData.Questions)
             {
                 columnIndex++;
                 var cellToUpdate = (Range) worksheetCells.Item[rowIdx, columnIndex];
-                cellToUpdate.Value = answer.AnswerValue;
+                cellToUpdate.Value = string.Join(", ", answer.SelectedAnswers.ToArray()); ;
             }
 
             //force refresh of all formulas in document

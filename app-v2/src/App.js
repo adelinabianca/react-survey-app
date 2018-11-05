@@ -22,62 +22,62 @@ class App extends Component {
       const url = window.location.href;
       const startChar = url.indexOf('/', 8);
       const jobCode = url.substr(startChar + 1, url.length);
-    //   axios.get("URLforGETQuestions?uid=" + jobCode).then(response => {
-    //     const questions = JSON.parse(response.data).questions;
-    //     this.setState({
-    //       questionnaireConfig: questions,
-    //       answers: questions.map(question => { return {questionId: question.id, answers: question.selectedAnswers}}),
-    //       questionIndex: questions.indexOf(questions.find(question => question.selectedAnswers.length === 0))
-    //     })
-    //   });
+      axios.get("http://localhost:64282/api/survey?uid=" + jobCode).then(response => {
+        const questions = response.data.questions;
+        this.setState({
+          questionnaireConfig: questions,
+          answers: questions.map(question => { return {questionId: question.id, answers: question.selectedAnswers}}),
+          questionIndex: questions.indexOf(questions.find(question => question.selectedAnswers === null))
+        })
+      });
   
       // Just for the mock 
-      const { questionnaireConfig: { questions } } = this.state;
-      const prevAnswers = questions.map(question => { return {questionId: question.id, answers: question.selectedAnswers}});
-      const lastIndex = questions.indexOf(questions.find(question => question.selectedAnswers.length === 0))
-      this.setState({answers: prevAnswers, questionIndex: lastIndex})
+      // const { questionnaireConfig: { questions } } = this.state;
+      // const prevAnswers = questions.map(question => { return {questionId: question.id, answers: question.selectedAnswers}});
+      // const lastIndex = questions.indexOf(questions.find(question => question.selectedAnswers.length === 0))
+      // this.setState({answers: prevAnswers, questionIndex: lastIndex})
     }
 
-    // Save state to local storage
-    componentDidMount() {
-        this.hydrateStateWithLocalStorage();
+    // // Save state to local storage
+    // componentDidMount() {
+    //     this.hydrateStateWithLocalStorage();
     
-        window.addEventListener(
-          "beforeunload",
-          this.saveStateToLocalStorage.bind(this)
-        );
-      }
+    //     window.addEventListener(
+    //       "beforeunload",
+    //       this.saveStateToLocalStorage.bind(this)
+    //     );
+    //   }
     
-      componentWillUnmount() {
-        window.removeEventListener(
-          "beforeunload",
-          this.saveStateToLocalStorage.bind(this)
-        );
+    //   componentWillUnmount() {
+    //     window.removeEventListener(
+    //       "beforeunload",
+    //       this.saveStateToLocalStorage.bind(this)
+    //     );
     
-        this.saveStateToLocalStorage();
-      }
+    //     this.saveStateToLocalStorage();
+    //   }
 
-    hydrateStateWithLocalStorage() {
-        for (let key in this.state) {
-          if (localStorage.hasOwnProperty(key)) {
-            let value = localStorage.getItem(key);
+    // hydrateStateWithLocalStorage() {
+    //     for (let key in this.state) {
+    //       if (localStorage.hasOwnProperty(key)) {
+    //         let value = localStorage.getItem(key);
     
-            try {
-              value = JSON.parse(value);
-              this.setState({ [key]: value });
-            } catch (e) {
-              this.setState({ [key]: value });
-            }
-          }
-        }
-      }
+    //         try {
+    //           value = JSON.parse(value);
+    //           this.setState({ [key]: value });
+    //         } catch (e) {
+    //           this.setState({ [key]: value });
+    //         }
+    //       }
+    //     }
+    //   }
 
-      saveStateToLocalStorage() {
-        for (let key in this.state) {
-          localStorage.setItem(key, JSON.stringify(this.state[key]));
-        }
-      }
-      // ------
+    //   saveStateToLocalStorage() {
+    //     for (let key in this.state) {
+    //       localStorage.setItem(key, JSON.stringify(this.state[key]));
+    //     }
+    //   }
+    //   // ------
 
     saveQuestionAnswer = (answer) => {
         const { questionnaireConfig: { questions } } = this.state;
@@ -143,7 +143,7 @@ class App extends Component {
 
   render() {
     const { questionnaireConfig: { questions } } = this.state;
-    
+    console.log(this.state);
     return (
       <div>
       <section className="header1 cover-photo" id="header1-3">
@@ -169,9 +169,9 @@ class App extends Component {
                   <div className="title col-12 col-md-10">
                    <Question 
                           questionIndex={this.state.questionIndex}
-                          question={questions[this.state.questionIndex]}
+                          question={questionnaireConfig.questions[this.state.questionIndex]}
                           previousAnswer={this.state.previousAnswer}
-                          lastQuestionIndex={questions.length - 1}
+                          lastQuestionIndex={questionnaireConfig.questions.length - 1}
                           saveQuestionAnswer={this.saveQuestionAnswer}
                           onSubmitQuestionnaire={this.onSubmitQuestionnaire}
                           goToNextQuestion={this.goToNextQuestion}
