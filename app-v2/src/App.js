@@ -22,14 +22,14 @@ class App extends Component {
       const url = window.location.href;
       const startChar = url.indexOf('/', 8);
       const jobCode = url.substr(startChar + 1, url.length);
-      // axios.get(URLforGETQuestions, jobCode).then(response => {
-      //   const questions = response.data.questions;
-      //   this.setState({
-      //     questionnaireConfig: questions,
-      //     answers: questions.map(question => { return {questionId: question.id, answers: question.selectedAnswers}}),
-      //     questionIndex: questions.indexOf(questions.find(question => question.selectedAnswers.length === 0))
-      //   })
-      // });
+    //   axios.get("URLforGETQuestions?uid=" + jobCode).then(response => {
+    //     const questions = JSON.parse(response.data).questions;
+    //     this.setState({
+    //       questionnaireConfig: questions,
+    //       answers: questions.map(question => { return {questionId: question.id, answers: question.selectedAnswers}}),
+    //       questionIndex: questions.indexOf(questions.find(question => question.selectedAnswers.length === 0))
+    //     })
+    //   });
   
       // Just for the mock 
       const { questionnaireConfig: { questions } } = this.state;
@@ -118,7 +118,7 @@ class App extends Component {
         const previousAnswer = answers.find(a => a.questionId === questions[this.state.questionIndex+1].id);
         this.setState(() => ({
             previousAnswer : previousAnswer
-        }), () => console.log(this.state));
+        }));
     }
 
     onSubmitQuestionnaire = (answer) => {
@@ -132,7 +132,11 @@ class App extends Component {
         updatedAnswers = updatedAnswers.concat(answer);
       }
       this.setState({answers: updatedAnswers, questionnaireConfig: questionnaire})
-      // axios.post(URLforPOSTAnswers, questionnaire).then( response => {
+
+      const url = window.location.href;
+      const startChar = url.indexOf('/', 8);
+      const jobCode = url.substr(startChar + 1, url.length);
+      // axios.post("URLforPOSTAnswers" + jobCode, questionnaire).then( response => {
       //     console.log(response)
       // });
     }
