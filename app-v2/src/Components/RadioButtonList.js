@@ -14,7 +14,7 @@ export class RadioButtonList extends Component {
 
     }
     componentWillMount() {
-        if(this.props.previousAnswer !== ''){
+        if(this.props.previousAnswer.answers.length !== 0){
             this.setState({checkedAnswer: this.props.previousAnswer.answers.includes('Other:') ? 
                                             this.props.answerOptions[this.props.answerOptions.length -1] : 
                                                 this.props.previousAnswer.answers,
@@ -26,10 +26,10 @@ export class RadioButtonList extends Component {
     }
     componentWillReceiveProps(nextProps) {
         if(this.props.previousAnswer !== nextProps.previousAnswer || this.props.answerOptions !== nextProps.answerOptions) {
-            this.setState({checkedAnswer: nextProps.previousAnswer !== '' ? 
+            this.setState({checkedAnswer: nextProps.previousAnswer.answers.length !== 0 ? 
                                             (nextProps.previousAnswer.answers.includes('Other:') ? nextProps.answerOptions[nextProps.answerOptions.length -1] : nextProps.previousAnswer.answers) : 
                                                 '',
-                            inputAnswer: nextProps.previousAnswer !== '' ? 
+                            inputAnswer: nextProps.previousAnswer.answers.length !== 0 ? 
                                             (nextProps.previousAnswer.answers.includes('Other:') ? nextProps.previousAnswer.answers.substring(7): '') :
                                                 ''
                           });

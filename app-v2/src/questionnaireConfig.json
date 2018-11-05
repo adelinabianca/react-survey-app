@@ -1,50 +1,43 @@
 {
 	"questions": [{
-        "id": 1,
-        "question": "Question title 1 ?",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-		"answerType": "single",
-        "answerOptions": ["1", "2", "3", "4"],
-        "selectedAnswers": ""
-    },
-    {
-        "id": 2,
-        "question": "Question title 1.1 ?",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-		"answerType": "single with other",
-		"answerOptions": ["51", "52", "53", "Other"],
-        "selectedAnswers": ""
-    },
-    {
-        "id": 3,
-        "question": "Question title 2 ?",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-		"answerType": "multiple",
-		"answerOptions": ["A", "B", "C", "D"],
-        "selectedAnswers": []
-    },
-    {
-        "id": 4,
-        "question": "Question title 2.2 ?",
-        "description": "sdaLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-		"answerType": "multiple with other",
-		"answerOptions": ["ZAA", "ZBA", "ZCA", "Other"],
-        "selectedAnswers": []
-    },
-    {
-        "id": 5,
-        "question": "Question title 3 ?",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-		"answerType": "input",
-		"answerOptions": "",
-        "selectedAnswers": ""
-    },
-    {
-        "id": 6,
-        "question": "Question title 4 ?",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-		"answerType": "input",
-		"answerOptions": "",
-        "selectedAnswers": ""
-    }]
+			"id": "1",
+			"question": "What versions of C# do you regularly use?",
+			"description": "",
+			"answerType": "multiple",
+			"answerOptions": ["C# 7", "C# 6", "C# 5", "Earlier version", "I'm not sure"],
+			"selectedAnswers": ""
+		},
+		{
+			"id": "2",
+			"question": "What runtimes do you regularly use?",
+			"description": "",
+			"answerType": "multiple",
+			"answerOptions": [".NET Framework", ".NET Core", "Mono"],
+			"selectedAnswers": ""
+		},
+		{
+			"id": "3",
+			"question": "Are you planing to migrate to new standard in next 12 months?",
+			"description": "",
+			"answerType": "single",
+			"answerOptions": ["Yes", "No", "I'm not sure"],
+			"selectedAnswers": ""
+		},
+		{
+			"id": "4",
+			"question": "Which compilers do you regularly use?",
+			"description": "",
+			"answerType": "single wit other",
+			"answerOptions": ["GCC", "MSVC", "Clang", "Intel", "Custom", "Other"],
+			"selectedAnswers": ""
+		},
+		{
+			"id": "5",
+			"question": "What do you like about .NET?",
+			"description": "",
+			"answerType": "input",
+			"answerOptions": "",
+			"selectedAnswers": ""
+		}
+	]
 }

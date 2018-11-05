@@ -15,7 +15,7 @@ class App extends Component {
             questionIndex: 0,
             answers: [],
             questionnaireConfig: config,
-            previousAnswer: ''
+            previousAnswer: {questionId: "", answers: ""}
         };
     }
     componentWillMount() {
@@ -117,8 +117,8 @@ class App extends Component {
         const { questionnaireConfig: { questions } } = this.state;
         const previousAnswer = answers.find(a => a.questionId === questions[this.state.questionIndex+1].id);
         this.setState(() => ({
-            previousAnswer : previousAnswer || ''
-        }));
+            previousAnswer : previousAnswer
+        }), () => console.log(this.state));
     }
 
     onSubmitQuestionnaire = (answer) => {

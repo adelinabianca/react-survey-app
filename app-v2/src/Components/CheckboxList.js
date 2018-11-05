@@ -11,7 +11,7 @@ export class CheckboxList extends Component {
         };
     }
     componentWillMount() {
-        if(this.props.previousAnswer !== ''){
+        if(this.props.previousAnswer.answers.length !== 0){
             this.setState({checkedAnswers: this.props.previousAnswer.answers, 
                            inputAnswer: this.props.previousAnswer.answers.filter(prevAnswer => prevAnswer.includes('Other:')).map(e => e.substring(7))[0]})
         }
@@ -19,8 +19,8 @@ export class CheckboxList extends Component {
     }
     componentWillReceiveProps(nextProps) {
         if(this.props.previousAnswer !== nextProps.previousAnswer || this.props.answerOptions !== nextProps.answerOptions) {
-            this.setState({checkedAnswers: nextProps.previousAnswer !== '' ? nextProps.previousAnswer.answers : [],
-                            inputAnswer: nextProps.previousAnswer !== '' ? 
+            this.setState({checkedAnswers: nextProps.previousAnswer.answers.length !== 0 ? nextProps.previousAnswer.answers : [],
+                            inputAnswer: nextProps.previousAnswer.answers.length !== 0 ? 
                                             nextProps.previousAnswer.answers.filter(prevAnswer => prevAnswer.includes('Other:')).map(e => e.substring(7))[0] : 
                                                 []
                           })
