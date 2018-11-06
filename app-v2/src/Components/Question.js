@@ -9,7 +9,7 @@ export class Question extends Component {
     constructor(props) {
         super(props);
         this.state = {
-             questionAnswers: []
+             questionAnswers: {questionId: "", answers: []}
             };
     }
     saveAnswers = (chosenAnswers) => {

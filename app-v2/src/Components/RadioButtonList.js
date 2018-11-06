@@ -8,18 +8,18 @@ export class RadioButtonList extends Component {
         super(props);
 
         this.state = {
-            checkedAnswer: '',
+            checkedAnswer: [],
             inputAnswer: ''
         };
 
     }
     componentWillMount() {
         if(this.props.previousAnswer.answers.length !== 0){
-            this.setState({checkedAnswer: this.props.previousAnswer.answers.includes('Other:') ? 
-                                            this.props.answerOptions[this.props.answerOptions.length -1] : 
+            this.setState({checkedAnswer: this.props.previousAnswer.answers[0].includes('Other:') ? 
+                                            [this.props.answerOptions[this.props.answerOptions.length -1]] : 
                                                 this.props.previousAnswer.answers,
-                           inputAnswer: this.props.previousAnswer.answers.includes('Other:') ? 
-                                            this.props.previousAnswer.answers.substring(7) : 
+                           inputAnswer: this.props.previousAnswer.answers[0].includes('Other:') ? 
+                                            this.props.previousAnswer.answers[0].substring(7) : 
                                                 ''
                           });
         }
@@ -27,10 +27,10 @@ export class RadioButtonList extends Component {
     componentWillReceiveProps(nextProps) {
         if(this.props.previousAnswer !== nextProps.previousAnswer || this.props.answerOptions !== nextProps.answerOptions) {
             this.setState({checkedAnswer: nextProps.previousAnswer.answers.length !== 0 ? 
-                                            (nextProps.previousAnswer.answers.includes('Other:') ? nextProps.answerOptions[nextProps.answerOptions.length -1] : nextProps.previousAnswer.answers) : 
-                                                '',
+                                            (nextProps.previousAnswer.answers[0].includes('Other:') ? [nextProps.answerOptions[nextProps.answerOptions.length -1]] : nextProps.previousAnswer.answers) : 
+                                                [],
                             inputAnswer: nextProps.previousAnswer.answers.length !== 0 ? 
-                                            (nextProps.previousAnswer.answers.includes('Other:') ? nextProps.previousAnswer.answers.substring(7): '') :
+                                            (nextProps.previousAnswer.answers[0].includes('Other:') ? nextProps.previousAnswer.answers[0].substring(7): '') :
                                                 ''
                           });
         }
@@ -42,7 +42,7 @@ export class RadioButtonList extends Component {
         return false
     }
     handleChange = (event) => {
-        this.setState({checkedAnswer: event.target.value}, () => this.props.saveAnswers(this.state.checkedAnswer));
+        this.setState({checkedAnswer: [event.target.value]}, () => this.props.saveAnswers(this.state.checkedAnswer));
     }
     handleInputOptionChange = (event) => {
         this.setState({inputAnswer: event.target.value}, () => this.props.saveAnswers('Other: ' + this.state.inputAnswer));
@@ -57,7 +57,7 @@ export class RadioButtonList extends Component {
                         <RadioButton 
                                 key={answer + index + 'radio'}
                                 answer={answer} 
-                                checked={this.state.checkedAnswer ===  answer }
+                                checked={this.state.checkedAnswer[0] ===  answer }
                                 onChange={this.handleChange}
                                 value={this.state.inputAnswer}
                                 onInputOptionChange={this.handleInputOptionChange}
