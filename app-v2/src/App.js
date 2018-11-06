@@ -15,45 +15,67 @@ class App extends Component {
         this.state = {
             questionIndex: 0,
             answers: [],
-            questionnaireConfig: config,
+            questionnaireConfig: "",
             previousAnswer: {questionId: "", answers: ""},
             loading: true
         };
     }
-    componentWillMount() {
-      const url = window.location.href;
-      const startChar = url.indexOf('/', 8);
-      const jobCode = url.substr(startChar + 1, url.length);
-    //   axios.get("http://localhost:64282/api/survey?uid=" + jobCode).then(response => {
-    //     const questions = response.data.questions;
-    //     console.log(questions);
-    //     this.setState({
-    //       questionnaireConfig: questions,
-    //       answers: questions.map(question => { return {questionId: question.id, answers: question.selectedAnswers}}),
-    //       questionIndex: questions.indexOf(questions.find(question => question.selectedAnswers === null)),
-    //       loading: false
-    //     })
-    //   });
+    // componentWillMount() {
+    //   const url = window.location.href;
+    //   const startChar = url.indexOf('/', 8);
+    //   const jobCode = url.substr(startChar + 1, url.length);
+    // //   axios.get("http://localhost:64282/api/survey?uid=" + jobCode).then(response => {
+    // //     const questions = response.data.questions;
+    // //     console.log(questions);
+    // //     this.setState({
+    // //       questionnaireConfig: questions,
+    // //       answers: questions.map(question => { return {questionId: question.id, answers: question.selectedAnswers}}),
+    // //       questionIndex: questions.indexOf(questions.find(question => question.selectedAnswers === null)),
+    // //       loading: false
+    // //     })
+    // //   });
   
-    //   Just for the mock 
-      const { questionnaireConfig: { questions } } = this.state;
-      const prevAnswers = questions.map(question => { return {questionId: question.id, answers: question.selectedAnswers}});
-      const lastIndex = questions.indexOf(questions.find(question => question.selectedAnswers.length === 0))
-      setTimeout( () => {
-        this.setState({answers: prevAnswers, questionIndex: lastIndex, loading: false})
-      }, 2000)
+    // //   Just for the mock 
+    // //   const { questionnaireConfig: { questions } } = this.state;
+    // //   const prevAnswers = questions.map(question => { return {questionId: question.id, answers: question.selectedAnswers}});
+    // //   const lastIndex = questions.indexOf(questions.find(question => question.selectedAnswers.length === 0))
+    // //   setTimeout( () => {
+    // //     this.setState({answers: prevAnswers, questionIndex: lastIndex, loading: false})
+    // //   }, 2000)
       
-    }
+    // }
 
     // // Save state to local storage
-    // componentDidMount() {
-    //     this.hydrateStateWithLocalStorage();
+    componentDidMount() {
+        // this.hydrateStateWithLocalStorage();
     
-    //     window.addEventListener(
-    //       "beforeunload",
-    //       this.saveStateToLocalStorage.bind(this)
-    //     );
-    //   }
+        // window.addEventListener(
+        //   "beforeunload",
+        //   this.saveStateToLocalStorage.bind(this)
+        // );
+
+        const url = window.location.href;
+        const startChar = url.indexOf('/', 8);
+        const jobCode = url.substr(startChar + 1, url.length);
+        axios.get("http://localhost:64282/api/survey?uid=" + jobCode).then(response => {
+            const questions = response.data.questions;
+            console.log(questions);
+            this.setState({
+            questionnaireConfig: questions,
+            answers: questions.map(question => { return {questionId: question.id, answers: question.selectedAnswers}}),
+            questionIndex: questions.indexOf(questions.find(question => question.selectedAnswers === null)),
+            loading: false
+            })
+        });
+  
+    //   Just for the mock 
+    //   const { questionnaireConfig: { questions } } = this.state;
+    //   const prevAnswers = questions.map(question => { return {questionId: question.id, answers: question.selectedAnswers}});
+    //   const lastIndex = questions.indexOf(questions.find(question => question.selectedAnswers.length === 0))
+    //   setTimeout( () => {
+    //     this.setState({answers: prevAnswers, questionIndex: lastIndex, loading: false})
+    //   }, 2000)
+      }
     
     //   componentWillUnmount() {
     //     window.removeEventListener(
@@ -149,8 +171,10 @@ class App extends Component {
     }
 
   render() {
-    const { questionnaireConfig: { questions } } = this.state;
-    let toRender = (
+      console.log("render")
+      let toRender = <Spinner />;
+      if (!this.state.loading) {
+      toRender = (
         <div className="title col-12 col-md-10">
             <Question 
                 questionIndex={this.state.questionIndex}
@@ -166,8 +190,6 @@ class App extends Component {
                 answers={this.state.answers}
             />
         </div>);
-      if(this.state.loading) {
-          toRender = <Spinner />
       }
     return (
         <div>
