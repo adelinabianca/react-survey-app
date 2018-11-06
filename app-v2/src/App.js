@@ -5,6 +5,7 @@ import './App.css';
 import { Question } from './Components/Question';
 
 import questionnaireConfig from './questionnaireConfig.json';
+import Spinner from './Components/Spinner';
 
 class App extends Component {
     constructor(props) {
@@ -15,27 +16,33 @@ class App extends Component {
             questionIndex: 0,
             answers: [],
             questionnaireConfig: config,
-            previousAnswer: {questionId: "", answers: ""}
+            previousAnswer: {questionId: "", answers: ""},
+            loading: true
         };
     }
     componentWillMount() {
       const url = window.location.href;
       const startChar = url.indexOf('/', 8);
       const jobCode = url.substr(startChar + 1, url.length);
-      axios.get("http://localhost:64282/api/survey?uid=" + jobCode).then(response => {
-        const questions = response.data.questions;
-        this.setState({
-          questionnaireConfig: questions,
-          answers: questions.map(question => { return {questionId: question.id, answers: question.selectedAnswers}}),
-          questionIndex: questions.indexOf(questions.find(question => question.selectedAnswers === null))
-        })
-      });
+    //   axios.get("http://localhost:64282/api/survey?uid=" + jobCode).then(response => {
+    //     const questions = response.data.questions;
+    //     console.log(questions);
+    //     this.setState({
+    //       questionnaireConfig: questions,
+    //       answers: questions.map(question => { return {questionId: question.id, answers: question.selectedAnswers}}),
+    //       questionIndex: questions.indexOf(questions.find(question => question.selectedAnswers === null)),
+    //       loading: false
+    //     })
+    //   });
   
-      // Just for the mock 
-      // const { questionnaireConfig: { questions } } = this.state;
-      // const prevAnswers = questions.map(question => { return {questionId: question.id, answers: question.selectedAnswers}});
-      // const lastIndex = questions.indexOf(questions.find(question => question.selectedAnswers.length === 0))
-      // this.setState({answers: prevAnswers, questionIndex: lastIndex})
+    //   Just for the mock 
+      const { questionnaireConfig: { questions } } = this.state;
+      const prevAnswers = questions.map(question => { return {questionId: question.id, answers: question.selectedAnswers}});
+      const lastIndex = questions.indexOf(questions.find(question => question.selectedAnswers.length === 0))
+      setTimeout( () => {
+        this.setState({answers: prevAnswers, questionIndex: lastIndex, loading: false})
+      }, 2000)
+      
     }
 
     // // Save state to local storage
@@ -143,51 +150,55 @@ class App extends Component {
 
   render() {
     const { questionnaireConfig: { questions } } = this.state;
-    console.log(this.state);
+    let toRender = (
+        <div className="title col-12 col-md-10">
+            <Question 
+                questionIndex={this.state.questionIndex}
+                question={questionnaireConfig.questions[this.state.questionIndex]}
+                previousAnswer={this.state.previousAnswer}
+                lastQuestionIndex={questionnaireConfig.questions.length - 1}
+                saveQuestionAnswer={this.saveQuestionAnswer}
+                onSubmitQuestionnaire={this.onSubmitQuestionnaire}
+                goToNextQuestion={this.goToNextQuestion}
+                goToPreviousQuestion={this.goToPreviousQuestion}
+                checkIfPreviousQuestionHasAnswer={this.checkIfPreviousQuestionHasAnswer}
+                checkIfNextQuestionHasAnswer={this.checkIfNextQuestionHasAnswer}
+                answers={this.state.answers}
+            />
+        </div>);
+      if(this.state.loading) {
+          toRender = <Spinner />
+      }
     return (
-      <div>
-      <section className="header1 cover-photo" id="header1-3">
-        <div className="container">
-            <div className="row">
-                <div className="col-md-12">
-                    <div className="mbr-white">
-                        <h1 className="mbr-section-title align-center mbr-bold pb-3 pt-3 mbr-fonts-style display-1">
-                            TECH SURVEY 2018</h1>
-                        <p className="mbr-text align-center pb-3 mbr-fonts-style display-5">
-                            THE STATE OF THE LEVININE DEVELOPER ECOSYSTEM IN 2018
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-      </section>
-      <section  className="mbr-section content4 cid-r5TcdM8O84" id="content4-6">
-        <div className="align-center container">
-          <form>
-            <div className="questionSection ">
-              <div className="media-container-row">
-                  <div className="title col-12 col-md-10">
-                   <Question 
-                          questionIndex={this.state.questionIndex}
-                          question={questionnaireConfig.questions[this.state.questionIndex]}
-                          previousAnswer={this.state.previousAnswer}
-                          lastQuestionIndex={questionnaireConfig.questions.length - 1}
-                          saveQuestionAnswer={this.saveQuestionAnswer}
-                          onSubmitQuestionnaire={this.onSubmitQuestionnaire}
-                          goToNextQuestion={this.goToNextQuestion}
-                          goToPreviousQuestion={this.goToPreviousQuestion}
-                          checkIfPreviousQuestionHasAnswer={this.checkIfPreviousQuestionHasAnswer}
-                          checkIfNextQuestionHasAnswer={this.checkIfNextQuestionHasAnswer}
-                          answers={this.state.answers}
-                    />
+        <div>
+        <section className="header1 cover-photo" id="header1-3">
+          <div className="container">
+              <div className="row">
+                  <div className="col-md-12">
+                      <div className="mbr-white">
+                          <h1 className="mbr-section-title align-center mbr-bold pb-3 pt-3 mbr-fonts-style display-1">
+                              TECH SURVEY 2018</h1>
+                          <p className="mbr-text align-center pb-3 mbr-fonts-style display-5">
+                              THE STATE OF THE LEVININE DEVELOPER ECOSYSTEM IN 2018
+                          </p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </section>
+        <section  className="mbr-section content4 cid-r5TcdM8O84" id="content4-6">
+          <div className="align-center container">
+            <form>
+              <div className="questionSection ">
+                <div className="media-container-row">
+                    {toRender}
                 </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
+        </section>
         </div>
-      </section>
-      </div>
-    );
+      );
   }
 }
 
