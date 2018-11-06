@@ -27,7 +27,7 @@
 			"id": "4",
 			"question": "Which compilers do you regularly use?",
 			"description": "",
-			"answerType": "single wit other",
+			"answerType": "single with other",
 			"answerOptions": ["GCC", "MSVC", "Clang", "Intel", "Custom", "Other"],
 			"selectedAnswers": ""
 		},

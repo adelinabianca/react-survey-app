@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 
 import { CheckboxList } from './CheckboxList';
 import { RadioButtonList } from './RadioButtonList';

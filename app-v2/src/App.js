@@ -4,77 +4,44 @@ import axios from 'axios'
 import './App.css';
 import { Question } from './Components/Question';
 
-import questionnaireConfig from './questionnaireConfig.json';
 import Spinner from './Components/Spinner';
 
 class App extends Component {
     constructor(props) {
         super(props);
 
-        const config = questionnaireConfig;
         this.state = {
             questionIndex: 0,
             answers: [],
-            questionnaireConfig: "",
+            questionnaireConfig: '',
             previousAnswer: {questionId: "", answers: ""},
             loading: true
         };
     }
-    // componentWillMount() {
-    //   const url = window.location.href;
-    //   const startChar = url.indexOf('/', 8);
-    //   const jobCode = url.substr(startChar + 1, url.length);
-    // //   axios.get("http://localhost:64282/api/survey?uid=" + jobCode).then(response => {
-    // //     const questions = response.data.questions;
-    // //     console.log(questions);
-    // //     this.setState({
-    // //       questionnaireConfig: questions,
-    // //       answers: questions.map(question => { return {questionId: question.id, answers: question.selectedAnswers}}),
-    // //       questionIndex: questions.indexOf(questions.find(question => question.selectedAnswers === null)),
-    // //       loading: false
-    // //     })
-    // //   });
-  
-    // //   Just for the mock 
-    // //   const { questionnaireConfig: { questions } } = this.state;
-    // //   const prevAnswers = questions.map(question => { return {questionId: question.id, answers: question.selectedAnswers}});
-    // //   const lastIndex = questions.indexOf(questions.find(question => question.selectedAnswers.length === 0))
-    // //   setTimeout( () => {
-    // //     this.setState({answers: prevAnswers, questionIndex: lastIndex, loading: false})
-    // //   }, 2000)
-      
-    // }
 
     // // Save state to local storage
     componentDidMount() {
+        const url = window.location.href;
+        const startChar = url.indexOf('/', 8);
+        const jobCode = url.substr(startChar + 1, url.length);
+        const hardCodedData = '{"questions":[{"id":1,"question":"What type of BI solutions have you started learning / continued to learn in the last 12 months, if any?","description":"","answerType":"multiple with other","answerOptions":["Enterprise Solutions","LOB Solutions","Data Science","Machine Learning","Other"],"selectedAnswers":""},{"id":2,"question":"Are the BI solutions you are working on Mobile Ready","description":"","answerType":"single","answerOptions":["Yes – which mobile operating system","No"],"selectedAnswers":""},{"id":3,"question":"Which area of data warehousing process are you working on?","description":"","answerType":"multiple with other","answerOptions":["Back End – ETL","Front End – Dashboarding","Intermediary steps: abstract layers, cubes etc.","Modelling","Other"],"selectedAnswers":""},{"id":4,"question":"Is the BI solution you are developing oriented to","description":"","answerType":"single","answerOptions":["Cloud","On-premise","Hybrid"],"selectedAnswers":""},{"id":5,"question":"What do you like about BI?","description":"","answerType":"input","answerOptions":null,"selectedAnswers":""}],"userId":null}';
+        axios.get("https://react-my-burger-f6374.firebaseio.com/ingredients.json" ).then(response => {
+            const questionnaireConfig = JSON.parse(hardCodedData);
+            // const questionnaireConfig = JSON.parse(response.data);
+            this.setState({
+                questionnaireConfig: questionnaireConfig,
+                answers: questionnaireConfig.questions.map(question => { return {questionId: question.id, answers: question.selectedAnswers}}),
+                questionIndex: questionnaireConfig.questions.indexOf(questionnaireConfig.questions.find(question => question.selectedAnswers === "")),
+                loading: false
+            })
+        });
+
         // this.hydrateStateWithLocalStorage();
     
         // window.addEventListener(
         //   "beforeunload",
         //   this.saveStateToLocalStorage.bind(this)
         // );
-
-        const url = window.location.href;
-        const startChar = url.indexOf('/', 8);
-        const jobCode = url.substr(startChar + 1, url.length);
-        axios.get("http://localhost:64282/api/survey?uid=" + jobCode).then(response => {
-            const questions = response.data.questions;
-            console.log(questions);
-            this.setState({
-            questionnaireConfig: questions,
-            answers: questions.map(question => { return {questionId: question.id, answers: question.selectedAnswers}}),
-            questionIndex: questions.indexOf(questions.find(question => question.selectedAnswers === null)),
-            loading: false
-            })
-        });
-  
-    //   Just for the mock 
-    //   const { questionnaireConfig: { questions } } = this.state;
-    //   const prevAnswers = questions.map(question => { return {questionId: question.id, answers: question.selectedAnswers}});
-    //   const lastIndex = questions.indexOf(questions.find(question => question.selectedAnswers.length === 0))
-    //   setTimeout( () => {
-    //     this.setState({answers: prevAnswers, questionIndex: lastIndex, loading: false})
-    //   }, 2000)
       }
     
     //   componentWillUnmount() {
@@ -111,7 +78,7 @@ class App extends Component {
     saveQuestionAnswer = (answer) => {
         const { questionnaireConfig: { questions } } = this.state;
         const indexOfQuestion = questions.map(question => question.id).indexOf(answer.questionId);
-        let questionnaire = questionnaireConfig;
+        let questionnaire = Object.assign({}, this.state.questionnaireConfig);
         let updatedAnswers =  this.state.answers.slice();
         if(answer.length !== 0) {
           questionnaire.questions[indexOfQuestion].selectedAnswers = answer.answers;
@@ -153,7 +120,7 @@ class App extends Component {
     onSubmitQuestionnaire = (answer) => {
       const { questionnaireConfig: { questions } } = this.state;
       const indexOfQuestion = questions.map(question => question.id).indexOf(answer.questionId);
-      let questionnaire = questionnaireConfig;
+      let questionnaire = Object.assign({}, this.state.questionnaireConfig);
       let updatedAnswers =  this.state.answers.slice();
       if(answer.length !== 0) {
         questionnaire.questions[indexOfQuestion].selectedAnswers = answer.answers;
@@ -171,25 +138,24 @@ class App extends Component {
     }
 
   render() {
-      console.log("render")
       let toRender = <Spinner />;
       if (!this.state.loading) {
-      toRender = (
-        <div className="title col-12 col-md-10">
-            <Question 
-                questionIndex={this.state.questionIndex}
-                question={questionnaireConfig.questions[this.state.questionIndex]}
-                previousAnswer={this.state.previousAnswer}
-                lastQuestionIndex={questionnaireConfig.questions.length - 1}
-                saveQuestionAnswer={this.saveQuestionAnswer}
-                onSubmitQuestionnaire={this.onSubmitQuestionnaire}
-                goToNextQuestion={this.goToNextQuestion}
-                goToPreviousQuestion={this.goToPreviousQuestion}
-                checkIfPreviousQuestionHasAnswer={this.checkIfPreviousQuestionHasAnswer}
-                checkIfNextQuestionHasAnswer={this.checkIfNextQuestionHasAnswer}
-                answers={this.state.answers}
-            />
-        </div>);
+        toRender = (
+            <div className="title col-12 col-md-10">
+                <Question 
+                    questionIndex={this.state.questionIndex}
+                    question={this.state.questionnaireConfig.questions[this.state.questionIndex]}
+                    previousAnswer={this.state.previousAnswer}
+                    lastQuestionIndex={this.state.questionnaireConfig.questions.length - 1}
+                    saveQuestionAnswer={this.saveQuestionAnswer}
+                    onSubmitQuestionnaire={this.onSubmitQuestionnaire}
+                    goToNextQuestion={this.goToNextQuestion}
+                    goToPreviousQuestion={this.goToPreviousQuestion}
+                    checkIfPreviousQuestionHasAnswer={this.checkIfPreviousQuestionHasAnswer}
+                    checkIfNextQuestionHasAnswer={this.checkIfNextQuestionHasAnswer}
+                    answers={this.state.answers}
+                />
+            </div>);
       }
     return (
         <div>
