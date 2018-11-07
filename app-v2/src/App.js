@@ -27,7 +27,7 @@ class App extends Component {
         const hardCodedData = '{"questions":[{"id":1,"question":"What type of BI solutions have you started learning / continued to learn in the last 12 months, if any?","description":"","answerType":"multiple with other","answerOptions":["Enterprise Solutions","LOB Solutions","Data Science","Machine Learning","Other"],"selectedAnswers":[]},{"id":2,"question":"Are the BI solutions you are working on Mobile Ready","description":"","answerType":"single","answerOptions":["Yes – which mobile operating system","No"],"selectedAnswers":[]},{"id":3,"question":"Which area of data warehousing process are you working on?","description":"","answerType":"multiple with other","answerOptions":["Back End – ETL","Front End – Dashboarding","Intermediary steps: abstract layers, cubes etc.","Modelling","Other"],"selectedAnswers":[]},{"id":4,"question":"Is the BI solution you are developing oriented to","description":"","answerType":"single","answerOptions":["Cloud","On-premise","Hybrid"],"selectedAnswers":[]},{"id":5,"question":"What do you like about BI?","description":"","answerType":"input","answerOptions":null,"selectedAnswers":[]}],"userId":null}';
         axios.get("https://react-my-burger-f6374.firebaseio.com/ingredients.json" ).then(response => {
             const questionnaireConfig = JSON.parse(hardCodedData);
-            // const questionnaireConfig = JSON.parse(response.data);
+            // const questionnaireConfig = response.data;
             this.setState({
                 questionnaireConfig: questionnaireConfig,
                 answers: questionnaireConfig.questions.map(question => { return {questionId: question.id, answers: question.selectedAnswers}}),
@@ -151,9 +151,9 @@ class App extends Component {
     }
 
   render() {
-      let toRender = <Spinner />;
+      let questionCard = <Spinner />;
       if (!this.state.loading) {
-        toRender = (
+        questionCard = (
             <div className="title col-12 col-md-10">
                 <Question 
                     questionIndex={this.state.questionIndex}
@@ -192,7 +192,7 @@ class App extends Component {
             <form>
               <div className="questionSection ">
                 <div className="media-container-row">
-                    {toRender}
+                    {questionCard}
                 </div>
               </div>
             </form>
