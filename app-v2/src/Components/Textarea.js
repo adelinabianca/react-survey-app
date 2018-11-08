@@ -14,7 +14,7 @@ export class Textarea extends Component {
     }
     componentWillReceiveProps(nextProps) {
         if(this.props.questionIndex !== nextProps.questionIndex) {
-            this.setState({inputAnswer: nextProps.previousAnswer.answers.length !== 0 ? nextProps.previousAnswer.answers : []})
+            this.setState({inputAnswer: nextProps.previousAnswer.answers.length !== 0 ? nextProps.previousAnswer.answers : ['']})
         }
     }
     handleChange = (event) => {
