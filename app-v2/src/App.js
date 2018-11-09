@@ -162,9 +162,10 @@ class App extends Component {
     const url = window.location.href;
     const startChar = url.indexOf("/", 8);
     const jobCode = url.substr(startChar + 1, url.length);
-    // axios.post("http://localhost:64282/api/Submit", questionnaire).then(response => {
-    //   console.log(response);
-    // });
+    questionnaire.userId = jobCode;
+    axios.post("http://localhost:64282/api/Submit", questionnaire).then(response => {
+      console.log(response);
+    });
   };
 
   render() {

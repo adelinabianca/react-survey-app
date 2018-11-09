@@ -15,6 +15,11 @@ namespace TechSurvey.Controllers
         {
             var answerService = new AnswerService();
             var survey = answerService.GetSurvey(uid);
+            if (survey == null)
+            {
+                return NotFound();
+            }
+
             var jsonSurvey = JsonConvert.DeserializeObject<SurveyData>(survey);
             return Ok(jsonSurvey);
         }
