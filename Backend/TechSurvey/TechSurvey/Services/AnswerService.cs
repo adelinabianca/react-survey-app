@@ -12,6 +12,12 @@ namespace TechSurvey.Services
         public string GetSurvey(string uid)
         {
             var survey = repositories.SurveyRepository.GetAnswersByUid(uid);
+
+            if (survey == null)
+            {
+                return null;
+            }
+
             return string.IsNullOrWhiteSpace(survey.Answers) ? survey.Template : survey.Answers;
         }
 
