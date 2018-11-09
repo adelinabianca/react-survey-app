@@ -25,7 +25,7 @@ class App extends Component {
     const startChar = url.indexOf("/", 8);
     const jobCode = url.substr(startChar + 1, url.length);
     axios.get("http://localhost:64282/api/survey?uid=" + jobCode).then(response => {
-      console.log(response.data);
+      // console.log(response.data);
       const questionnaireConfig = response.data;
       const index = questionnaireConfig.questions.indexOf(
         questionnaireConfig.questions.find(question => question.selectedAnswers.length === 0)
@@ -149,13 +149,14 @@ class App extends Component {
     const indexOfQuestion = questions.map(question => question.id).indexOf(answer.questionId);
     let questionnaire = Object.assign({}, this.state.questionnaireConfig);
     let updatedAnswers = this.state.answers.slice();
-    if (answer.length !== 0) {
+    if (answer.answers.length !== 0) {
       questionnaire.questions[indexOfQuestion].selectedAnswers = answer.answers;
       updatedAnswers = updatedAnswers.filter(
         prevAnswer => prevAnswer.questionId !== answer.questionId
       );
       updatedAnswers = updatedAnswers.concat(answer);
     }
+
     this.setState({ answers: updatedAnswers, questionnaireConfig: questionnaire });
 
     const url = window.location.href;
