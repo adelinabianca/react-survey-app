@@ -43,9 +43,8 @@ class App extends Component {
               error: false
             },
             () => {
-              this.hydrateStateWithLocalStorage();
-
-              window.addEventListener("beforeunload", this.saveStateToLocalStorage.bind(this));
+              // this.hydrateStateWithLocalStorage();
+              // window.addEventListener("beforeunload", this.saveStateToLocalStorage.bind(this));
             }
           );
         } else {
@@ -64,9 +63,8 @@ class App extends Component {
               error: false
             },
             () => {
-              this.hydrateStateWithLocalStorage();
-
-              window.addEventListener("beforeunload", this.saveStateToLocalStorage.bind(this));
+              // this.hydrateStateWithLocalStorage();
+              // window.addEventListener("beforeunload", this.saveStateToLocalStorage.bind(this));
             }
           );
         }

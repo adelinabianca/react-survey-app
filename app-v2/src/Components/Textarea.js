@@ -8,10 +8,9 @@ export class Textarea extends Component {
     };
   }
   componentWillMount() {
-    console.log(this.props);
-    // if(this.props.previousAnswer.answers.length !== 0){
-    //     this.setState({inputAnswer: this.props.previousAnswer.answers})
-    // }
+    if (this.props.previousAnswer.answers.length !== 0) {
+      this.setState({ inputAnswer: this.props.previousAnswer.answers });
+    }
   }
   componentWillReceiveProps(nextProps) {
     if (this.props.questionIndex !== nextProps.questionIndex) {
