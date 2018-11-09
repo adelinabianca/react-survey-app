@@ -4,6 +4,7 @@ import { CheckboxList } from "./CheckboxList";
 import { RadioButtonList } from "./RadioButtonList";
 import { Textarea } from "./Textarea";
 import { Button } from "./Button";
+import Submission from "./Submission";
 
 export class Question extends Component {
   constructor(props) {
@@ -116,16 +117,12 @@ export class Question extends Component {
         </div>
       );
     } else {
-      return (
-        <div style={{ textAlign: "center" }}>
-          <h3>Thank you for submitting!</h3>
-        </div>
-      );
+      return <Submission />;
     }
   }
 
   render() {
-    return <div>{this.showComponent()}</div>;
+    return this.showComponent();
   }
 }
 

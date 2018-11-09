@@ -26,6 +26,7 @@ class App extends Component {
     const url = window.location.href;
     const startChar = url.indexOf("/", 8);
     const jobCode = url.substr(startChar + 1, url.length);
+
     axios
       .get("http://localhost:64282/api/survey?uid=" + jobCode)
       .then(response => {
@@ -34,65 +35,71 @@ class App extends Component {
           questionnaireConfig.questions.find(question => question.selectedAnswers.length === 0)
         );
         if (index === -1) {
-          this.setState({
-            questionnaireConfig: questionnaireConfig,
-            questionIndex: questionnaireConfig.questions.length,
-            loading: false,
-            error: false
-          });
+          this.setState(
+            {
+              questionnaireConfig: questionnaireConfig,
+              questionIndex: questionnaireConfig.questions.length,
+              loading: false,
+              error: false
+            },
+            () => {
+              this.hydrateStateWithLocalStorage();
+
+              window.addEventListener("beforeunload", this.saveStateToLocalStorage.bind(this));
+            }
+          );
         } else {
-          this.setState({
-            questionnaireConfig: questionnaireConfig,
-            answers: questionnaireConfig.questions.map(question => {
-              return { questionId: question.id, answers: question.selectedAnswers };
-            }),
-            questionIndex: questionnaireConfig.questions.indexOf(
-              questionnaireConfig.questions.find(question => question.selectedAnswers.length === 0)
-            ),
-            loading: false,
-            error: false
-          });
+          this.setState(
+            {
+              questionnaireConfig: questionnaireConfig,
+              answers: questionnaireConfig.questions.map(question => {
+                return { questionId: question.id, answers: question.selectedAnswers };
+              }),
+              questionIndex: questionnaireConfig.questions.indexOf(
+                questionnaireConfig.questions.find(
+                  question => question.selectedAnswers.length === 0
+                )
+              ),
+              loading: false,
+              error: false
+            },
+            () => {
+              this.hydrateStateWithLocalStorage();
+
+              window.addEventListener("beforeunload", this.saveStateToLocalStorage.bind(this));
+            }
+          );
         }
       })
       .catch(err => this.setState({ error: true }));
-
-    // this.hydrateStateWithLocalStorage();
-
-    // window.addEventListener(
-    //   "beforeunload",
-    //   this.saveStateToLocalStorage.bind(this)
-    // );
   }
 
-  //   componentWillUnmount() {
-  //     window.removeEventListener(
-  //       "beforeunload",
-  //       this.saveStateToLocalStorage.bind(this)
-  //     );
+  componentWillUnmount() {
+    window.removeEventListener("beforeunload", this.saveStateToLocalStorage.bind(this));
 
-  //     this.saveStateToLocalStorage();
-  //   }
+    this.saveStateToLocalStorage();
+  }
 
-  // hydrateStateWithLocalStorage() {
-  //     for (let key in this.state) {
-  //       if (localStorage.hasOwnProperty(key)) {
-  //         let value = localStorage.getItem(key);
+  hydrateStateWithLocalStorage() {
+    for (let key in this.state) {
+      if (localStorage.hasOwnProperty(key)) {
+        let value = localStorage.getItem(key);
 
-  //         try {
-  //           value = JSON.parse(value);
-  //           this.setState({ [key]: value });
-  //         } catch (e) {
-  //           this.setState({ [key]: value });
-  //         }
-  //       }
-  //     }
-  //   }
+        try {
+          value = JSON.parse(value);
+          this.setState({ [key]: value });
+        } catch (e) {
+          this.setState({ [key]: value });
+        }
+      }
+    }
+  }
 
-  //   saveStateToLocalStorage() {
-  //     for (let key in this.state) {
-  //       localStorage.setItem(key, JSON.stringify(this.state[key]));
-  //     }
-  //   }
+  saveStateToLocalStorage() {
+    for (let key in this.state) {
+      localStorage.setItem(key, JSON.stringify(this.state[key]));
+    }
+  }
   //   // ------
 
   saveQuestionAnswer = answer => {
@@ -169,9 +176,7 @@ class App extends Component {
     const startChar = url.indexOf("/", 8);
     const jobCode = url.substr(startChar + 1, url.length);
     questionnaire.userId = jobCode;
-    axios.post("http://localhost:64282/api/Submit", questionnaire).then(response => {
-      console.log(response);
-    });
+    axios.post("http://localhost:64282/api/Submit", questionnaire).then(response => {});
   };
   render() {
     let page = <PageNotFound />;
