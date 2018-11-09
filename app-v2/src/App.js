@@ -16,7 +16,8 @@ class App extends Component {
       answers: [],
       questionnaireConfig: "",
       previousAnswer: { questionId: "", answers: [] },
-      loading: true
+      loading: true,
+      error: false
     };
   }
 
@@ -25,30 +26,35 @@ class App extends Component {
     const url = window.location.href;
     const startChar = url.indexOf("/", 8);
     const jobCode = url.substr(startChar + 1, url.length);
-    axios.get("http://localhost:64282/api/survey?uid=" + jobCode).then(response => {
-      const questionnaireConfig = response.data;
-      const index = questionnaireConfig.questions.indexOf(
-        questionnaireConfig.questions.find(question => question.selectedAnswers.length === 0)
-      );
-      if (index === -1) {
-        this.setState({
-          questionnaireConfig: questionnaireConfig,
-          questionIndex: questionnaireConfig.questions.length,
-          loading: false
-        });
-      } else {
-        this.setState({
-          questionnaireConfig: questionnaireConfig,
-          answers: questionnaireConfig.questions.map(question => {
-            return { questionId: question.id, answers: question.selectedAnswers };
-          }),
-          questionIndex: questionnaireConfig.questions.indexOf(
-            questionnaireConfig.questions.find(question => question.selectedAnswers.length === 0)
-          ),
-          loading: false
-        });
-      }
-    });
+    axios
+      .get("http://localhost:64282/api/survey?uid=" + jobCode)
+      .then(response => {
+        const questionnaireConfig = response.data;
+        const index = questionnaireConfig.questions.indexOf(
+          questionnaireConfig.questions.find(question => question.selectedAnswers.length === 0)
+        );
+        if (index === -1) {
+          this.setState({
+            questionnaireConfig: questionnaireConfig,
+            questionIndex: questionnaireConfig.questions.length,
+            loading: false,
+            error: false
+          });
+        } else {
+          this.setState({
+            questionnaireConfig: questionnaireConfig,
+            answers: questionnaireConfig.questions.map(question => {
+              return { questionId: question.id, answers: question.selectedAnswers };
+            }),
+            questionIndex: questionnaireConfig.questions.indexOf(
+              questionnaireConfig.questions.find(question => question.selectedAnswers.length === 0)
+            ),
+            loading: false,
+            error: false
+          });
+        }
+      })
+      .catch(err => this.setState({ error: true }));
 
     // this.hydrateStateWithLocalStorage();
 
@@ -167,13 +173,9 @@ class App extends Component {
       console.log(response);
     });
   };
-
   render() {
-    const url = window.location.href;
-    const startChar = url.indexOf("/", 8);
-    const jobCode = url.substr(startChar + 1, url.length);
     let page = <PageNotFound />;
-    if (jobCode.length !== 0) {
+    if (!this.state.error) {
       let questionCard = <Spinner />;
       if (!this.state.loading) {
         questionCard = (
