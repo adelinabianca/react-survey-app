@@ -10,7 +10,7 @@ namespace TechSurvey.Controllers
     public class SurveyController : ApiController
     {
         [HttpGet]
-        [EnableCors(origins: "http://localhost:3000", headers: "*", methods: "*")]
+        [EnableCors(origins: "http://localhost,http://localhost:3000", headers: "*", methods: "*")]
         public IHttpActionResult Get(string uid)
         {
             var answerService = new AnswerService();

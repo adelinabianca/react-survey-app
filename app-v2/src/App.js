@@ -24,7 +24,7 @@ class App extends Component {
   // // Save state to local storage
   componentDidMount() {
     const url = window.location.href;
-    const startChar = url.indexOf("/", 8);
+    const startChar = url.lastIndexOf("=");
     const jobCode = url.substr(startChar + 1, url.length);
 
     axios
