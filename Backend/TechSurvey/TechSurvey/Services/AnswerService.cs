@@ -28,8 +28,7 @@ namespace TechSurvey.Services
 
             if (surveyData.Questions.Last().SelectedAnswers.Any())
             {
-                excelService.UpdateExcel(surveyData);
-
+                excelService.UpdateExcelUsingClosedXml(surveyData);
             }
         }
     }

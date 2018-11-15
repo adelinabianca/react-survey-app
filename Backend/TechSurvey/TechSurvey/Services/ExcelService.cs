@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using ClosedXML.Excel;
 using Microsoft.Office.Interop.Excel;
 using TechSurvey.Models;
 
@@ -55,5 +56,32 @@ namespace TechSurvey.Services
             workbooks.Close();
             excelApp.Quit();
         }
+
+        public void UpdateExcelUsingClosedXml(SurveyData surveyData)
+        {
+            using (var workbook = new XLWorkbook(excelFilePath))
+            {
+                var worksheet = workbook.Worksheets.Worksheet(1);
+
+                var firstEmptyRow = worksheet.Worksheet.LastRowUsed().RowNumber() + 1;
+
+                var columnIndex = 1;
+
+                //set user id in first cell
+                worksheet.Cell(firstEmptyRow, 1).Value = surveyData.UserId + firstEmptyRow;
+
+                //set answers in rest of cells
+                foreach (var answer in surveyData.Questions)
+                {
+                    columnIndex++;
+                    worksheet.Cell(firstEmptyRow, columnIndex).Value = string.Join(", ", answer.SelectedAnswers.ToArray());
+                }
+
+                workbook.CalculateMode = XLCalculateMode.Auto;
+
+                workbook.Save();
+            }
+        }
+
     }
 }
