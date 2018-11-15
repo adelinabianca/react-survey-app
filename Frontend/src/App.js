@@ -28,7 +28,7 @@ class App extends Component {
     const jobCode = url.substr(startChar + 1, url.length);
 
     axios
-      .get("http://localhost:64282/api/survey?uid=" + jobCode)
+      .get("http://10.3.128.2/TechSurvey/api/survey?uid=" + jobCode)
       .then(response => {
         const questionnaireConfig = response.data;
         const index = questionnaireConfig.questions.indexOf(
@@ -174,7 +174,7 @@ class App extends Component {
     const startChar = url.lastIndexOf("=");
     const jobCode = url.substr(startChar + 1, url.length);
     questionnaire.userId = jobCode;
-    axios.post("http://localhost:64282/api/Submit", questionnaire).then(response => {});
+    axios.post("http://10.3.128.2/TechSurvey/api/Submit", questionnaire).then(response => {});
   };
   render() {
     let page = <PageNotFound />;

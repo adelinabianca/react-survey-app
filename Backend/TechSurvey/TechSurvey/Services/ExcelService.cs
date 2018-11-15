@@ -7,7 +7,7 @@ namespace TechSurvey.Services
     public class ExcelService
     {
         private readonly string excelFilePath =
-            @"C:\Users\a.diaconu\OneDrive - Levi9 IT Services\TechSurveyAnswers.xlsx";
+            @"C:\OneDrive\OneDrive - Levi9 IT Services\TechSurveyAnswers.xlsx";
 
         public void UpdateExcel(SurveyData surveyData)
         {
