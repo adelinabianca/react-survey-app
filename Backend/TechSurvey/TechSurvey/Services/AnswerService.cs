@@ -1,4 +1,5 @@
-﻿using System.Web.Hosting;
+﻿using System.Linq;
+using System.Web.Hosting;
 using TechSurvey.Infrastructure.Repositories;
 using TechSurvey.Models;
 
@@ -24,7 +25,12 @@ namespace TechSurvey.Services
         public void UpdateAnswers(SurveyData surveyData)
         {
             repositories.SurveyRepository.UpdateSurveyAnswers(surveyData);
-            excelService.UpdateExcel(surveyData);
+
+            if (surveyData.Questions.Last().SelectedAnswers.Any())
+            {
+                excelService.UpdateExcel(surveyData);
+
+            }
         }
     }
 }

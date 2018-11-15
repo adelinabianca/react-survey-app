@@ -171,7 +171,7 @@ class App extends Component {
     this.setState({ answers: updatedAnswers, questionnaireConfig: questionnaire });
 
     const url = window.location.href;
-    const startChar = url.indexOf("/", 8);
+    const startChar = url.lastIndexOf("=");
     const jobCode = url.substr(startChar + 1, url.length);
     questionnaire.userId = jobCode;
     axios.post("http://localhost:64282/api/Submit", questionnaire).then(response => {});
