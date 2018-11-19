@@ -24,9 +24,14 @@ namespace TechSurvey.Services
 
         public void UpdateAnswers(SurveyData surveyData)
         {
-            repositories.SurveyRepository.UpdateSurveyAnswers(surveyData);
+            var isSubmitted = repositories.SurveyRepository.GetSurveyStatus(surveyData.UserId);
+            var isSurveyComplete = surveyData.Questions.All(q => q.SelectedAnswers.Any());
 
-            if (surveyData.Questions.Last().SelectedAnswers.Any())
+            if (isSubmitted) return;
+
+            repositories.SurveyRepository.UpdateSurveyAnswers(surveyData, isSurveyComplete);
+
+            if (isSurveyComplete)
             {
                 excelService.UpdateExcelUsingClosedXml(surveyData);
             }
