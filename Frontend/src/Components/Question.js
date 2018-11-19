@@ -50,8 +50,9 @@ export class Question extends Component {
   }
   onNextButtonClicked = () => {
     if (
-      this.props.previousAnswer.questionId === this.state.questionAnswers.questionId &&
-      this.props.previousAnswer.answers !== this.state.questionAnswers.answers
+      (this.props.previousAnswer.questionId === this.state.questionAnswers.questionId &&
+        this.props.previousAnswer.answers !== this.state.questionAnswers.answers) ||
+      this.props.previousAnswer.questionId.length === 0
     ) {
       this.props.onSubmitQuestionnaire(this.state.questionAnswers);
     } else {
