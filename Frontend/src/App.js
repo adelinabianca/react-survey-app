@@ -21,7 +21,6 @@ class App extends Component {
     };
   }
 
-  // // Save state to local storage
   componentDidMount() {
     const url = window.location.href;
     const startChar = url.lastIndexOf("=");
@@ -98,7 +97,6 @@ class App extends Component {
       localStorage.setItem(key, JSON.stringify(this.state[key]));
     }
   }
-  //   // ------
 
   saveQuestionAnswer = answer => {
     const {

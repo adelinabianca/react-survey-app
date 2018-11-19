@@ -49,8 +49,14 @@ export class Question extends Component {
     );
   }
   onNextButtonClicked = () => {
-    //this.props.saveQuestionAnswer(this.state.questionAnswers);
-    this.props.onSubmitQuestionnaire(this.state.questionAnswers);
+    if (
+      this.props.previousAnswer.questionId === this.state.questionAnswers.questionId &&
+      this.props.previousAnswer.answers !== this.state.questionAnswers.answers
+    ) {
+      this.props.onSubmitQuestionnaire(this.state.questionAnswers);
+    } else {
+      this.props.saveQuestionAnswer(this.state.questionAnswers);
+    }
     this.props.checkIfNextQuestionHasAnswer();
     this.props.goToNextQuestion();
   };
