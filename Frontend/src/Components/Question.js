@@ -61,7 +61,15 @@ export class Question extends Component {
     this.props.goToNextQuestion();
   };
   onPreviousButtonClicked = () => {
-    this.props.saveQuestionAnswer(this.state.questionAnswers);
+    if (
+      (this.props.previousAnswer.questionId === this.state.questionAnswers.questionId &&
+        this.props.previousAnswer.answers !== this.state.questionAnswers.answers) ||
+      this.props.previousAnswer.questionId.length === 0
+    ) {
+      this.props.onSubmitQuestionnaire(this.state.questionAnswers);
+    } else {
+      this.props.saveQuestionAnswer(this.state.questionAnswers);
+    }
     this.props.checkIfPreviousQuestionHasAnswer();
     this.props.goToPreviousQuestion();
   };
