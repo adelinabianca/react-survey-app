@@ -1,5 +1,5 @@
-import React from 'react';
-import InputField from './InputField';
+import React from "react";
+import InputField from "./InputField";
 
 const Checkbox = props => {
   return (
@@ -14,7 +14,7 @@ const Checkbox = props => {
           onChange={event => props.onChange(event)}
         />
         <span className="checkmark" />
-        {props.answerType === 'multiple with other' &&
+        {props.answerType === "multiple with other" &&
           props.index === props.answerOptions.length - 1 && (
             <InputField
               checked={props.checked}
@@ -29,4 +29,4 @@ const Checkbox = props => {
 
 export default Checkbox;
 
-// Install prettier and use it 
+// Install prettier and use it --> i'm using it already

@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { CheckboxList } from "./CheckboxList";
 import { RadioButtonList } from "./RadioButtonList";
 import { Textarea } from "./Textarea";
-import { Button } from "./Button";
+import Button from "./Button";
 import Submission from "./Submission";
 
 export class Question extends Component {
@@ -13,7 +13,7 @@ export class Question extends Component {
       questionAnswers: { questionId: "", answers: [] }
     };
   }
-  // one empty line
+
   saveAnswers = chosenAnswers => {
     this.setState({
       questionAnswers: { questionId: this.props.question.id, answers: chosenAnswers }
@@ -31,6 +31,7 @@ export class Question extends Component {
         />
       );
     }
+
     if (answerType === "multiple" || answerType === "multiple with other") {
       return (
         <CheckboxList
@@ -41,6 +42,7 @@ export class Question extends Component {
         />
       );
     }
+
     return (
       <Textarea
         saveAnswers={this.saveAnswers}
@@ -49,51 +51,68 @@ export class Question extends Component {
       />
     );
   }
-  //one empty line
+
   onNextButtonClicked = () => {
+    const {
+      previousAnswer,
+      onSubmitQuestionnaire,
+      saveQuestionAnswer,
+      checkIfNextQuestionHasAnswer,
+      goToNextQuestion
+    } = this.props;
     if (
-      (this.props.previousAnswer.questionId === this.state.questionAnswers.questionId &&
-        this.props.previousAnswer.answers !== this.state.questionAnswers.answers) ||
-      this.props.previousAnswer.questionId.length === 0
+      (previousAnswer.questionId === this.state.questionAnswers.questionId &&
+        previousAnswer.answers !== this.state.questionAnswers.answers) ||
+      previousAnswer.questionId.length === 0
     ) {
-      this.props.onSubmitQuestionnaire(this.state.questionAnswers);
+      onSubmitQuestionnaire(this.state.questionAnswers);
     } else {
-      this.props.saveQuestionAnswer(this.state.questionAnswers);
+      saveQuestionAnswer(this.state.questionAnswers);
     }
-    this.props.checkIfNextQuestionHasAnswer();
-    this.props.goToNextQuestion();
+    checkIfNextQuestionHasAnswer();
+    goToNextQuestion();
   };
-  // one empty line everywhere
+
   onPreviousButtonClicked = () => {
+    const {
+      previousAnswer,
+      onSubmitQuestionnaire,
+      saveQuestionAnswer,
+      checkIfPreviousQuestionHasAnswer,
+      goToPreviousQuestion
+    } = this.props;
+
     if (
-      (this.props.previousAnswer.questionId === this.state.questionAnswers.questionId &&
-        this.props.previousAnswer.answers !== this.state.questionAnswers.answers) ||
-      this.props.previousAnswer.questionId.length === 0
+      (previousAnswer.questionId === this.state.questionAnswers.questionId &&
+        previousAnswer.answers !== this.state.questionAnswers.answers) ||
+      previousAnswer.questionId.length === 0
     ) {
-      this.props.onSubmitQuestionnaire(this.state.questionAnswers);
+      onSubmitQuestionnaire(this.state.questionAnswers);
     } else {
-      this.props.saveQuestionAnswer(this.state.questionAnswers);
+      saveQuestionAnswer(this.state.questionAnswers);
     }
-    this.props.checkIfPreviousQuestionHasAnswer();
-    this.props.goToPreviousQuestion();
+    checkIfPreviousQuestionHasAnswer();
+    goToPreviousQuestion();
   };
+
   onSubmit = () => {
-    const { onSubmitQuestionnaire } = this.props;
+    const { onSubmitQuestionnaire, goToNextQuestion } = this.props;
     onSubmitQuestionnaire(this.state.questionAnswers);
-    this.props.goToNextQuestion();
+    goToNextQuestion();
   };
 
   showComponent() {
-    if (this.props.questionIndex <= this.props.lastQuestionIndex) { 
-      // stop writing this.props everytime, use object destructuring: const { questionIndex, lastQuestionIndex, samd } = this.props;
-      const { question } = this.props;
+    const { question, questionIndex, lastQuestionIndex, previousAnswer } = this.props;
+
+    if (questionIndex <= lastQuestionIndex) {
       const isDisabled = !(
-        (this.props.question.id === this.state.questionAnswers.questionId &&
+        (question.id === this.state.questionAnswers.questionId &&
           this.state.questionAnswers.answers.length !== 0) ||
-        (this.props.previousAnswer !== "" &&
-          this.props.question.id !== this.state.questionAnswers.questionId &&
-          this.props.previousAnswer.answers.length !== 0)
+        (previousAnswer !== "" &&
+          question.id !== this.state.questionAnswers.questionId &&
+          previousAnswer.answers.length !== 0)
       );
+
       return (
         <div>
           <div className="question">
@@ -146,6 +165,3 @@ export class Question extends Component {
 }
 
 export default Question;
-
-
-// apply prettier formatting everywhere

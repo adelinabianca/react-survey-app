@@ -8,12 +8,12 @@ body {
     margin: 0;
 }
 
-#notfound { /* don't use id's */
+.not-found {
     position: relative;
     height: 100vh;
 }
 
-#notfound .notfound {
+.not-found .notfound {
     position: absolute;
     left: 50%;
     top: 50%;
@@ -30,12 +30,14 @@ body {
     padding: 15px;
 }
 
-.notfound .notfound-404 { /* .notfound not needed */
+.notfound .notfound-404 {
+    /* .notfound not needed */
     position: relative;
     height: 220px;
 }
 
-.notfound .notfound-404 h1 { /* .notfound-404 not needed; avoid using unnecessary selectors */
+.notfound .notfound-404 h1 {
+    /* .notfound-404 not needed; avoid using unnecessary selectors */
     font-family: "Kanit", sans-serif;
     position: absolute;
     left: 50%;
@@ -53,7 +55,8 @@ body {
     text-transform: uppercase;
 }
 
-.notfound h2 { /* use one single class for h2 */
+.notfound h2 {
+    /* use one single class for h2 */
     font-family: "Kanit", sans-serif;
     font-size: 33px;
     font-weight: 200;
@@ -98,5 +101,3 @@ body {
         background: none;
     }
 }
-
-/* avoid using unnecessary selectors and create separate PageNoutFound.responsive.css for responsiveness styles */

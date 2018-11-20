@@ -1,7 +1,15 @@
-input.inputField { /* .inputField it's enough */
-    top: 0;
-    left: 90px;
-    opacity: 1;
-    margin-left: 10px;
-    cursor: text;
+input.inputField {
+  top: 0;
+  left: 90px;
+  opacity: 1;
+  margin-left: 10px;
+  cursor: text;
+}
+
+@media (max-width: 823px) {
+  input.inputField {
+    display: flex;
+    position: initial;
+    margin-left: 0;
+  }
 }

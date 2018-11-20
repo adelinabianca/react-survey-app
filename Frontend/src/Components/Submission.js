@@ -13,6 +13,4 @@ const Submission = () => {
   );
 };
 
-export default Submission;
-
-// memo
+export default React.memo(Submission);

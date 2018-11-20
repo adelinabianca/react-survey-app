@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import Checkbox from './Checkbox';
+import React, { Component } from "react";
+import Checkbox from "./Checkbox";
 
 export class CheckboxList extends Component {
   constructor(props) {
@@ -7,17 +7,17 @@ export class CheckboxList extends Component {
 
     this.state = {
       checkedAnswers: [],
-      inputAnswer: '',
+      inputAnswer: ""
     };
   }
-  // functions should be separated by one empty line
+
   componentWillMount() {
     if (this.props.previousAnswer.answers.length !== 0) {
       this.setState({
         checkedAnswers: this.props.previousAnswer.answers,
         inputAnswer: this.props.previousAnswer.answers
-          .filter(prevAnswer => prevAnswer.includes('Other:'))
-          .map(e => e.substring(7))[0],
+          .filter(prevAnswer => prevAnswer.includes("Other:"))
+          .map(e => e.substring(7))[0]
       });
     }
   }
@@ -29,15 +29,13 @@ export class CheckboxList extends Component {
     ) {
       this.setState({
         checkedAnswers:
-          nextProps.previousAnswer.answers.length !== 0
-            ? nextProps.previousAnswer.answers
-            : [],
+          nextProps.previousAnswer.answers.length !== 0 ? nextProps.previousAnswer.answers : [],
         inputAnswer:
           nextProps.previousAnswer.answers.length !== 0
             ? nextProps.previousAnswer.answers
-                .filter(prevAnswer => prevAnswer.includes('Other:'))
+                .filter(prevAnswer => prevAnswer.includes("Other:"))
                 .map(e => e.substring(7))[0]
-            : [],
+            : []
       });
     }
   }
@@ -49,22 +47,19 @@ export class CheckboxList extends Component {
     if (isChecked) {
       this.setState(
         prevState => ({
-          checkedAnswers: [...prevState.checkedAnswers, answer],
+          checkedAnswers: [...prevState.checkedAnswers, answer]
         }),
-        () => this.props.saveAnswers(this.state.checkedAnswers),
+        () => this.props.saveAnswers(this.state.checkedAnswers)
       );
     } else {
-      if (answer === 'Other') {
-      } // unuseful if 
       this.setState(
         prevState => ({
           checkedAnswers: prevState.checkedAnswers.filter(
             prevAnswer =>
-              prevAnswer !== answer &&
-              (answer === 'Other' ? !prevAnswer.includes('Other:') : true),
-          ),
+              prevAnswer !== answer && (answer === "Other" ? !prevAnswer.includes("Other:") : true)
+          )
         }),
-        () => this.props.saveAnswers(this.state.checkedAnswers),
+        () => this.props.saveAnswers(this.state.checkedAnswers)
       );
     }
   };
@@ -72,45 +67,39 @@ export class CheckboxList extends Component {
   handleInputOptionChange = event => {
     let updatedCheckedAnswers = this.state.checkedAnswers;
     let indexOfOtherOption = updatedCheckedAnswers.indexOf(
-      updatedCheckedAnswers.filter(answer => answer.includes('Other:'))[0],
+      updatedCheckedAnswers.filter(answer => answer.includes("Other:"))[0]
     );
-    // separe logical blocks by one empty line 
-    indexOfOtherOption !== -1 // use this way only for variable assignments, replace with if
-      ? (updatedCheckedAnswers[indexOfOtherOption] =
-          'Other: ' + event.target.value)
-      : (updatedCheckedAnswers = updatedCheckedAnswers.concat(
-          'Other: ' + event.target.value,
-        ));
-    
+
+    if (indexOfOtherOption !== -1) {
+      updatedCheckedAnswers[indexOfOtherOption] = "Other: " + event.target.value;
+    } else {
+      updatedCheckedAnswers = updatedCheckedAnswers.concat("Other: " + event.target.value);
+    }
+
     this.setState(
       {
         checkedAnswers: updatedCheckedAnswers,
-        inputAnswer: event.target.value,
+        inputAnswer: event.target.value
       },
-      () => this.props.saveAnswers(this.state.checkedAnswers),
+      () => this.props.saveAnswers(this.state.checkedAnswers)
     );
   };
 
   render() {
-    const { answerOptions } = this.props;
+    const { answerOptions, answerType } = this.props;
+    const { checkedAnswers, inputAnswer } = this.state;
     return (
       <div className="col-12 cold-md-8 question-options">
         <div className="align-left">
           {answerOptions.map((answer, index) => (
             <Checkbox
-              key={answer + index + 'checkbox'}
-              answer={answer}
-              checked={this.state.checkedAnswers.indexOf(answer) > -1}
+              key={answer + index + "checkbox"}
+              checked={checkedAnswers.indexOf(answer) > -1}
               onChange={this.handleChange}
-              value={this.state.inputAnswer}
+              value={inputAnswer}
               onInputOptionChange={this.handleInputOptionChange}
-              answerType={this.props.answerType}
-              index={index}
-              answerOptions={answerOptions}
-            /> // use spread operator for passing props 
-            /*
-              <Checkbox {...{ answer, index, answerOptions, samd }} />
-            */
+              {...{ answer, index, answerOptions, answerType }}
+            />
           ))}
         </div>
       </div>

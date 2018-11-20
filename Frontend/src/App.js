@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
 
 import "./App.css";
 import { Question } from "./Components/Question";
@@ -26,10 +25,10 @@ class App extends Component {
     const startChar = url.lastIndexOf("=");
     const jobCode = url.substr(startChar + 1, url.length);
 
-    axios // use fetch 
-      .get("http://localhost:64282/api/survey?uid=" + jobCode)
-      .then(response => {
-        const questionnaireConfig = response.data;
+    fetch("http://localhost:64282/api/survey?uid=" + jobCode)
+      .then(data => data.json())
+      .then(data => {
+        const questionnaireConfig = data;
         const index = questionnaireConfig.questions.indexOf(
           questionnaireConfig.questions.find(question => question.selectedAnswers.length === 0)
         );
@@ -44,8 +43,6 @@ class App extends Component {
             () => {
               // this.hydrateStateWithLocalStorage();
               // window.addEventListener("beforeunload", this.saveStateToLocalStorage.bind(this));
-
-              // remove unnecessary code
             }
           );
         } else {
@@ -66,8 +63,6 @@ class App extends Component {
             () => {
               // this.hydrateStateWithLocalStorage();
               // window.addEventListener("beforeunload", this.saveStateToLocalStorage.bind(this));
-
-              // remove unnecessary code
             }
           );
         }
@@ -76,7 +71,7 @@ class App extends Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener("beforeunload", this.saveStateToLocalStorage.bind(this)); // remove 
+    window.removeEventListener("beforeunload", this.saveStateToLocalStorage.bind(this)); // remove
 
     this.saveStateToLocalStorage();
   }
@@ -90,8 +85,9 @@ class App extends Component {
           value = JSON.parse(value);
           this.setState({ [key]: value });
         } catch (e) {
+          //handle empty string
           this.setState({ [key]: value });
-        } // you're doing the same thing both in try and catch, what's the purpose of this ? 
+        }
       }
     }
   }
@@ -104,11 +100,13 @@ class App extends Component {
 
   saveQuestionAnswer = answer => {
     const {
+      answers,
+      questionnaireConfig,
       questionnaireConfig: { questions }
-    } = this.state; // use object spread for every property that you use below
+    } = this.state;
     const indexOfQuestion = questions.map(question => question.id).indexOf(answer.questionId);
-    let questionnaire = Object.assign({}, this.state.questionnaireConfig);
-    let updatedAnswers = this.state.answers.slice();
+    let questionnaire = Object.assign({}, questionnaireConfig);
+    let updatedAnswers = answers.slice();
     if (answer.answers.length !== 0) {
       questionnaire.questions[indexOfQuestion].selectedAnswers = answer.answers;
       updatedAnswers = updatedAnswers.filter(
@@ -124,32 +122,35 @@ class App extends Component {
 
     this.setState({ questionIndex: questionIndex + 1 });
   };
+
   goToPreviousQuestion = () => {
     const { questionIndex } = this.state;
 
     this.setState({ questionIndex: questionIndex - 1 });
   };
+
   checkIfPreviousQuestionHasAnswer = () => {
     const { answers } = this.state;
     const {
+      questionIndex,
       questionnaireConfig: { questions }
     } = this.state;
-    const previousAnswer = answers.find(
-      a => a.questionId === questions[this.state.questionIndex - 1].id
-    );
+
+    const previousAnswer = answers.find(a => a.questionId === questions[questionIndex - 1].id);
 
     this.setState(() => ({
       previousAnswer: previousAnswer
     }));
   };
+
   checkIfNextQuestionHasAnswer = () => {
     const { answers } = this.state;
     const {
+      questionIndex,
       questionnaireConfig: { questions }
     } = this.state;
-    const previousAnswer = answers.find(
-      a => a.questionId === questions[this.state.questionIndex + 1].id
-    );
+
+    const previousAnswer = answers.find(a => a.questionId === questions[questionIndex + 1].id);
     this.setState(() => ({
       previousAnswer: previousAnswer
     }));
@@ -157,11 +158,15 @@ class App extends Component {
 
   onSubmitQuestionnaire = answer => {
     const {
+      answers,
+      questionnaireConfig,
       questionnaireConfig: { questions }
     } = this.state;
+
     const indexOfQuestion = questions.map(question => question.id).indexOf(answer.questionId);
-    let questionnaire = Object.assign({}, this.state.questionnaireConfig);
-    let updatedAnswers = this.state.answers.slice();
+    let questionnaire = Object.assign({}, questionnaireConfig);
+    let updatedAnswers = answers.slice();
+
     if (answer.answers.length !== 0) {
       questionnaire.questions[indexOfQuestion].selectedAnswers = answer.answers;
       updatedAnswers = updatedAnswers.filter(
@@ -176,40 +181,46 @@ class App extends Component {
     const startChar = url.lastIndexOf("=");
     const jobCode = url.substr(startChar + 1, url.length);
     questionnaire.userId = jobCode;
-    axios.post("http://localhost:64282/api/Submit", questionnaire).then(response => {}); // replace with fetch
+
+    fetch("http://localhost:64282/api/Submit", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(questionnaire)
+    }).then(response => {});
   };
+
   render() {
+    const { loading, questionIndex, questionnaireConfig, previousAnswer, answers } = this.state;
+
     let page = <PageNotFound />;
-    if (!this.state.error) { // replace with jsx conditional checks
-      let questionCard = <Spinner />;
-      if (!this.state.loading) {
-        questionCard = (
-          <div className="title col-12 col-md-10">
-            <Question
-              questionIndex={this.state.questionIndex}
-              question={
-                this.state.questionIndex <= this.state.questionnaireConfig.questions.length - 1
-                  ? this.state.questionnaireConfig.questions[this.state.questionIndex]
-                  : null
-              }
-              previousAnswer={this.state.previousAnswer}
-              lastQuestionIndex={this.state.questionnaireConfig.questions.length - 1}
-              saveQuestionAnswer={this.saveQuestionAnswer}
-              onSubmitQuestionnaire={this.onSubmitQuestionnaire}
-              goToNextQuestion={this.goToNextQuestion}
-              goToPreviousQuestion={this.goToPreviousQuestion}
-              checkIfPreviousQuestionHasAnswer={this.checkIfPreviousQuestionHasAnswer}
-              checkIfNextQuestionHasAnswer={this.checkIfNextQuestionHasAnswer}
-              answers={this.state.answers}
-              // use object spread for passing props
-            />
-          </div>
-        );
-      }
+
+    if (!this.state.error) {
+      let questionCard = loading ? (
+        <Spinner />
+      ) : (
+        <div className="title col-12 col-md-10">
+          <Question
+            question={
+              questionIndex <= questionnaireConfig.questions.length - 1
+                ? questionnaireConfig.questions[questionIndex]
+                : null
+            }
+            lastQuestionIndex={questionnaireConfig.questions.length - 1}
+            saveQuestionAnswer={this.saveQuestionAnswer}
+            onSubmitQuestionnaire={this.onSubmitQuestionnaire}
+            goToNextQuestion={this.goToNextQuestion}
+            goToPreviousQuestion={this.goToPreviousQuestion}
+            checkIfPreviousQuestionHasAnswer={this.checkIfPreviousQuestionHasAnswer}
+            checkIfNextQuestionHasAnswer={this.checkIfNextQuestionHasAnswer}
+            {...{ answers, previousAnswer, questionIndex }}
+          />
+        </div>
+      );
+
       page = (
         <div>
           <section className="header1 cover-photo" id="header1-3">
-            <div className="container">
+            <div className="container-fluid">
               <div className="row">
                 <div className="col-md-12">
                   <div className="mbr-white">
@@ -225,7 +236,7 @@ class App extends Component {
             </div>
           </section>
           <section className="mbr-section content4 cid-r5TcdM8O84" id="content4-6">
-            <div className="align-center container">
+            <div className="align-center container-fluid">
               <form>
                 <div className="questionSection ">
                   <div className="media-container-row">{questionCard}</div>
@@ -241,7 +252,6 @@ class App extends Component {
 }
 
 export default App;
-
 
 // apply same rules as everywhere; separate logical blocks, functions, apply prettier, object spread and destructuring and so on
 

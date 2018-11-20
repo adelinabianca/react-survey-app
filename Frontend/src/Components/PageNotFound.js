@@ -3,7 +3,7 @@ import "./PageNotFound.css";
 
 const PageNotFound = () => {
   return (
-    <div id="notfound">
+    <div className="not-found">
       <div className="notfound">
         <div className="notfound-404">
           <h1>404</h1>
@@ -19,5 +19,3 @@ const PageNotFound = () => {
 };
 
 export default PageNotFound;
-
-// apply prettier formatting
