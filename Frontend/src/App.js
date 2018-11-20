@@ -26,7 +26,7 @@ class App extends Component {
     const startChar = url.lastIndexOf("=");
     const jobCode = url.substr(startChar + 1, url.length);
 
-    axios
+    axios // use fetch 
       .get("http://localhost:64282/api/survey?uid=" + jobCode)
       .then(response => {
         const questionnaireConfig = response.data;
@@ -44,6 +44,8 @@ class App extends Component {
             () => {
               // this.hydrateStateWithLocalStorage();
               // window.addEventListener("beforeunload", this.saveStateToLocalStorage.bind(this));
+
+              // remove unnecessary code
             }
           );
         } else {
@@ -64,6 +66,8 @@ class App extends Component {
             () => {
               // this.hydrateStateWithLocalStorage();
               // window.addEventListener("beforeunload", this.saveStateToLocalStorage.bind(this));
+
+              // remove unnecessary code
             }
           );
         }
@@ -72,7 +76,7 @@ class App extends Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener("beforeunload", this.saveStateToLocalStorage.bind(this));
+    window.removeEventListener("beforeunload", this.saveStateToLocalStorage.bind(this)); // remove 
 
     this.saveStateToLocalStorage();
   }
@@ -87,7 +91,7 @@ class App extends Component {
           this.setState({ [key]: value });
         } catch (e) {
           this.setState({ [key]: value });
-        }
+        } // you're doing the same thing both in try and catch, what's the purpose of this ? 
       }
     }
   }
@@ -101,7 +105,7 @@ class App extends Component {
   saveQuestionAnswer = answer => {
     const {
       questionnaireConfig: { questions }
-    } = this.state;
+    } = this.state; // use object spread for every property that you use below
     const indexOfQuestion = questions.map(question => question.id).indexOf(answer.questionId);
     let questionnaire = Object.assign({}, this.state.questionnaireConfig);
     let updatedAnswers = this.state.answers.slice();
@@ -172,11 +176,11 @@ class App extends Component {
     const startChar = url.lastIndexOf("=");
     const jobCode = url.substr(startChar + 1, url.length);
     questionnaire.userId = jobCode;
-    axios.post("http://localhost:64282/api/Submit", questionnaire).then(response => {});
+    axios.post("http://localhost:64282/api/Submit", questionnaire).then(response => {}); // replace with fetch
   };
   render() {
     let page = <PageNotFound />;
-    if (!this.state.error) {
+    if (!this.state.error) { // replace with jsx conditional checks
       let questionCard = <Spinner />;
       if (!this.state.loading) {
         questionCard = (
@@ -197,6 +201,7 @@ class App extends Component {
               checkIfPreviousQuestionHasAnswer={this.checkIfPreviousQuestionHasAnswer}
               checkIfNextQuestionHasAnswer={this.checkIfNextQuestionHasAnswer}
               answers={this.state.answers}
+              // use object spread for passing props
             />
           </div>
         );
@@ -236,3 +241,8 @@ class App extends Component {
 }
 
 export default App;
+
+
+// apply same rules as everywhere; separate logical blocks, functions, apply prettier, object spread and destructuring and so on
+
+// pay more attention and review the code yourself each time after implementation

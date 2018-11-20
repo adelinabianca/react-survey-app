@@ -16,3 +16,6 @@ const InputField = (props) => {
 }
 
 export default InputField;
+
+// apply prettier formatting
+// use memo

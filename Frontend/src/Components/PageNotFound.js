@@ -19,3 +19,5 @@ const PageNotFound = () => {
 };
 
 export default PageNotFound;
+
+// apply prettier formatting

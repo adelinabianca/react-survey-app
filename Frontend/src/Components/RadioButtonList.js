@@ -14,6 +14,7 @@ export class RadioButtonList extends Component {
 
     }
     componentWillMount() {
+        // use object destructing for props
         if(this.props.previousAnswer.answers.length !== 0){
             this.setState({checkedAnswer: this.props.previousAnswer.answers[0].includes('Other:') ? 
                                             [this.props.answerOptions[this.props.answerOptions.length -1]] : 
@@ -25,6 +26,7 @@ export class RadioButtonList extends Component {
         }
     }
     componentWillReceiveProps(nextProps) {
+        // use object destructing for props
         if(this.props.previousAnswer !== nextProps.previousAnswer || this.props.answerOptions !== nextProps.answerOptions) {
             this.setState({checkedAnswer: nextProps.previousAnswer.answers.length !== 0 ? 
                                             (nextProps.previousAnswer.answers[0].includes('Other:') ? [nextProps.answerOptions[nextProps.answerOptions.length -1]] : nextProps.previousAnswer.answers) : 
@@ -40,6 +42,7 @@ export class RadioButtonList extends Component {
             return true;
         }
         return false
+        // not needed; see PureComponent
     }
     handleChange = (event) => {
         this.setState({checkedAnswer: [event.target.value]}, () => this.props.saveAnswers(this.state.checkedAnswer));
@@ -64,6 +67,7 @@ export class RadioButtonList extends Component {
                                 answerType={this.props.answerType}
                                 answerOptions={answerOptions}
                                 index={index}
+                                // use object spread for passing props
                         />
                 ))}
             </div>
@@ -73,3 +77,5 @@ export class RadioButtonList extends Component {
 }
 
 export default RadioButtonList;
+
+// apply same rules as everywhere

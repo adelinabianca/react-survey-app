@@ -18,3 +18,5 @@ export class Button extends Component {
 }
 
 export default Button;
+
+// make this a presentational / dumb component; update to react 16.6 and use memo()

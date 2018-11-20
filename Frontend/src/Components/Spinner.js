@@ -9,3 +9,5 @@ const Spinner = () => {
 }
 
 export default Spinner;
+
+// memo, prettier

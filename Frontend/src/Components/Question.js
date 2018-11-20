@@ -13,6 +13,7 @@ export class Question extends Component {
       questionAnswers: { questionId: "", answers: [] }
     };
   }
+  // one empty line
   saveAnswers = chosenAnswers => {
     this.setState({
       questionAnswers: { questionId: this.props.question.id, answers: chosenAnswers }
@@ -48,6 +49,7 @@ export class Question extends Component {
       />
     );
   }
+  //one empty line
   onNextButtonClicked = () => {
     if (
       (this.props.previousAnswer.questionId === this.state.questionAnswers.questionId &&
@@ -61,6 +63,7 @@ export class Question extends Component {
     this.props.checkIfNextQuestionHasAnswer();
     this.props.goToNextQuestion();
   };
+  // one empty line everywhere
   onPreviousButtonClicked = () => {
     if (
       (this.props.previousAnswer.questionId === this.state.questionAnswers.questionId &&
@@ -81,7 +84,8 @@ export class Question extends Component {
   };
 
   showComponent() {
-    if (this.props.questionIndex <= this.props.lastQuestionIndex) {
+    if (this.props.questionIndex <= this.props.lastQuestionIndex) { 
+      // stop writing this.props everytime, use object destructuring: const { questionIndex, lastQuestionIndex, samd } = this.props;
       const { question } = this.props;
       const isDisabled = !(
         (this.props.question.id === this.state.questionAnswers.questionId &&
@@ -142,3 +146,6 @@ export class Question extends Component {
 }
 
 export default Question;
+
+
+// apply prettier formatting everywhere

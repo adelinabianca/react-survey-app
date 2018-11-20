@@ -24,3 +24,5 @@ const RadioButton = (props) => {
 };
 
 export default RadioButton;
+
+// apply prettier; use memo for dumb components

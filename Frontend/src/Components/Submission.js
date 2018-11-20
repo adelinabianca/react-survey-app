@@ -14,3 +14,5 @@ const Submission = () => {
 };
 
 export default Submission;
+
+// memo
