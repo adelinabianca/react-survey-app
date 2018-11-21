@@ -27,6 +27,4 @@ const Checkbox = props => {
   );
 };
 
-export default Checkbox;
-
-// Install prettier and use it --> i'm using it already
+export default React.memo(Checkbox);

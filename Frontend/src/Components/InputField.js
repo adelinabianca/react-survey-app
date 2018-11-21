@@ -1,5 +1,6 @@
 import React from "react";
 import "./InputField.css";
+import "./InputField.responsive.css";
 
 const InputField = props => {
   return (

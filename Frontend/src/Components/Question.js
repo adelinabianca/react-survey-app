@@ -9,6 +9,7 @@ import Submission from "./Submission";
 export class Question extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       questionAnswers: { questionId: "", answers: [] }
     };
@@ -21,13 +22,13 @@ export class Question extends Component {
   };
 
   showAnswerOptions(answerType, answerOptions) {
+    const { previousAnswer, questionIndex } = this.props;
+
     if (answerType === "single" || answerType === "single with other") {
       return (
         <RadioButtonList
-          answerOptions={answerOptions}
           saveAnswers={this.saveAnswers}
-          previousAnswer={this.props.previousAnswer}
-          answerType={answerType}
+          {...{ answerType, previousAnswer, answerOptions }}
         />
       );
     }
@@ -35,21 +36,13 @@ export class Question extends Component {
     if (answerType === "multiple" || answerType === "multiple with other") {
       return (
         <CheckboxList
-          answerOptions={answerOptions}
           saveAnswers={this.saveAnswers}
-          previousAnswer={this.props.previousAnswer}
-          answerType={answerType}
+          {...{ answerType, previousAnswer, answerOptions }}
         />
       );
     }
 
-    return (
-      <Textarea
-        saveAnswers={this.saveAnswers}
-        previousAnswer={this.props.previousAnswer}
-        questionIndex={this.props.questionIndex}
-      />
-    );
+    return <Textarea saveAnswers={this.saveAnswers} {...{ previousAnswer, questionIndex }} />;
   }
 
   onNextButtonClicked = () => {
@@ -60,6 +53,7 @@ export class Question extends Component {
       checkIfNextQuestionHasAnswer,
       goToNextQuestion
     } = this.props;
+
     if (
       (previousAnswer.questionId === this.state.questionAnswers.questionId &&
         previousAnswer.answers !== this.state.questionAnswers.answers) ||

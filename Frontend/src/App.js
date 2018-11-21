@@ -16,7 +16,7 @@ class App extends Component {
       questionnaireConfig: "",
       previousAnswer: { questionId: "", answers: [] },
       loading: true,
-      error: false
+      error: true
     };
   }
 
@@ -33,69 +33,27 @@ class App extends Component {
           questionnaireConfig.questions.find(question => question.selectedAnswers.length === 0)
         );
         if (index === -1) {
-          this.setState(
-            {
-              questionnaireConfig: questionnaireConfig,
-              questionIndex: questionnaireConfig.questions.length,
-              loading: false,
-              error: false
-            },
-            () => {
-              // this.hydrateStateWithLocalStorage();
-              // window.addEventListener("beforeunload", this.saveStateToLocalStorage.bind(this));
-            }
-          );
+          this.setState({
+            questionnaireConfig: questionnaireConfig,
+            questionIndex: questionnaireConfig.questions.length,
+            loading: false,
+            error: false
+          });
         } else {
-          this.setState(
-            {
-              questionnaireConfig: questionnaireConfig,
-              answers: questionnaireConfig.questions.map(question => {
-                return { questionId: question.id, answers: question.selectedAnswers };
-              }),
-              questionIndex: questionnaireConfig.questions.indexOf(
-                questionnaireConfig.questions.find(
-                  question => question.selectedAnswers.length === 0
-                )
-              ),
-              loading: false,
-              error: false
-            },
-            () => {
-              // this.hydrateStateWithLocalStorage();
-              // window.addEventListener("beforeunload", this.saveStateToLocalStorage.bind(this));
-            }
-          );
+          this.setState({
+            questionnaireConfig: questionnaireConfig,
+            answers: questionnaireConfig.questions.map(question => {
+              return { questionId: question.id, answers: question.selectedAnswers };
+            }),
+            questionIndex: questionnaireConfig.questions.indexOf(
+              questionnaireConfig.questions.find(question => question.selectedAnswers.length === 0)
+            ),
+            loading: false,
+            error: false
+          });
         }
       })
       .catch(err => this.setState({ error: true }));
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("beforeunload", this.saveStateToLocalStorage.bind(this)); // remove
-
-    this.saveStateToLocalStorage();
-  }
-
-  hydrateStateWithLocalStorage() {
-    for (let key in this.state) {
-      if (localStorage.hasOwnProperty(key)) {
-        let value = localStorage.getItem(key);
-
-        try {
-          value = JSON.parse(value);
-          this.setState({ [key]: value });
-        } catch (e) {
-          //handle empty string
-          this.setState({ [key]: value });
-        }
-      }
-    }
-  }
-
-  saveStateToLocalStorage() {
-    for (let key in this.state) {
-      localStorage.setItem(key, JSON.stringify(this.state[key]));
-    }
   }
 
   saveQuestionAnswer = answer => {
@@ -104,9 +62,11 @@ class App extends Component {
       questionnaireConfig,
       questionnaireConfig: { questions }
     } = this.state;
+
     const indexOfQuestion = questions.map(question => question.id).indexOf(answer.questionId);
     let questionnaire = Object.assign({}, questionnaireConfig);
     let updatedAnswers = answers.slice();
+
     if (answer.answers.length !== 0) {
       questionnaire.questions[indexOfQuestion].selectedAnswers = answer.answers;
       updatedAnswers = updatedAnswers.filter(
@@ -144,8 +104,8 @@ class App extends Component {
   };
 
   checkIfNextQuestionHasAnswer = () => {
-    const { answers } = this.state;
     const {
+      answers,
       questionIndex,
       questionnaireConfig: { questions }
     } = this.state;
@@ -252,7 +212,3 @@ class App extends Component {
 }
 
 export default App;
-
-// apply same rules as everywhere; separate logical blocks, functions, apply prettier, object spread and destructuring and so on
-
-// pay more attention and review the code yourself each time after implementation

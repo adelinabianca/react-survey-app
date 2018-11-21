@@ -1,0 +1,16 @@
+@media only screen and (max-width: 480px) {
+  .notfound .notfound-404 {
+    position: relative;
+    height: 168px;
+    line-height: 1.4;
+  }
+  .notfound .notfound-404 h1 {
+    font-size: 142px;
+    word-break: keep-all;
+  }
+  .notfound h2 {
+    font-size: 22px;
+    color: #232323;
+    background: none;
+  }
+}

@@ -18,8 +18,4 @@ const Button = props => {
   );
 };
 
-export default Button;
-
-// make this a presentational / dumb component; --> done
-// update to react 16.6 --> done
-// and use memo() --> why? error!!
+export default React.memo(Button);
