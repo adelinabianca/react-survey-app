@@ -7,13 +7,6 @@ namespace TechSurvey.Controllers
 {
     public class SubmitController : ApiController
     {
-        //test method
-        [HttpGet]
-        public IHttpActionResult Get()
-        {
-            return Ok("OK");
-        }
-
         [HttpPost]
         [EnableCors(origins: "http://94.177.40.42:8180, http://10.3.128.2,http://localhost,http://localhost:3000", headers: "*", methods: "*")]
         public IHttpActionResult Post([FromBody]SurveyData surveyData)
@@ -21,6 +14,13 @@ namespace TechSurvey.Controllers
             var answerService = new AnswerService();
             answerService.UpdateAnswers(surveyData);
             return Ok(surveyData);
+        }
+
+        //test method
+        [HttpGet]
+        public IHttpActionResult Get()
+        {
+            return Ok("OK");
         }
     }
 }

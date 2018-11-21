@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Web.Hosting;
 using TechSurvey.Infrastructure.Repositories;
 using TechSurvey.Models;
 
@@ -12,7 +11,7 @@ namespace TechSurvey.Services
 
         public string GetSurvey(string uid)
         {
-            var survey = repositories.SurveyRepository.GetAnswersByUid(uid);
+            var survey = repositories.SurveyRepository.GetSurveyByUid(uid);
 
             if (survey == null)
             {

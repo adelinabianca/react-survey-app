@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Newtonsoft.Json;
 using TechSurvey.Infrastructure.Entities;
 using TechSurvey.Models;
@@ -15,7 +14,7 @@ namespace TechSurvey.Infrastructure.Repositories
             this.dbContext = dbContext;
         }
 
-        public Survey GetAnswersByUid(string uid)
+        public Survey GetSurveyByUid(string uid)
         {
             return dbContext.Survey.FirstOrDefault(surveyAnswers => surveyAnswers.UID == uid);
         }
@@ -25,18 +24,14 @@ namespace TechSurvey.Infrastructure.Repositories
             return dbContext.Survey.FirstOrDefault(surveyAnswers => surveyAnswers.UID == uid).Submitted;
         }
 
-        public string GetSurveyTemplateByUid(string uid)
-        {
-            return dbContext.Survey.FirstOrDefault(surveyAnswers => surveyAnswers.UID == uid).Template;
-        }
-
         public void UpdateSurveyAnswers(SurveyData surveyData, bool isSubmit = false)
         {
             if (surveyData == null) return;
-            var answerToUpdate = GetAnswersByUid(surveyData.UserId);
+            var surveyToUpdate = GetSurveyByUid(surveyData.UserId);
             
-            answerToUpdate.Answers = JsonConvert.SerializeObject(surveyData);
-            answerToUpdate.Submitted = isSubmit;
+            surveyToUpdate.Answers = JsonConvert.SerializeObject(surveyData);
+            surveyToUpdate.Submitted = isSubmit;
+
             dbContext.SaveChanges();
         }
     }
