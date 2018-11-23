@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using TechSurvey.Infrastructure.Repositories;
 using TechSurvey.Models;
 
@@ -34,6 +35,11 @@ namespace TechSurvey.Services
             {
                 excelService.UpdateExcelUsingClosedXml(surveyData);
             }
+        }
+
+        public int DeleteAnswers(string uid)
+        {
+           return repositories.SurveyRepository.DeleteSurveyAnswers(uid);
         }
     }
 }

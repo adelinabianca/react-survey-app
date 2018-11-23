@@ -34,5 +34,14 @@ namespace TechSurvey.Infrastructure.Repositories
 
             dbContext.SaveChanges();
         }
+
+        public int DeleteSurveyAnswers(string uid)
+        {
+            var surveyToUpdate = GetSurveyByUid(uid);
+            surveyToUpdate.Answers = " ";
+            surveyToUpdate.Submitted = false;
+
+           return dbContext.SaveChanges();
+        }
     }
 }
