@@ -3,16 +3,18 @@ import React, { Component } from "react";
 import { CheckboxList } from "./CheckboxList";
 import { RadioButtonList } from "./RadioButtonList";
 import { Textarea } from "./Textarea";
-import { Button } from "./Button";
+import Button from "./Button";
 import Submission from "./Submission";
 
 export class Question extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       questionAnswers: { questionId: "", answers: [] }
     };
   }
+
   saveAnswers = chosenAnswers => {
     this.setState({
       questionAnswers: { questionId: this.props.question.id, answers: chosenAnswers }
@@ -20,61 +22,91 @@ export class Question extends Component {
   };
 
   showAnswerOptions(answerType, answerOptions) {
+    const { previousAnswer, questionIndex } = this.props;
+
     if (answerType === "single" || answerType === "single with other") {
       return (
         <RadioButtonList
-          answerOptions={answerOptions}
           saveAnswers={this.saveAnswers}
-          previousAnswer={this.props.previousAnswer}
-          answerType={answerType}
+          {...{ answerType, previousAnswer, answerOptions }}
         />
       );
     }
+
     if (answerType === "multiple" || answerType === "multiple with other") {
       return (
         <CheckboxList
-          answerOptions={answerOptions}
           saveAnswers={this.saveAnswers}
-          previousAnswer={this.props.previousAnswer}
-          answerType={answerType}
+          {...{ answerType, previousAnswer, answerOptions }}
         />
       );
     }
-    return (
-      <Textarea
-        saveAnswers={this.saveAnswers}
-        previousAnswer={this.props.previousAnswer}
-        questionIndex={this.props.questionIndex}
-      />
-    );
+
+    return <Textarea saveAnswers={this.saveAnswers} {...{ previousAnswer, questionIndex }} />;
   }
+
   onNextButtonClicked = () => {
-    //this.props.saveQuestionAnswer(this.state.questionAnswers);
-    this.props.onSubmitQuestionnaire(this.state.questionAnswers);
-    this.props.checkIfNextQuestionHasAnswer();
-    this.props.goToNextQuestion();
+    const {
+      previousAnswer,
+      onSubmitQuestionnaire,
+      saveQuestionAnswer,
+      checkIfNextQuestionHasAnswer,
+      goToNextQuestion
+    } = this.props;
+
+    if (
+      (previousAnswer.questionId === this.state.questionAnswers.questionId &&
+        previousAnswer.answers !== this.state.questionAnswers.answers) ||
+      previousAnswer.questionId.length === 0
+    ) {
+      onSubmitQuestionnaire(this.state.questionAnswers);
+    } else {
+      saveQuestionAnswer(this.state.questionAnswers);
+    }
+    checkIfNextQuestionHasAnswer();
+    goToNextQuestion();
   };
+
   onPreviousButtonClicked = () => {
-    this.props.saveQuestionAnswer(this.state.questionAnswers);
-    this.props.checkIfPreviousQuestionHasAnswer();
-    this.props.goToPreviousQuestion();
+    const {
+      previousAnswer,
+      onSubmitQuestionnaire,
+      saveQuestionAnswer,
+      checkIfPreviousQuestionHasAnswer,
+      goToPreviousQuestion
+    } = this.props;
+
+    if (
+      (previousAnswer.questionId === this.state.questionAnswers.questionId &&
+        previousAnswer.answers !== this.state.questionAnswers.answers) ||
+      previousAnswer.questionId.length === 0
+    ) {
+      onSubmitQuestionnaire(this.state.questionAnswers);
+    } else {
+      saveQuestionAnswer(this.state.questionAnswers);
+    }
+    checkIfPreviousQuestionHasAnswer();
+    goToPreviousQuestion();
   };
+
   onSubmit = () => {
-    const { onSubmitQuestionnaire } = this.props;
+    const { onSubmitQuestionnaire, goToNextQuestion } = this.props;
     onSubmitQuestionnaire(this.state.questionAnswers);
-    this.props.goToNextQuestion();
+    goToNextQuestion();
   };
 
   showComponent() {
-    if (this.props.questionIndex <= this.props.lastQuestionIndex) {
-      const { question } = this.props;
+    const { question, questionIndex, lastQuestionIndex, previousAnswer } = this.props;
+
+    if (questionIndex <= lastQuestionIndex) {
       const isDisabled = !(
-        (this.props.question.id === this.state.questionAnswers.questionId &&
+        (question.id === this.state.questionAnswers.questionId &&
           this.state.questionAnswers.answers.length !== 0) ||
-        (this.props.previousAnswer !== "" &&
-          this.props.question.id !== this.state.questionAnswers.questionId &&
-          this.props.previousAnswer.answers.length !== 0)
+        (previousAnswer !== "" &&
+          question.id !== this.state.questionAnswers.questionId &&
+          previousAnswer.answers.length !== 0)
       );
+
       return (
         <div>
           <div className="question">

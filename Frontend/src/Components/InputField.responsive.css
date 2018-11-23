@@ -1,0 +1,7 @@
+@media (max-width: 823px) {
+    input.inputField {
+        display: flex;
+        position: initial;
+        margin-left: 0;
+    }
+}

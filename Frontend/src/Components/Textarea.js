@@ -7,11 +7,13 @@ export class Textarea extends Component {
       inputAnswer: []
     };
   }
+
   componentWillMount() {
     if (this.props.previousAnswer.answers.length !== 0) {
       this.setState({ inputAnswer: this.props.previousAnswer.answers });
     }
   }
+
   componentWillReceiveProps(nextProps) {
     if (this.props.questionIndex !== nextProps.questionIndex) {
       this.setState({
@@ -20,11 +22,13 @@ export class Textarea extends Component {
       });
     }
   }
+
   handleChange = event => {
     this.setState({ inputAnswer: [event.target.value] }, () => {
       this.props.saveAnswers(this.state.inputAnswer);
     });
   };
+
   render() {
     return (
       <div className="question-options">

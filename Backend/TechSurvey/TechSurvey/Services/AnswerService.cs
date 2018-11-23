@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using System.Web.Hosting;
+﻿using System.Collections.Generic;
+using System.Linq;
 using TechSurvey.Infrastructure.Repositories;
 using TechSurvey.Models;
 
@@ -12,7 +12,7 @@ namespace TechSurvey.Services
 
         public string GetSurvey(string uid)
         {
-            var survey = repositories.SurveyRepository.GetAnswersByUid(uid);
+            var survey = repositories.SurveyRepository.GetSurveyByUid(uid);
 
             if (survey == null)
             {
@@ -24,13 +24,22 @@ namespace TechSurvey.Services
 
         public void UpdateAnswers(SurveyData surveyData)
         {
-            repositories.SurveyRepository.UpdateSurveyAnswers(surveyData);
+            var isSubmitted = repositories.SurveyRepository.GetSurveyStatus(surveyData.UserId);
+            var isSurveyComplete = surveyData.Questions.All(q => q.SelectedAnswers.Any());
 
-            if (surveyData.Questions.Last().SelectedAnswers.Any())
+            if (isSubmitted) return;
+
+            repositories.SurveyRepository.UpdateSurveyAnswers(surveyData, isSurveyComplete);
+
+            if (isSurveyComplete)
             {
-                excelService.UpdateExcel(surveyData);
-
+                excelService.UpdateExcelUsingClosedXml(surveyData);
             }
+        }
+
+        public int DeleteAnswers(string uid)
+        {
+           return repositories.SurveyRepository.DeleteSurveyAnswers(uid);
         }
     }
 }
