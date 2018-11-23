@@ -1,11 +1,8 @@
-import React from 'react';
-
-import './Spinner.css';
+import React from "react";
+import "./Spinner.css";
 
 const Spinner = () => {
-  return (
-    <div className="Loader">Loading...</div>
-  )
-}
+  return <div className="Spinner">Loading...</div>;
+};
 
-export default Spinner;
+export default React.memo(Spinner);

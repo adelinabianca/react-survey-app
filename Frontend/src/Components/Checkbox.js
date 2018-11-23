@@ -1,5 +1,5 @@
 import React from "react";
-import InputField from './InputField';
+import InputField from "./InputField";
 
 const Checkbox = props => {
   return (
@@ -14,13 +14,17 @@ const Checkbox = props => {
           onChange={event => props.onChange(event)}
         />
         <span className="checkmark" />
-        {props.answerType === "multiple with other" && props.index === props.answerOptions.length -1 && 
-              <InputField checked={props.checked}
-                          value={props.value}
-                          onInputOptionChange={props.onInputOptionChange}/>}
+        {props.answerType === "multiple with other" &&
+          props.index === props.answerOptions.length - 1 && (
+            <InputField
+              checked={props.checked}
+              value={props.value}
+              onInputOptionChange={props.onInputOptionChange}
+            />
+          )}
       </label>
     </>
   );
 };
 
-export default Checkbox;
+export default React.memo(Checkbox);
