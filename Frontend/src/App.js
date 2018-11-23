@@ -142,7 +142,7 @@ class App extends Component {
     const jobCode = url.substr(startChar + 1, url.length);
     questionnaire.userId = jobCode;
 
-    fetch(""http://10.3.128.2/TechSurvey/api/Submit", {
+    fetch("http://10.3.128.2/TechSurvey/api/Submit", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(questionnaire)
