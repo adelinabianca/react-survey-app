@@ -23,11 +23,15 @@ export class Question extends Component {
 
   showAnswerOptions(answerType, answerOptions) {
     const { previousAnswer, questionIndex } = this.props;
+    const {
+      question: { id }
+    } = this.props;
 
     if (answerType === "single" || answerType === "single with other") {
       return (
         <RadioButtonList
           saveAnswers={this.saveAnswers}
+          questionId={id}
           {...{ answerType, previousAnswer, answerOptions }}
         />
       );
@@ -37,6 +41,7 @@ export class Question extends Component {
       return (
         <CheckboxList
           saveAnswers={this.saveAnswers}
+          questionId={id}
           {...{ answerType, previousAnswer, answerOptions }}
         />
       );

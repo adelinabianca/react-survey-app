@@ -12,9 +12,9 @@ export class RadioButtonList extends PureComponent {
   }
 
   componentWillMount() {
-    const { previousAnswer, answerOptions } = this.props;
+    const { previousAnswer, answerOptions, questionId } = this.props;
 
-    if (previousAnswer.answers.length !== 0) {
+    if (previousAnswer.answers.length !== 0 && previousAnswer.questionId === questionId) {
       this.setState({
         checkedAnswer: previousAnswer.answers[0].includes("Other:")
           ? [answerOptions[answerOptions.length - 1]]

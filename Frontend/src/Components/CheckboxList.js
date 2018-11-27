@@ -12,10 +12,12 @@ export class CheckboxList extends Component {
   }
 
   componentWillMount() {
-    if (this.props.previousAnswer.answers.length !== 0) {
+    const { previousAnswer, questionId } = this.props;
+
+    if (previousAnswer.answers.length !== 0 && previousAnswer.questionId === questionId) {
       this.setState({
-        checkedAnswers: this.props.previousAnswer.answers,
-        inputAnswer: this.props.previousAnswer.answers
+        checkedAnswers: previousAnswer.answers,
+        inputAnswer: previousAnswer.answers
           .filter(prevAnswer => prevAnswer.includes("Other:"))
           .map(e => e.substring(7))[0]
       });
