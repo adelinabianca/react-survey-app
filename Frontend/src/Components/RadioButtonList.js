@@ -28,7 +28,6 @@ export class RadioButtonList extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     const { previousAnswer, answerOptions } = this.props;
-
     if (previousAnswer !== nextProps.previousAnswer || answerOptions !== nextProps.answerOptions) {
       this.setState({
         checkedAnswer:

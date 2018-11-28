@@ -10,7 +10,7 @@ const RadioButton = props => {
         name="radio"
         on="true"
         value={props.answer}
-        defaultChecked={props.checked}
+        checked={props.checked}
         onChange={event => props.onChange(event)}
       />
       <span className="checkmark" />
