@@ -25,7 +25,7 @@ class App extends Component {
     const startChar = url.lastIndexOf("=");
     const jobCode = url.substr(startChar + 1, url.length);
 
-    fetch("http://localhost:64282/api/survey?uid=" + jobCode)
+    fetch("http://10.3.128.2/TechSurvey/api/survey?uid=" + jobCode)
       .then(data => data.json())
       .then(data => {
         const questionnaireConfig = data;
@@ -142,7 +142,7 @@ class App extends Component {
     const jobCode = url.substr(startChar + 1, url.length);
     questionnaire.userId = jobCode;
 
-    fetch("http://localhost:64282/api/Submit", {
+    fetch("http://10.3.128.2/TechSurvey/api/Submit", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(questionnaire)
