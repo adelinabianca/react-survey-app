@@ -10,5 +10,5 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: dotnet build Backend/SurveyCore/SurveyCore/SurveyCore.sln --configuration $(buildConfiguration)
+- script: dotnet publish Backend/SurveyCore/SurveyCore/SurveyCore.sln --configuration $(buildConfiguration) --output $(System.DefaultWorkingDirectory)/_istanescuwehkamp.react-survey-app
   displayName: 'dotnet build $(buildConfiguration)'

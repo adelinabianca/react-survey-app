@@ -25,7 +25,6 @@ class App extends Component {
     const startChar = currentUrl.lastIndexOf("=");
     const uid = currentUrl.substr(startChar + 1, currentUrl.length);
     const url = `${GET_SURVEY_URL}${uid}`;
-    
 
     fetch(url)
       .then(data => data.json())
