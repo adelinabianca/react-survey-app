@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { GET_SURVEY_URL, SUBMIT_SURVEY_URL } from './config/config';
+import { GET_SURVEY_URL, SUBMIT_SURVEY_URL, SUBMIT_REAL_TIME_URL } from './config/config';
 import "./App.css";
 import { Question } from "./Components/Question";
 
@@ -143,12 +143,21 @@ class App extends Component {
     const uid = currentUrl.substr(startChar + 1, currentUrl.length);
     questionnaire.userId = uid;
     const url = `${SUBMIT_SURVEY_URL}`;
+    const url2 = `${SUBMIT_REAL_TIME_URL}`
 
-    fetch(url, {
-      method: "post",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(questionnaire)
-    }).then(response => {});
+    Promise.all([
+      fetch(url, {
+        method: "post",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(questionnaire)
+      }),
+      fetch(url2, {
+        method: "post",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(questionnaire)
+      })
+    ]).then(response => {});
+    
   };
 
   render() {
