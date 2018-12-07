@@ -29,6 +29,7 @@ namespace SurveyCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddDbContext<SurveyDbContext>(options => options.UseSqlServer(Configuration["Db:connectionString"]));
@@ -40,6 +41,13 @@ namespace SurveyCore
             {
                 c.SwaggerDoc("v1", new Info { Title = "Survey API", Version = "v1" });
             });
+
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,6 +72,7 @@ namespace SurveyCore
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Survey API");
             });
 
+            app.UseCors("MyPolicy");
 
             app.UseMvc();
         }

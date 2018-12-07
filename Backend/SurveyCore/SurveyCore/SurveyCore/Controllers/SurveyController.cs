@@ -18,7 +18,7 @@ namespace SurveyCore.Controllers
         }
 
         [HttpGet]
-        [EnableCors]
+        [EnableCors("MyPolicy")]
         public IActionResult Get(string uid)
         {
             var survey = answerService.GetSurvey(uid);
@@ -32,7 +32,7 @@ namespace SurveyCore.Controllers
         }
 
         [HttpPost]
-        [EnableCors]
+        [EnableCors("MyPolicy")]
         public IActionResult Post([FromBody]SurveyData surveyData)
         {
             answerService.UpdateAnswers(surveyData);
@@ -40,7 +40,7 @@ namespace SurveyCore.Controllers
         }
 
         [HttpDelete]
-        [EnableCors]
+        [EnableCors("MyPolicy")]
         public IActionResult Delete(string uid)
         {
             var result = answerService.DeleteAnswers(uid);
