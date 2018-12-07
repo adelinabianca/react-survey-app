@@ -9,5 +9,6 @@ namespace SurveyCore.Infrastructure.Repositories
         Survey GetSurveyByUid(string uid);
         bool GetSurveyStatus(string uid);
         void UpdateSurveyAnswers(SurveyData surveyData, bool isSubmit = false);
+        Survey InsertNewSurvey(Survey surveyData);
     }
 }
