@@ -1,9 +1,6 @@
 ﻿using SurveyCore.Infrastructure.Repositories;
 using SurveyCore.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace SurveyCore.Services
 {

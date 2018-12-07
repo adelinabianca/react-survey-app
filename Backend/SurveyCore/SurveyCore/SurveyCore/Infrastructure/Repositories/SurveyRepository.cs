@@ -2,10 +2,7 @@
 using Newtonsoft.Json;
 using SurveyCore.Infrastructure.Entities;
 using SurveyCore.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace SurveyCore.Infrastructure.Repositories
 {
@@ -37,6 +34,14 @@ namespace SurveyCore.Infrastructure.Repositories
             surveyToUpdate.Submitted = isSubmit;
 
             (dbContext as DbContext).SaveChanges();
+        }
+
+        public Survey InsertNewSurvey(Survey surveyData)
+        {
+            var survey =  dbContext.Survey.Add(surveyData);
+            (dbContext as DbContext).SaveChanges();
+
+            return survey.Entity;
         }
 
         public int DeleteSurveyAnswers(string uid)

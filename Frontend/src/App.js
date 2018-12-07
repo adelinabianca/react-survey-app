@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { GET_SURVEY_URL, SUBMIT_SURVEY_URL, SUBMIT_REAL_TIME_URL } from './config/config';
+import { GET_SURVEY_URL, SUBMIT_SURVEY_URL, SUBMIT_REAL_TIME_URL, DEMO_URL } from './config/config';
 import "./App.css";
 import { Question } from "./Components/Question";
 
@@ -21,11 +21,26 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const currentUrl = window.location.href;
-    const startChar = currentUrl.lastIndexOf("=");
-    const uid = currentUrl.substr(startChar + 1, currentUrl.length);
-    const url = `${GET_SURVEY_URL}${uid}`;
+    const querystring = window.location.search.substring(1);
+    let uid;
+    if (querystring.includes('uid')) {
+      uid = querystring.substring(4);
+    } else if ( querystring.includes('formName')) {
+      if (localStorage.getItem('uid') !== null) {
+        uid = localStorage.getItem('uid');
+      } else {
+        const surveyCode = querystring.substring(9);
+        const url = `${DEMO_URL}${surveyCode}`;
+        fetch(url)
+          .then(data => data.json())
+          .then(data => {
+            uid = data.uid;
+            localStorage.setItem('uid', uid);
+          })
+      }
+    }
 
+    const url = `${GET_SURVEY_URL}${uid}`
     fetch(url)
       .then(data => data.json())
       .then(data => {
@@ -55,6 +70,7 @@ class App extends Component {
         }
       })
       .catch(err => this.setState({ error: true }));
+    
   }
 
   saveQuestionAnswer = answer => {
