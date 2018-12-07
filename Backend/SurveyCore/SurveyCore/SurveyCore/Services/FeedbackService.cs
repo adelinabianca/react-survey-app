@@ -25,10 +25,8 @@ namespace SurveyCore.Services
 
             template.UID = Guid.NewGuid().ToString();
             var newSurvey = surveyRepository.InsertNewSurvey(template);
-            var surveyData = JsonConvert.DeserializeObject<SurveyData>(Regex.Unescape(newSurvey.Template));
-            surveyData.UserId = newSurvey.UID;
 
-            return JsonConvert.SerializeObject(surveyData);
+            return JsonConvert.SerializeObject(new {uid=newSurvey.UID});
         }
     }
 }

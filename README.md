@@ -2,7 +2,23 @@
 The aim of the react-survey-app is to provide an easy way of creating a survey/questionnaire/feedback form based on a JSON structure. You can provide a static set of questions or you can provide an API endpoint from which the app will get the JSON. The app will generate  each question based on it's question type(checkbox, radio, text, checkbox with other field, radio with other field), and post the answers to an API endpoint you configure.
 
 # How to use
-!!!!add how to use here!!!!
+- # Doing features
+- Create a feature-branch for the release.
+- Code the nessesary changes and commit them to your local feature-branch and push them to the remote feature-branch.
+- When ready create a Pull Request on the feature-branch.
+- When tested and code reviewed, merge the Pull Request, and do not close the branch.
+- When everything is done, the feature-branch can be closed.
+
+- # Doing bugfixes
+- Create a bugfix-branch for release.
+- Code the nessesary changes and commit them to your local bugfix-branch and push them to the remote bugfix-branch.
+- Create a Pull Request on the bugfix-branch.
+- When tested and code reviewed, merge the Pull Request, and do not close the branch.
+  - if the bugfix is also required in another release;
+  - Cherry-pick the individual commits from the bugfix-branch into the other bugfix-branch.
+  - When ready, create a Pull Request on the bugfix-branch.
+  - When tested and code reviewed, merge the Pull Request, and close the branch.
+- When everything is done, the bugfix-branch can be closed.
 
 # Contributing to the react-survey-app
 React-survey-app welcomes contributions to our open source projects on Github.

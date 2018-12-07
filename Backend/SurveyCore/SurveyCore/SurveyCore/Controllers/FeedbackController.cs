@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using SurveyCore.Models;
 using SurveyCore.Services;
 
 namespace SurveyCore.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class FeedbackController : ControllerBase
     {
