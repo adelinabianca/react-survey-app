@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SurveyCore.Models;
@@ -21,8 +17,8 @@ namespace SurveyCore.Controllers
             this.answerService = answerService;
         }
 
-        [EnableCors]
         [HttpGet]
+        [EnableCors]
         public IActionResult Get(string uid)
         {
             var survey = answerService.GetSurvey(uid);
@@ -33,6 +29,23 @@ namespace SurveyCore.Controllers
 
             var jsonSurvey = JsonConvert.DeserializeObject<SurveyData>(survey);
             return Ok(jsonSurvey);
+        }
+
+        [HttpPost]
+        [EnableCors]
+        public IActionResult Post([FromBody]SurveyData surveyData)
+        {
+            answerService.UpdateAnswers(surveyData);
+            return Ok(surveyData);
+        }
+
+        [HttpDelete]
+        [EnableCors]
+        public IActionResult Delete(string uid)
+        {
+            var result = answerService.DeleteAnswers(uid);
+            var message = $"Number of records updated: {result}";
+            return Ok(message);
         }
     }
 }
