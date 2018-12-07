@@ -4,6 +4,7 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/chartist/0.11.0/chartist.min.css')
+    link(href="https://fonts.googleapis.com/css?family=Exo" rel="stylesheet")
     script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js")
     script(src="https://cdnjs.cloudflare.com/ajax/libs/chartist/0.11.0/chartist.min.js")
   body
@@ -17,7 +18,7 @@ html
       let labels = [];
       let series = [];
       
-      fetch('http://survey-hack9.azurewebsites.net/Survey?uid=mobile').then((response) => {
+      fetch('https://survey-hack9.azurewebsites.net/Survey?uid=mobile').then((response) => {
         return response.json();
       }).then(response => {
         response.questions.forEach((q) => series.push(0));
