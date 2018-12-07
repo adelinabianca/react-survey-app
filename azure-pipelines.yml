@@ -10,5 +10,5 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
+- script: dotnet build  .\Backend\SurveyCore\SurveyCore\SurveyCore.sln --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
