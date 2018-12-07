@@ -15,7 +15,10 @@
 			"option": "I'm not sure",
 			"goTo": ""
 		}],
-		"selectedAnswers": []
+		"selectedAnswers": [{
+			"option": "",
+			"goTo": ""
+		}]
 	}, {
 		"id": "2",
 		"question": "What lipsticks do you regularly use?",
@@ -35,7 +38,10 @@
 				"goTo": ""
 			}
 		],
-		"selectedAnswers": []
+		"selectedAnswers": [{
+			"option": "",
+			"goTo": ""
+		}]
 	}, {
 		"id": "3",
 		"question": "Are you planing to migrate to new standard in next 12 months?",
@@ -52,7 +58,10 @@
 			"option": "not sure",
 			"goTo": ""
 		}],
-		"selectedAnswers": []
+		"selectedAnswers": [{
+			"option": "",
+			"goTo": ""
+		}]
 	}, {
 		"id": "4",
 		"question": "Which compilers do you regularly use?",
@@ -78,7 +87,10 @@
 			"option": "Forgot it",
 			"goTo": ""
 		}],
-		"selectedAnswers": []
+		"selectedAnswers": [{
+			"option": "",
+			"goTo": ""
+		}]
 	}, {
 		"id": "5",
 		"question": "What do you like about .NET?",
@@ -86,6 +98,9 @@
 		"description": "",
 		"answerType": "input",
 		"answerOptions": [],
-		"selectedAnswers": []
+		"selectedAnswers": [{
+			"option": "",
+			"goTo": ""
+		}]
 	}]
 }

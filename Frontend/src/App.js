@@ -26,25 +26,26 @@ class App extends Component {
 
   componentDidMount() {
     const { questionnaireConfig } = this.state;
-
+    const { questions } = questionnaireConfig;
+    console.log(questions)
     const index = questionnaireConfig.questions.indexOf(
-      questionnaireConfig.questions.find(question => question.selectedAnswers.length === 0)
+      questions.find(question => question.selectedAnswers[0].option.length === 0)
     );
     if (index === -1) {
       this.setState({
         questionnaireConfig: questionnaireConfig,
-        questionIndex: questionnaireConfig.questions.length,
+        questionIndex: questions.length,
         loading: false,
         error: false
       });
     } else {
       this.setState({
         questionnaireConfig: questionnaireConfig,
-        answers: questionnaireConfig.questions.map(question => {
+        answers: questions.map(question => {
           return { questionId: question.id, answers: question.selectedAnswers };
         }),
-        questionIndex: questionnaireConfig.questions.indexOf(
-          questionnaireConfig.questions.find(question => question.selectedAnswers.length === 0)
+        questionIndex: questions.indexOf(
+          questions.find(question => question.selectedAnswers[0].option.length === 0)
         ),
         loading: false,
         error: false
@@ -101,7 +102,7 @@ class App extends Component {
     let questionnaire = Object.assign({}, questionnaireConfig);
     let updatedAnswers = answers.slice();
 
-    if (answer.answers.length !== 0) {
+    if (answer.answers[0].option.length !== 0) {
       questionnaire.questions[indexOfQuestion].selectedAnswers = answer.answers;
       updatedAnswers = updatedAnswers.filter(
         prevAnswer => prevAnswer.questionId !== answer.questionId
@@ -131,7 +132,7 @@ class App extends Component {
     } = this.state;
 
     const previousAnswer = answers.find(a => a.questionId === questions[questionIndex - 1].id);
-
+    
     this.setState(() => ({
       previousAnswer: previousAnswer
     }));
@@ -145,6 +146,7 @@ class App extends Component {
     } = this.state;
 
     const previousAnswer = answers.find(a => a.questionId === questions[questionIndex + 1].id);
+    console.log(previousAnswer)
     this.setState(() => ({
       previousAnswer: previousAnswer
     }));
@@ -161,7 +163,7 @@ class App extends Component {
     let questionnaire = Object.assign({}, questionnaireConfig);
     let updatedAnswers = answers.slice();
 
-    if (answer.answers.length !== 0) {
+    if (answer.answers[0].option.length !== 0) {
       questionnaire.questions[indexOfQuestion].selectedAnswers = answer.answers;
       updatedAnswers = updatedAnswers.filter(
         prevAnswer => prevAnswer.questionId !== answer.questionId
@@ -186,7 +188,6 @@ class App extends Component {
 
   render() {
     const { loading, questionIndex, questionnaireConfig, previousAnswer, answers } = this.state;
-
     let page = <PageNotFound />;
 
     if (!this.state.error) {

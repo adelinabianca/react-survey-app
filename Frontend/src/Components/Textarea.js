@@ -4,12 +4,12 @@ export class Textarea extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputAnswer: []
+      inputAnswer: [{option: '', goTo: ''}]
     };
   }
 
   componentWillMount() {
-    if (this.props.previousAnswer.answers.length !== 0) {
+    if (this.props.previousAnswer.answers[0].option.length !== 0) {
       this.setState({ inputAnswer: this.props.previousAnswer.answers });
     }
   }
@@ -18,13 +18,13 @@ export class Textarea extends Component {
     if (this.props.questionIndex !== nextProps.questionIndex) {
       this.setState({
         inputAnswer:
-          nextProps.previousAnswer.answers.length !== 0 ? nextProps.previousAnswer.answers : [""]
+          nextProps.previousAnswer.answers[0].option.length !== 0 ? nextProps.previousAnswer.answers : [{option: '', goTo: ''}]
       });
     }
   }
 
   handleChange = event => {
-    this.setState({ inputAnswer: [event.target.value] }, () => {
+    this.setState({ inputAnswer: [{option: event.target.value, goTo: ''}] }, () => {
       this.props.saveAnswers(this.state.inputAnswer);
     });
   };
@@ -35,7 +35,7 @@ export class Textarea extends Component {
         <div className="input-group">
           <textarea
             className="form-textarea"
-            value={this.state.inputAnswer[0]}
+            value={this.state.inputAnswer[0].option}
             onChange={this.handleChange}
             placeholder="Write your response here..."
             aria-label="With textarea"

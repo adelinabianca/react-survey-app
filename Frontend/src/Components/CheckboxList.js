@@ -13,8 +13,7 @@ export class CheckboxList extends Component {
 
   componentWillMount() {
     const { previousAnswer, questionId } = this.props;
-
-    if (previousAnswer.answers.length !== 0 && previousAnswer.questionId === questionId) {
+    if (previousAnswer.answers[0].option.length !== 0 && previousAnswer.questionId === questionId) {
       this.setState({
         checkedAnswers: previousAnswer.answers,
         inputAnswer: previousAnswer.answers
@@ -25,13 +24,14 @@ export class CheckboxList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const { previousAnswer, questionId } = this.props;
     if (
-      this.props.previousAnswer !== nextProps.previousAnswer ||
-      this.props.answerOptions !== nextProps.answerOptions
+      previousAnswer.questionId !== nextProps.previousAnswer.questionId ||
+      questionId !== nextProps.questionId
     ) {
       this.setState({
         checkedAnswers:
-          nextProps.previousAnswer.answers.length !== 0 ? nextProps.previousAnswer.answers : [],
+          nextProps.previousAnswer.answers[0].option.length !== 0 ? nextProps.previousAnswer.answers : [{option: '', goTo: ''}],
         inputAnswer:
           nextProps.previousAnswer.answers.length !== 0
             ? nextProps.previousAnswer.answers
@@ -49,7 +49,7 @@ export class CheckboxList extends Component {
     if (isChecked) {
       this.setState(
         prevState => ({
-          checkedAnswers: [...prevState.checkedAnswers, answer]
+          checkedAnswers: prevState.checkedAnswers[0].option.length !== 0 ? [...prevState.checkedAnswers, answer] : [answer]
         }),
         () => this.props.saveAnswers(this.state.checkedAnswers)
       );

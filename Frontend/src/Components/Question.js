@@ -11,7 +11,7 @@ export class Question extends Component {
     super(props);
 
     this.state = {
-      questionAnswers: { questionId: "", answers: [] }
+      questionAnswers: { questionId: "", answers: [{option: '', goTo: ''}] }
     };
   }
 
@@ -60,10 +60,8 @@ export class Question extends Component {
     } = this.props;
 
     if (
-      (previousAnswer.questionId === this.state.questionAnswers.questionId &&
-        previousAnswer.answers !== this.state.questionAnswers.answers) ||
-      previousAnswer.questionId.length === 0
-    ) {
+      previousAnswer.questionId === this.state.questionAnswers.questionId ||
+      previousAnswer.questionId.length === 0) {
       onSubmitQuestionnaire(this.state.questionAnswers);
     } else {
       saveQuestionAnswer(this.state.questionAnswers);
@@ -107,7 +105,7 @@ export class Question extends Component {
       const isDisabled = !(
         (question.id === this.state.questionAnswers.questionId &&
           this.state.questionAnswers.answers.length !== 0) ||
-        (previousAnswer.answers.length !== 0 &&
+        (previousAnswer !== "" &&
           question.id !== this.state.questionAnswers.questionId &&
           previousAnswer.answers.length !== 0)
       );

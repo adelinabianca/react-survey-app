@@ -13,8 +13,7 @@ export class RadioButtonList extends PureComponent {
 
   componentWillMount() {
     const { previousAnswer, answerOptions, questionId } = this.props;
-    console.log(previousAnswer)
-    if (previousAnswer !== '' && previousAnswer.questionId === questionId) {
+    if (previousAnswer.questionId === questionId) {
       this.setState({
         checkedAnswer: previousAnswer.answers[0].option.includes("Other:")
           ? [answerOptions[answerOptions.length - 1]]
@@ -27,16 +26,15 @@ export class RadioButtonList extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { previousAnswer, answerOptions } = this.props;
-    
-    if (previousAnswer !== nextProps.previousAnswer || answerOptions.map(answer => answer.option) !== nextProps.answerOptions.map(answer => answer.option)) {
+    const { previousAnswer, questionId } = this.props;
+    if (previousAnswer.questionId !== nextProps.previousAnswer.questionId || questionId !== nextProps.questionId) {
       this.setState({
         checkedAnswer:
           nextProps.previousAnswer.answers[0].option.length !== 0
             ? nextProps.previousAnswer.answers[0].option.includes("Other:")
               ? [nextProps.answerOptions[nextProps.answerOptions.length - 1]]
               : nextProps.previousAnswer.answers
-            : [],
+            : [{option: '', goTo: ''}],
         inputAnswer:
           nextProps.previousAnswer.answers[0].option.length !== 0
             ? nextProps.previousAnswer.answers[0].option.includes("Other:")
@@ -61,14 +59,13 @@ export class RadioButtonList extends PureComponent {
 
   render() {
     const { answerOptions, answerType } = this.props;
-    console.log(this.state.checkedAnswer)
     return (
       <div className="col-12 cold-md-8 question-options">
         <div className="align-left">
           {answerOptions.map((answer, index) => (
             <RadioButton
               key={answer.option + index + "radio"}
-              checked={this.state.checkedAnswer.option === answer.option}
+              checked={this.state.checkedAnswer[0].option === answer.option}
               onChange={this.handleChange}
               value={this.state.inputAnswer}
               onInputOptionChange={this.handleInputOptionChange}
