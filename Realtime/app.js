@@ -4,11 +4,18 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var sassMiddleware = require('node-sass-middleware');
+var bodyParser = require('body-parser');
 
 var indexRouter = require('./routes/index');
 var questionnaireRouter = require('./routes/questionnaire');
 
 var app = express();
+
+var cors = require('cors');
+
+app.use(cors());
+
+app.use(bodyParser.json());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

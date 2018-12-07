@@ -3,3 +3,4 @@ Backend/SurveyCore/SurveyCore/.vs/
 Backend/SurveyCore/SurveyCore/SurveyCore/bin/
 Backend/SurveyCore/SurveyCore/SurveyCoreTests/bin/
 Backend/SurveyCore/SurveyCore/SurveyCoreTests/obj/
+node_modules
