@@ -3,11 +3,63 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/chartist/0.11.0/chartist.min.css')
     script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/chartist/0.11.0/chartist.min.js")
   body
     block content
     script.
-      var socket = io();
-      socket.on('message', () => {
-        console.log("am primit");
+      var socket = io('https://hack9-survey.azurewebsites.net');
+
+      // for future: use webworker
+      let answeredQuestionsByUser = {};
+      let myChart = null;
+      let labels = [];
+      let series = [];
+      
+      fetch('http://survey-hack9.azurewebsites.net/Survey?uid=mobile').then((response) => {
+        return response.json();
+      }).then(response => {
+        response.questions.forEach((q) => series.push(0));
+
+        let labels = [];
+        response.questions.forEach((q, index) => labels.push(`${index + 1}`));
+
+        myChart = new Chartist.Line('.ct-chart', {
+          labels: labels,
+          series: [series],
+        }, {
+          fullWidth: true,
+          height: 250,
+        });
       });
+
+      socket.on('questionnaire', (data) => {
+        const questionnaire = data.questionnaire;
+
+        const newSeries = series.map((entry, index) => {
+          if (questionnaire.questions[index].selectedAnswers.length) {
+
+            if (!answeredQuestionsByUser[questionnaire.userId]) {
+              answeredQuestionsByUser[questionnaire.userId] = [index + 1];
+              
+              return entry + 1;
+            }
+
+            if (answeredQuestionsByUser[questionnaire.userId].find((id) => id === index + 1)) {
+              return entry;
+            }
+
+            answeredQuestionsByUser[questionnaire.userId].push(index + 1);
+            return entry + 1;
+          }
+
+          return entry;
+        });
+
+        series = newSeries;
+
+        myChart.update({
+          series: [series],
+        });
+      }); 
