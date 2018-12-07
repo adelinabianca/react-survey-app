@@ -1,8 +1,0 @@
-<<<<<<< HEAD
-export const GET_SURVEY_URL = "http://localhost:64282/api/survey?uid=";
-export const SUBMIT_SURVEY_URL = "http://localhost:64282/api/Submit";
-export const SUBMIT_REAL_TIME_URL = "";
-=======
-export const GET_SURVEY_URL = "http://survey-hack9.azurewebsites.net/Survey?uid=";
-export const SUBMIT_SURVEY_URL = "http://survey-hack9.azurewebsites.net/Submit";
->>>>>>> 1b9c41b94da64b4d3f07f28acca5b6eb0734503c
