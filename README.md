@@ -1,28 +1,40 @@
 # react-survey-app
 
-Contributing to the react-survey-app
+# Contributing to the react-survey-app
 React-survey-app welcomes contributions to our open source projects on Github.
 
-Issues
+# Issues
 Feel free to submit issues and enhancement requests.
 
-Contributing
+# Contributing
 In general, we follow the "fork-and-pull" Git workflow.
 
-Fork the repo on GitHub
-Clone the project to your own machine
-Commit changes to your own branch
-Push your work back up to your fork
-Submit a Pull request so that we can review your changes
-NOTE: Be sure to merge the latest from "upstream" before making a pull request!
+- Fork the repo on GitHub
+- Clone the project to your own machine
+- Commit changes to your own branch
+- Push your work back up to your fork
+- Submit a Pull request so that we can review your changes
+- NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 
-react-survey-app open source project is licensed under the MIT license.
+react-survey-app is an open source project and is licensed under the MIT license.
 
-react-survey-app does not require you to assign the copyright of your contributions, you retain the copyright. react-survey-app does require that you make your contributions available under the Apache license in order to be included in the main repo.
+# License Summary
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-If appropriate, include the Apache 2.0 license summary at the top of each file along with the copyright info. If you are adding a new file that you wrote, include your name in the copyright notice in the license summary at the top of the file.
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
 
-License Summary
-You can copy and paste the Apache 2.0 license summary from below.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
 
 Copyright 2018 by react-survey-app
