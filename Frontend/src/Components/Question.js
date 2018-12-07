@@ -16,9 +16,10 @@ export class Question extends Component {
   }
 
   saveAnswers = chosenAnswers => {
-    this.setState({
-      questionAnswers: { questionId: this.props.question.id, answers: chosenAnswers }
-    });
+    console.log(chosenAnswers[0])
+    // this.setState({
+    //   questionAnswers: { questionId: this.props.question.id, answers: chosenAnswers }
+    // });
   };
 
   showAnswerOptions(answerType, answerOptions) {
@@ -107,7 +108,7 @@ export class Question extends Component {
       const isDisabled = !(
         (question.id === this.state.questionAnswers.questionId &&
           this.state.questionAnswers.answers.length !== 0) ||
-        (previousAnswer !== "" &&
+        (previousAnswer.answers.length !== 0 &&
           question.id !== this.state.questionAnswers.questionId &&
           previousAnswer.answers.length !== 0)
       );

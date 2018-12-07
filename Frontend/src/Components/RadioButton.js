@@ -4,12 +4,12 @@ import InputField from "./InputField";
 const RadioButton = props => {
   return (
     <label className="radioContainer">
-      {props.answer}
+      {props.answer.option}
       <input
         type="radio"
         name="radio"
         on="true"
-        value={props.answer}
+        value={props.answer.option}
         checked={props.checked}
         onChange={event => props.onChange(event)}
       />

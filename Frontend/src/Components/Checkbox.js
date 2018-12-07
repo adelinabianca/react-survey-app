@@ -5,11 +5,11 @@ const Checkbox = props => {
   return (
     <>
       <label className="checkboxContainer">
-        {props.answer}
+        {props.answer.option}
         <input
           type="checkbox"
-          value={props.answer}
-          name={props.answer}
+          value={props.answer.option}
+          name={props.answer.option}
           checked={props.checked}
           onChange={event => props.onChange(event)}
         />

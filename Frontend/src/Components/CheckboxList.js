@@ -6,7 +6,7 @@ export class CheckboxList extends Component {
     super(props);
 
     this.state = {
-      checkedAnswers: [],
+      checkedAnswers: [{option: '', goTo: ''}],
       inputAnswer: ""
     };
   }
@@ -18,8 +18,8 @@ export class CheckboxList extends Component {
       this.setState({
         checkedAnswers: previousAnswer.answers,
         inputAnswer: previousAnswer.answers
-          .filter(prevAnswer => prevAnswer.includes("Other:"))
-          .map(e => e.substring(7))[0]
+          .filter(prevAnswer => prevAnswer.option.includes("Other:"))
+          .map(e => e.option.substring(7))[0]
       });
     }
   }
@@ -35,15 +35,15 @@ export class CheckboxList extends Component {
         inputAnswer:
           nextProps.previousAnswer.answers.length !== 0
             ? nextProps.previousAnswer.answers
-                .filter(prevAnswer => prevAnswer.includes("Other:"))
-                .map(e => e.substring(7))[0]
+                .filter(prevAnswer => prevAnswer.option.includes("Other:"))
+                .map(e => e.option.substring(7))[0]
             : []
       });
     }
   }
 
   handleChange = event => {
-    const answer = event.target.value;
+    const answer = {option: event.target.value, goTo: ''};
     const isChecked = event.target.checked;
 
     if (isChecked) {
@@ -58,7 +58,7 @@ export class CheckboxList extends Component {
         prevState => ({
           checkedAnswers: prevState.checkedAnswers.filter(
             prevAnswer =>
-              prevAnswer !== answer && (answer === "Other" ? !prevAnswer.includes("Other:") : true)
+              prevAnswer.option !== answer.option && (answer.option === "Other" ? !prevAnswer.option.includes("Other:") : true)
           )
         }),
         () => this.props.saveAnswers(this.state.checkedAnswers)
@@ -67,15 +67,15 @@ export class CheckboxList extends Component {
   };
 
   handleInputOptionChange = event => {
-    let updatedCheckedAnswers = this.state.checkedAnswers;
-    let indexOfOtherOption = updatedCheckedAnswers.indexOf(
-      updatedCheckedAnswers.filter(answer => answer.includes("Other:"))[0]
+    let updatedCheckedAnswers = {...this.state.checkedAnswers};
+    let indexOfOtherOption = updatedCheckedAnswers.map(answer => answer.option).indexOf(
+      updatedCheckedAnswers.map(answer => answer.option).filter(answer => answer.includes("Other:"))[0]
     );
 
     if (indexOfOtherOption !== -1) {
-      updatedCheckedAnswers[indexOfOtherOption] = "Other: " + event.target.value;
+      updatedCheckedAnswers[indexOfOtherOption] = { option: "Other: " + event.target.value, goTo: ''};
     } else {
-      updatedCheckedAnswers = updatedCheckedAnswers.concat("Other: " + event.target.value);
+      updatedCheckedAnswers = updatedCheckedAnswers.concat({ option: "Other: " + event.target.value, goTo: ''});
     }
 
     this.setState(
@@ -95,8 +95,8 @@ export class CheckboxList extends Component {
         <div className="align-left">
           {answerOptions.map((answer, index) => (
             <Checkbox
-              key={answer + index + "checkbox"}
-              checked={checkedAnswers.indexOf(answer) > -1}
+              key={answer.option + index + "checkbox"}
+              checked={checkedAnswers.map(ans => ans.option).indexOf(answer.option) > -1}
               onChange={this.handleChange}
               value={inputAnswer}
               onInputOptionChange={this.handleInputOptionChange}

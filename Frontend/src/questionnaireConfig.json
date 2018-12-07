@@ -1,0 +1,91 @@
+{
+	"questions": [{
+		"id": "1",
+		"question": "woman or not?",
+		"type": "parent",
+		"description": "",
+		"answerType": "single",
+		"answerOptions": [{
+			"option": "woman",
+			"goTo": "2"
+		}, {
+			"option": "not a woman",
+			"goTo": "3"
+		}, {
+			"option": "I'm not sure",
+			"goTo": ""
+		}],
+		"selectedAnswers": []
+	}, {
+		"id": "2",
+		"question": "What lipsticks do you regularly use?",
+		"type": "child",
+		"description": "",
+		"answerType": "multiple",
+		"answerOptions": [{
+				"option": "MAC",
+				"goTo": ""
+			},
+			{
+				"option": "Boys'n'Berries",
+				"goTo": ""
+			},
+			{
+				"option": "whatever",
+				"goTo": ""
+			}
+		],
+		"selectedAnswers": []
+	}, {
+		"id": "3",
+		"question": "Are you planing to migrate to new standard in next 12 months?",
+		"type": "child",
+		"description": "",
+		"answerType": "single",
+		"answerOptions": [{
+			"option": "yes",
+			"goTo": ""
+		}, {
+			"option": "no",
+			"goTo": ""
+		}, {
+			"option": "not sure",
+			"goTo": ""
+		}],
+		"selectedAnswers": []
+	}, {
+		"id": "4",
+		"question": "Which compilers do you regularly use?",
+		"type": "parent",
+		"description": "",
+		"answerType": "single with other",
+		"answerOptions": [{
+			"option": "yes",
+			"goTo": ""
+		}, {
+			"option": "no",
+			"goTo": ""
+		}, {
+			"option": "Clang",
+			"goTo": ""
+		}, {
+			"option": "Intel",
+			"goTo": ""
+		}, {
+			"option": "Custom",
+			"goTo": ""
+		}, {
+			"option": "Forgot it",
+			"goTo": ""
+		}],
+		"selectedAnswers": []
+	}, {
+		"id": "5",
+		"question": "What do you like about .NET?",
+		"type": "parent",
+		"description": "",
+		"answerType": "input",
+		"answerOptions": [],
+		"selectedAnswers": []
+	}]
+}

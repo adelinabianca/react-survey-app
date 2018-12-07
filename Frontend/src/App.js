@@ -1,61 +1,92 @@
 import React, { Component } from "react";
-import { GET_SURVEY_URL, SUBMIT_SURVEY_URL } from './config/config';
+// import { GET_SURVEY_URL, SUBMIT_SURVEY_URL } from './config/config';
 import "./App.css";
 import { Question } from "./Components/Question";
 
 import Spinner from "./Components/Spinner";
 import PageNotFound from "./Components/PageNotFound";
 
+import questionnaireConfig from './questionnaireConfig.json'; //
+
 class App extends Component {
   constructor(props) {
     super(props);
 
+    const config = questionnaireConfig; //
+
     this.state = {
       questionIndex: 0,
       answers: [],
-      questionnaireConfig: "",
-      previousAnswer: { questionId: "", answers: [] },
+      questionnaireConfig: config, //"",
+      previousAnswer: { questionId: "", answers: [{option: '', goTo: ''}] },
       loading: true,
       error: true
     };
   }
 
   componentDidMount() {
-    const currentUrl = window.location.href;
-    const startChar = currentUrl.lastIndexOf("=");
-    const uid = currentUrl.substr(startChar + 1, currentUrl.length);
-    const url = `${GET_SURVEY_URL}${uid}`;
+    const { questionnaireConfig } = this.state;
+
+    const index = questionnaireConfig.questions.indexOf(
+      questionnaireConfig.questions.find(question => question.selectedAnswers.length === 0)
+    );
+    if (index === -1) {
+      this.setState({
+        questionnaireConfig: questionnaireConfig,
+        questionIndex: questionnaireConfig.questions.length,
+        loading: false,
+        error: false
+      });
+    } else {
+      this.setState({
+        questionnaireConfig: questionnaireConfig,
+        answers: questionnaireConfig.questions.map(question => {
+          return { questionId: question.id, answers: question.selectedAnswers };
+        }),
+        questionIndex: questionnaireConfig.questions.indexOf(
+          questionnaireConfig.questions.find(question => question.selectedAnswers.length === 0)
+        ),
+        loading: false,
+        error: false
+      });
+    }
+
+    // request
+    // const currentUrl = window.location.href;
+    // const startChar = currentUrl.lastIndexOf("=");
+    // const uid = currentUrl.substr(startChar + 1, currentUrl.length);
+    // const url = `${GET_SURVEY_URL}${uid}`;
     
 
-    fetch(url)
-      .then(data => data.json())
-      .then(data => {
-        const questionnaireConfig = data;
-        const index = questionnaireConfig.questions.indexOf(
-          questionnaireConfig.questions.find(question => question.selectedAnswers.length === 0)
-        );
-        if (index === -1) {
-          this.setState({
-            questionnaireConfig: questionnaireConfig,
-            questionIndex: questionnaireConfig.questions.length,
-            loading: false,
-            error: false
-          });
-        } else {
-          this.setState({
-            questionnaireConfig: questionnaireConfig,
-            answers: questionnaireConfig.questions.map(question => {
-              return { questionId: question.id, answers: question.selectedAnswers };
-            }),
-            questionIndex: questionnaireConfig.questions.indexOf(
-              questionnaireConfig.questions.find(question => question.selectedAnswers.length === 0)
-            ),
-            loading: false,
-            error: false
-          });
-        }
-      })
-      .catch(err => this.setState({ error: true }));
+    // fetch(url)
+    //   .then(data => data.json())
+    //   .then(data => {
+    //     const questionnaireConfig = data;
+    //     const index = questionnaireConfig.questions.indexOf(
+    //       questionnaireConfig.questions.find(question => question.selectedAnswers.length === 0)
+    //     );
+    //     if (index === -1) {
+    //       this.setState({
+    //         questionnaireConfig: questionnaireConfig,
+    //         questionIndex: questionnaireConfig.questions.length,
+    //         loading: false,
+    //         error: false
+    //       });
+    //     } else {
+    //       this.setState({
+    //         questionnaireConfig: questionnaireConfig,
+    //         answers: questionnaireConfig.questions.map(question => {
+    //           return { questionId: question.id, answers: question.selectedAnswers };
+    //         }),
+    //         questionIndex: questionnaireConfig.questions.indexOf(
+    //           questionnaireConfig.questions.find(question => question.selectedAnswers.length === 0)
+    //         ),
+    //         loading: false,
+    //         error: false
+    //       });
+    //     }
+    //   })
+    //   .catch(err => this.setState({ error: true }));
   }
 
   saveQuestionAnswer = answer => {
@@ -139,17 +170,17 @@ class App extends Component {
 
     this.setState({ answers: updatedAnswers, questionnaireConfig: questionnaire });
 
-    const currentUrl = window.location.href;
-    const startChar = currentUrl.lastIndexOf("=");
-    const uid = currentUrl.substr(startChar + 1, currentUrl.length);
-    questionnaire.userId = uid;
-    const url = `${SUBMIT_SURVEY_URL}`;
+    // const currentUrl = window.location.href;
+    // const startChar = currentUrl.lastIndexOf("=");
+    // const uid = currentUrl.substr(startChar + 1, currentUrl.length);
+    // questionnaire.userId = uid;
+    // const url = `${SUBMIT_SURVEY_URL}`;
 
-    fetch(url, {
-      method: "post",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(questionnaire)
-    }).then(response => {});
+    // fetch(url, {
+    //   method: "post",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(questionnaire)
+    // }).then(response => {});
   };
 
   render() {
