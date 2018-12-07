@@ -90,6 +90,7 @@ class App extends Component {
   }
 
   saveQuestionAnswer = answer => {
+    console.log(answer)
     const {
       answers,
       questionnaireConfig,

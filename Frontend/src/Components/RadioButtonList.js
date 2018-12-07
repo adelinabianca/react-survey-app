@@ -30,7 +30,6 @@ export class RadioButtonList extends PureComponent {
     const { previousAnswer, answerOptions } = this.props;
     
     if (previousAnswer !== nextProps.previousAnswer || answerOptions.map(answer => answer.option) !== nextProps.answerOptions.map(answer => answer.option)) {
-      console.log(nextProps.previousAnswer)
       this.setState({
         checkedAnswer:
           nextProps.previousAnswer.answers[0].option.length !== 0
@@ -69,7 +68,7 @@ export class RadioButtonList extends PureComponent {
           {answerOptions.map((answer, index) => (
             <RadioButton
               key={answer.option + index + "radio"}
-              checked={this.state.checkedAnswer[0].option === answer.option}
+              checked={this.state.checkedAnswer.option === answer.option}
               onChange={this.handleChange}
               value={this.state.inputAnswer}
               onInputOptionChange={this.handleInputOptionChange}

@@ -16,10 +16,9 @@ export class Question extends Component {
   }
 
   saveAnswers = chosenAnswers => {
-    console.log(chosenAnswers[0])
-    // this.setState({
-    //   questionAnswers: { questionId: this.props.question.id, answers: chosenAnswers }
-    // });
+    this.setState({
+      questionAnswers: { questionId: this.props.question.id, answers: chosenAnswers }
+    });
   };
 
   showAnswerOptions(answerType, answerOptions) {
