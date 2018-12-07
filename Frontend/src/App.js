@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { GET_SURVEY_URL, SUBMIT_SURVEY_URL } from './config/config';
 import "./App.css";
 import { Question } from "./Components/Question";
 
@@ -21,11 +21,13 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const url = window.location.href;
-    const startChar = url.lastIndexOf("=");
-    const jobCode = url.substr(startChar + 1, url.length);
+    const currentUrl = window.location.href;
+    const startChar = currentUrl.lastIndexOf("=");
+    const uid = currentUrl.substr(startChar + 1, currentUrl.length);
+    const url = `${GET_SURVEY_URL}${uid}`;
+    
 
-    fetch("http://localhost:64282/api/survey?uid=" + jobCode)
+    fetch(url)
       .then(data => data.json())
       .then(data => {
         const questionnaireConfig = data;
@@ -137,12 +139,13 @@ class App extends Component {
 
     this.setState({ answers: updatedAnswers, questionnaireConfig: questionnaire });
 
-    const url = window.location.href;
-    const startChar = url.lastIndexOf("=");
-    const jobCode = url.substr(startChar + 1, url.length);
-    questionnaire.userId = jobCode;
+    const currentUrl = window.location.href;
+    const startChar = currentUrl.lastIndexOf("=");
+    const uid = currentUrl.substr(startChar + 1, currentUrl.length);
+    questionnaire.userId = uid;
+    const url = `${SUBMIT_SURVEY_URL}`;
 
-    fetch("http://localhost:64282/api/Submit", {
+    fetch(url, {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(questionnaire)
