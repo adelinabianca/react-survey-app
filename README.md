@@ -1,4 +1,6 @@
 # react-survey-app
+The aim of the react-survey-app is to provide an easy way of creating a survey/questionnaire/feedback form based on a JSON structure. You can provide a static set of questions or you can provide an API endpoint from which the app will get the JSON. The app will generate  each question based on it's question type(checkbox, radio, text, checkbox with other field, radio with other field), and post the answers to an API endpoint you configure.
+
 
 # Contributing to the react-survey-app
 React-survey-app welcomes contributions to our open source projects on Github.
@@ -36,5 +38,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-
-Copyright 2018 by react-survey-app
