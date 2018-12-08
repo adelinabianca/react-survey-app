@@ -74,49 +74,6 @@ html
       });
 
       socket.on('questionnaireStatus', (data) => {
-        const questionnaireStatus = [
-          {
-            "title": "What versions of C# do you regularly use?",
-            "answers": [
-              {
-                "answerTitle": "C# 5",
-                "count": 1
-              },
-            ]
-          },
-          {
-            "title": "What runtimes do you regularly use?",
-            "answers": [
-              {
-                "answerTitle": ".NET Core",
-                "count": 1
-              }
-            ]
-          },
-          {
-            "title": "Are you planing to migrate to new standard in next 12 months?",
-            "answers": [
-              {
-                "answerTitle": "I'm not sure",
-                "count": 1
-              }
-            ]
-          },
-          {
-            "title": "Which compilers do you regularly use?",
-            "answers": [
-              {
-                "answerTitle": "Clang",
-                "count": 1
-              }
-            ]
-          },
-          {
-            "title": "What do you like about .NET?",
-            "answers": []
-          }
-        ];
-
         const newSeries = questionnaireStatus.map((question) => {
           if (!question.answers.length) {
             return 0;
