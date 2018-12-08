@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using SurveyCore.Infrastructure.Repositories;
@@ -9,7 +8,7 @@ namespace SurveyCore.Services
 {
     public class AggregationService : IAggregationService
     {
-        private ISurveyRepository surveyRepository;
+        private readonly ISurveyRepository surveyRepository;
         public AggregationService(ISurveyRepository surveyRepository)
         {
             this.surveyRepository = surveyRepository;
