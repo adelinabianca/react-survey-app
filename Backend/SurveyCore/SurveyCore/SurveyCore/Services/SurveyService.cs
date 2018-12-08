@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace SurveyCore.Services
 {
-    public class AnswerService : IAnswerService
+    public class SurveyService : ISurveyService
     {
         private readonly ISurveyRepository surveyRepository;
 
-        public AnswerService(ISurveyRepository surveyRepository)
+        public SurveyService(ISurveyRepository surveyRepository)
         {
             this.surveyRepository = surveyRepository;
         }

@@ -7,15 +7,15 @@ using Xunit;
 
 namespace SurveyCoreTests.Services
 {
-    public class AnswerServiceTests
+    public class SurveyServiceTests
     {
-        private AnswerService answerService;
-        private Mock<ISurveyRepository> mockSurveyRepository;
+        private readonly SurveyService surveyService;
+        private readonly Mock<ISurveyRepository> mockSurveyRepository;
 
-        public AnswerServiceTests()
+        public SurveyServiceTests()
         {
             mockSurveyRepository = new Mock<ISurveyRepository>();
-            answerService = new AnswerService(mockSurveyRepository.Object);
+            surveyService = new SurveyService(mockSurveyRepository.Object);
         }
 
         [Fact]
@@ -29,7 +29,7 @@ namespace SurveyCoreTests.Services
             };
             mockSurveyRepository.Setup(repository => repository.GetSurveyByUid("testUid")).Returns(expected);
 
-            var actual = answerService.GetSurvey("testUid");
+            var actual = surveyService.GetSurvey("testUid");
             actual.Should().Be(expected.Template);
         }
     }

@@ -2,7 +2,7 @@
 
 namespace SurveyCore.Services
 {
-    public interface IAnswerService
+    public interface ISurveyService
     {
         int DeleteAnswers(string uid);
         string GetSurvey(string uid);
