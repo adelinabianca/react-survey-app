@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -15,12 +12,12 @@ namespace SurveyCore.Controllers
     public class SurveyController : ControllerBase
     {
         private readonly ISurveyService surveyService;
-        private readonly IAgreggationService aggregationService;
+        private readonly IDashboardService dashboardService;
 
-        public SurveyController(ISurveyService surveyService, IAgreggationService aggregationService)
+        public SurveyController(ISurveyService surveyService, IDashboardService dashboardService)
         {
             this.surveyService = surveyService;
-            this.aggregationService = aggregationService;
+            this.dashboardService = dashboardService;
         }
 
         [HttpGet]
@@ -43,13 +40,7 @@ namespace SurveyCore.Controllers
         {
             surveyService.UpdateAnswers(surveyData);
             //var form = surveyService.GetSurveyFormByUid(surveyData.UserId);
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("https://survey-dashboards.azurewebsites.net");
-                var content = new StringContent(JsonConvert.SerializeObject(aggregationService.GetChartData(surveyData.FormName)));
-                var result = await client.PostAsync("/questionnaire/", content);
-                string resultContent = await result.Content.ReadAsStringAsync();
-            }
+            await dashboardService.UpdateDashboard(surveyData);
             return Ok(surveyData);
         }
 
