@@ -22,17 +22,14 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const currentUrl = window.location.href;
-    const startChar = currentUrl.lastIndexOf("=");
+    const querystring = window.location.search.substring(1);
     let uid;
 
-    if (startChar !== -1) {
-      const querystring = window.location.search.substring(1);
+    if (querystring.includes('uid')) {
       uid = querystring.substring(4);
       this.fetchRequest(uid);
     } else {
-      const surveyCode = currentUrl.substr(currentUrl.lastIndexOf('/') + 1, currentUrl.length)
-
+      const surveyCode =  querystring.substring(9);
       if (localStorage.getItem(surveyCode) !== null) {
         uid = localStorage.getItem(surveyCode);
         this.fetchRequest(uid)
