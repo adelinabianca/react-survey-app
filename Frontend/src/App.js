@@ -16,7 +16,7 @@ class App extends Component {
       questionnaireConfig: "",
       previousAnswer: { questionId: "", answers: [] },
       loading: true,
-      error: true,
+      error: false,
       uid: ''
     };
   }
@@ -176,7 +176,7 @@ class App extends Component {
   render() {
     const { loading, questionIndex, questionnaireConfig, previousAnswer, answers } = this.state;
 
-    let page = <PageNotFound />;
+    let page;
 
     if (!this.state.error) {
       let questionCard = loading ? (
@@ -230,9 +230,12 @@ class App extends Component {
           </section>
         </div>
       );
+    } else {
+      page = <PageNotFound />;
     }
+
     return page;
   }
-}
+}  
 
 export default App;
