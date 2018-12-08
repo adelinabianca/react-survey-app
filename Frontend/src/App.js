@@ -27,7 +27,6 @@ class App extends Component {
   componentDidMount() {
     const { questionnaireConfig } = this.state;
     const { questions } = questionnaireConfig;
-    console.log(questions)
     const index = questionnaireConfig.questions.indexOf(
       questions.find(question => question.selectedAnswers[0].option.length === 0)
     );
@@ -91,7 +90,6 @@ class App extends Component {
   }
 
   saveQuestionAnswer = answer => {
-    console.log(answer)
     const {
       answers,
       questionnaireConfig,
@@ -112,10 +110,16 @@ class App extends Component {
     this.setState({ answers: updatedAnswers, questionnaireConfig: questionnaire });
   };
 
-  goToNextQuestion = () => {
-    const { questionIndex } = this.state;
+  goToNextQuestion = (answer) => {
+    const { questionIndex, questionnaireConfig: {questions} } = this.state;
+    let qIndex = questionIndex + 1;
+    if (answer.answers[0].goTo.length !== 0) {
+      qIndex = questions.map(q => q.id).indexOf(answer.answers[0].goTo);
+    } else {
+      qIndex = questions.map(q => q.type).slice(questionIndex).indexOf('parent') + questionIndex;
+    }
 
-    this.setState({ questionIndex: questionIndex + 1 });
+    this.setState({ questionIndex: qIndex });
   };
 
   goToPreviousQuestion = () => {
@@ -146,7 +150,6 @@ class App extends Component {
     } = this.state;
 
     const previousAnswer = answers.find(a => a.questionId === questions[questionIndex + 1].id);
-    console.log(previousAnswer)
     this.setState(() => ({
       previousAnswer: previousAnswer
     }));

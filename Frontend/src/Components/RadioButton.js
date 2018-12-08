@@ -7,7 +7,7 @@ const RadioButton = props => {
       {props.answer.option}
       <input
         type="radio"
-        name="radio"
+        name={props.answer.option}
         on="true"
         value={props.answer.option}
         checked={props.checked}

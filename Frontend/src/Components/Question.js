@@ -67,7 +67,7 @@ export class Question extends Component {
       saveQuestionAnswer(this.state.questionAnswers);
     }
     checkIfNextQuestionHasAnswer();
-    goToNextQuestion();
+    goToNextQuestion(this.state.questionAnswers);
   };
 
   onPreviousButtonClicked = () => {
