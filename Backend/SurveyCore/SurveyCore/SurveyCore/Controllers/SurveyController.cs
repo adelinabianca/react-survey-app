@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SurveyCore.Models;
@@ -10,18 +11,20 @@ namespace SurveyCore.Controllers
     [Route("[controller]")]
     public class SurveyController : ControllerBase
     {
-        private readonly IAnswerService answerService;
+        private readonly ISurveyService surveyService;
+        private readonly IDashboardService dashboardService;
 
-        public SurveyController(IAnswerService answerService)
+        public SurveyController(ISurveyService surveyService, IDashboardService dashboardService)
         {
-            this.answerService = answerService;
+            this.surveyService = surveyService;
+            this.dashboardService = dashboardService;
         }
 
         [HttpGet]
         [EnableCors("MyPolicy")]
         public IActionResult Get(string uid)
         {
-            var survey = answerService.GetSurvey(uid);
+            var survey = surveyService.GetSurvey(uid);
             if (survey == null)
             {
                 return NotFound();
@@ -33,9 +36,11 @@ namespace SurveyCore.Controllers
 
         [HttpPost]
         [EnableCors("MyPolicy")]
-        public IActionResult Post([FromBody]SurveyData surveyData)
+        public async Task<IActionResult> Post([FromBody]SurveyData surveyData)
         {
-            answerService.UpdateAnswers(surveyData);
+            surveyService.UpdateAnswers(surveyData);
+            //var form = surveyService.GetSurveyFormByUid(surveyData.UserId);
+            await dashboardService.UpdateDashboard(surveyData);
             return Ok(surveyData);
         }
 
@@ -43,7 +48,7 @@ namespace SurveyCore.Controllers
         [EnableCors("MyPolicy")]
         public IActionResult Delete(string uid)
         {
-            var result = answerService.DeleteAnswers(uid);
+            var result = surveyService.DeleteAnswers(uid);
             var message = $"Number of records updated: {result}";
             return Ok(message);
         }

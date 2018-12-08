@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using SurveyCore.Infrastructure.Entities;
 using SurveyCore.Models;
@@ -34,6 +35,16 @@ namespace SurveyCore.Infrastructure.Repositories
             surveyToUpdate.Submitted = isSubmit;
 
             (dbContext as DbContext).SaveChanges();
+        }
+
+        public IEnumerable<Survey> GetSurveysByForm(string form)
+        {
+            return dbContext.Survey.Where(surveyAnswers => surveyAnswers.Form == form);
+        }
+
+        public string GetSurveyFormByUid(string uid)
+        {
+            return dbContext.Survey.FirstOrDefault(survey => survey.UID == uid).Form;
         }
 
         public Survey InsertNewSurvey(Survey surveyData)

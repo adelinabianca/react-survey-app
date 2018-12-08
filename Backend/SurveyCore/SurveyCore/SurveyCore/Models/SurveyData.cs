@@ -6,6 +6,7 @@ namespace SurveyCore.Models
     {
         public List<SurveyQuestion> Questions { get; set; }
         public string UserId { get; set; }
+        public string FormName { get; set; }
     }
 
     public class SurveyQuestion

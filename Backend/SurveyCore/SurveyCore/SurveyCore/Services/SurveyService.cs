@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace SurveyCore.Services
 {
-    public class AnswerService : IAnswerService
+    public class SurveyService : ISurveyService
     {
         private readonly ISurveyRepository surveyRepository;
 
-        public AnswerService(ISurveyRepository surveyRepository)
+        public SurveyService(ISurveyRepository surveyRepository)
         {
             this.surveyRepository = surveyRepository;
         }
@@ -23,6 +23,11 @@ namespace SurveyCore.Services
             }
 
             return string.IsNullOrWhiteSpace(survey.Answers) ? survey.Template : survey.Answers;
+        }
+
+        public string GetSurveyFormByUid(string uid)
+        {
+            return surveyRepository.GetSurveyFormByUid(uid);
         }
 
         public void UpdateAnswers(SurveyData surveyData)

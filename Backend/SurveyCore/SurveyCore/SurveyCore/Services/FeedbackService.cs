@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
+using System.Linq;
 using Newtonsoft.Json;
 using SurveyCore.Infrastructure.Repositories;
-using SurveyCore.Models;
 
 namespace SurveyCore.Services
 {
@@ -17,14 +15,16 @@ namespace SurveyCore.Services
 
         public string GenerateSurvey(string formName)
         {
-            var template = surveyRepository.GetSurveyByUid(formName);
-            if (template == null)
+            var survey = surveyRepository.GetSurveysByForm(formName).FirstOrDefault();
+            if (survey == null)
             {
                 return null;
             }
 
-            template.UID = Guid.NewGuid().ToString();
-            var newSurvey = surveyRepository.InsertNewSurvey(template);
+            survey.UID = Guid.NewGuid().ToString();
+            survey.Form = formName;
+
+            var newSurvey = surveyRepository.InsertNewSurvey(survey);
 
             return JsonConvert.SerializeObject(new {uid=newSurvey.UID});
         }

@@ -16,61 +16,70 @@ class App extends Component {
       questionnaireConfig: "",
       previousAnswer: { questionId: "", answers: [] },
       loading: true,
-      error: true
+      error: true,
+      uid: ''
     };
   }
 
   componentDidMount() {
     const querystring = window.location.search.substring(1);
     let uid;
+
     if (querystring.includes('uid')) {
       uid = querystring.substring(4);
-    } else if ( querystring.includes('formName')) {
-      if (localStorage.getItem('uid') !== null) {
-        uid = localStorage.getItem('uid');
+      this.fetchRequest(uid);
+    } else {
+      const surveyCode =  querystring.substring(9);
+      if (localStorage.getItem(surveyCode) !== null) {
+        uid = localStorage.getItem(surveyCode);
+        this.fetchRequest(uid)
       } else {
-        const surveyCode = querystring.substring(9);
         const url = `${DEMO_URL}${surveyCode}`;
         fetch(url)
           .then(data => data.json())
           .then(data => {
             uid = data.uid;
-            localStorage.setItem('uid', uid);
+            localStorage.setItem(surveyCode, uid);
+            this.fetchRequest(uid);
           })
+          .catch(err => console.log(err))
       }
     }
+  }
 
-    const url = `${GET_SURVEY_URL}${uid}`
-    fetch(url)
-      .then(data => data.json())
-      .then(data => {
-        const questionnaireConfig = data;
-        const index = questionnaireConfig.questions.indexOf(
-          questionnaireConfig.questions.find(question => question.selectedAnswers.length === 0)
-        );
-        if (index === -1) {
-          this.setState({
-            questionnaireConfig: questionnaireConfig,
-            questionIndex: questionnaireConfig.questions.length,
-            loading: false,
-            error: false
-          });
-        } else {
-          this.setState({
-            questionnaireConfig: questionnaireConfig,
-            answers: questionnaireConfig.questions.map(question => {
-              return { questionId: question.id, answers: question.selectedAnswers };
-            }),
-            questionIndex: questionnaireConfig.questions.indexOf(
-              questionnaireConfig.questions.find(question => question.selectedAnswers.length === 0)
-            ),
-            loading: false,
-            error: false
-          });
-        }
-      })
-      .catch(err => this.setState({ error: true }));
-    
+  fetchRequest = (uid) => {
+    const url = `${GET_SURVEY_URL}${uid}`;
+            fetch(url)
+              .then(data => data.json())
+              .then(data => {
+                const questionnaireConfig = data;
+                const index = questionnaireConfig.questions.indexOf(
+                  questionnaireConfig.questions.find(question => question.selectedAnswers.length === 0)
+                );
+                if (index === -1) {
+                  this.setState({
+                    questionnaireConfig: questionnaireConfig,
+                    questionIndex: questionnaireConfig.questions.length,
+                    loading: false,
+                    error: false,
+                    uid: uid
+                  });
+                } else {
+                  this.setState({
+                    questionnaireConfig: questionnaireConfig,
+                    answers: questionnaireConfig.questions.map(question => {
+                      return { questionId: question.id, answers: question.selectedAnswers };
+                    }),
+                    questionIndex: questionnaireConfig.questions.indexOf(
+                      questionnaireConfig.questions.find(question => question.selectedAnswers.length === 0)
+                    ),
+                    loading: false,
+                    error: false,
+                    uid: uid
+                  });
+                }
+              })
+              .catch(err => this.setState({ error: true }));
   }
 
   saveQuestionAnswer = answer => {
@@ -154,10 +163,7 @@ class App extends Component {
 
     this.setState({ answers: updatedAnswers, questionnaireConfig: questionnaire });
 
-    const currentUrl = window.location.href;
-    const startChar = currentUrl.lastIndexOf("=");
-    const uid = currentUrl.substr(startChar + 1, currentUrl.length);
-    questionnaire.userId = uid;
+    questionnaire['UserId'] = this.state.uid;
     const url = `${SUBMIT_SURVEY_URL}`;
     const url2 = `${SUBMIT_REAL_TIME_URL}`
 

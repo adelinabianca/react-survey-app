@@ -16,5 +16,8 @@ namespace SurveyCore.Infrastructure.Entities
 
         [Column(TypeName = "bit")]
         public bool Submitted { get; set; }
+
+        [Column(TypeName = "nvarchar(max)")]
+        public string Form { get; set; }
     }
 }
