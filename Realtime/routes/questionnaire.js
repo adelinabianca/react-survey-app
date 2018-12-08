@@ -3,7 +3,7 @@ var router = express.Router();
 const io = require('../socket').connection;
 
 router.post('/questionnaire', function(req, res) { 
-  req.app.io.emit('questionnaire', { questionnaire: req.body });
+  req.app.io.emit('questionnaireStatus', { questionnaireStatus: req.body });
 
   res.send("ACK");
 });
