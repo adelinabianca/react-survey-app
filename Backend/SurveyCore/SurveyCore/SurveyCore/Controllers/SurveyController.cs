@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SurveyCore.Models;
@@ -11,10 +15,12 @@ namespace SurveyCore.Controllers
     public class SurveyController : ControllerBase
     {
         private readonly IAnswerService answerService;
+        private readonly IAgreggationService aggregationService;
 
-        public SurveyController(IAnswerService answerService)
+        public SurveyController(IAnswerService answerService, IAgreggationService aggregationService)
         {
             this.answerService = answerService;
+            this.aggregationService = aggregationService;
         }
 
         [HttpGet]
@@ -33,9 +39,17 @@ namespace SurveyCore.Controllers
 
         [HttpPost]
         [EnableCors("MyPolicy")]
-        public IActionResult Post([FromBody]SurveyData surveyData)
+        public async Task<IActionResult> Post([FromBody]SurveyData surveyData)
         {
             answerService.UpdateAnswers(surveyData);
+            var form = answerService.GetSurveyFormByUid(surveyData.UserId);
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://survey-dashboards.azurewebsites.net");
+                var content = new StringContent(JsonConvert.SerializeObject(aggregationService.GetChartData(form)));
+                var result = await client.PostAsync("/questionnaire/", content);
+                string resultContent = await result.Content.ReadAsStringAsync();
+            }
             return Ok(surveyData);
         }
 

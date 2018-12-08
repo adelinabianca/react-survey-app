@@ -7,5 +7,6 @@ namespace SurveyCore.Services
         int DeleteAnswers(string uid);
         string GetSurvey(string uid);
         void UpdateAnswers(SurveyData surveyData);
+        string GetSurveyFormByUid(string uid);
     }
 }

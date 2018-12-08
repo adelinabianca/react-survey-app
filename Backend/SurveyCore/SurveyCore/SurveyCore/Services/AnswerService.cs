@@ -25,6 +25,11 @@ namespace SurveyCore.Services
             return string.IsNullOrWhiteSpace(survey.Answers) ? survey.Template : survey.Answers;
         }
 
+        public string GetSurveyFormByUid(string uid)
+        {
+            return surveyRepository.GetSurveyFormByUid(uid);
+        }
+
         public void UpdateAnswers(SurveyData surveyData)
         {
             var isSubmitted = surveyRepository.GetSurveyStatus(surveyData.UserId);
