@@ -4,7 +4,7 @@ import "./App.css";
 import { Question } from "./Components/Question";
 
 import Spinner from "./Components/Spinner";
-// import PageNotFound from "./Components/PageNotFound";
+import PageNotFound from "./Components/PageNotFound";
 
 class App extends Component {
   constructor(props) {
