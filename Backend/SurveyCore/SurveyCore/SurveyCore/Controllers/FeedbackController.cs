@@ -9,12 +9,12 @@ namespace SurveyCore.Controllers
     public class FeedbackController : ControllerBase
     {
         private readonly IFeedbackService feedbackService;
-        private readonly IAgreggationService agreggationService;
+        private readonly IAggregationService aggregationService;
 
-        public FeedbackController(IFeedbackService feedbackService, IAgreggationService agreggationService)
+        public FeedbackController(IFeedbackService feedbackService, IAggregationService aggregationService)
         {
             this.feedbackService = feedbackService;
-            this.agreggationService = agreggationService;
+            this.aggregationService = aggregationService;
         }
 
         [HttpGet]
@@ -34,7 +34,7 @@ namespace SurveyCore.Controllers
         [Route("Aggregated/{form}")]
         public IActionResult GetAggregatedAnswersByForm(string form)
         {
-            var survey = agreggationService.GetChartData(form);
+            var survey = aggregationService.GetChartData(form);
             if (survey == null)
             {
                 return NotFound();
