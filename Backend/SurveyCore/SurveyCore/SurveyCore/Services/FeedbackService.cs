@@ -23,6 +23,7 @@ namespace SurveyCore.Services
 
             survey.UID = Guid.NewGuid().ToString();
             survey.Form = formName;
+            survey.Answers = string.Empty;
 
             var newSurvey = surveyRepository.InsertNewSurvey(survey);
 

@@ -4,7 +4,7 @@ import "./App.css";
 import { Question } from "./Components/Question";
 
 import Spinner from "./Components/Spinner";
-import PageNotFound from "./Components/PageNotFound";
+// import PageNotFound from "./Components/PageNotFound";
 
 class App extends Component {
   constructor(props) {
@@ -185,7 +185,7 @@ class App extends Component {
   render() {
     const { loading, questionIndex, questionnaireConfig, previousAnswer, answers } = this.state;
 
-    let page = <PageNotFound />;
+    let page =  <Spinner />;
 
     if (!this.state.error) {
       let questionCard = loading ? (

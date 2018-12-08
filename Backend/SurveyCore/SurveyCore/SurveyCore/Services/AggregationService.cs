@@ -23,7 +23,7 @@ namespace SurveyCore.Services
 
             var response = new List<ChartAggregate>();
 
-            foreach (var question in surveyDatas.First().Questions)
+            foreach (var question in surveyDatas.First(sd => sd != null).Questions)
             {
                 var chartAggregate = new ChartAggregate
                 {
@@ -33,7 +33,7 @@ namespace SurveyCore.Services
                 response.Add(chartAggregate);
             }
 
-            foreach (var surveyData in surveyDatas)
+            foreach (var surveyData in surveyDatas.Where(sd=>sd != null))
             {
                 foreach (var surveyDataQuestion in surveyData.Questions)
                 {
