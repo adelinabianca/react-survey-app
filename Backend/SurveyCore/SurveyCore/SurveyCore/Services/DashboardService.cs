@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using SurveyCore.Models;
 
 namespace SurveyCore.Services
@@ -19,7 +20,7 @@ namespace SurveyCore.Services
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://survey-dashboards.azurewebsites.net");
-                var content = new StringContent(JsonConvert.SerializeObject(aggregationService.GetChartData(surveyData.FormName)), Encoding.UTF8, "application/json");
+                var content = new StringContent(JsonConvert.SerializeObject(aggregationService.GetChartData(surveyData.FormName),new JsonSerializerSettings{ContractResolver = new CamelCasePropertyNamesContractResolver()}), Encoding.UTF8, "application/json");
                 var result = await client.PostAsync("/questionnaire/", content);
                 string resultContent = await result.Content.ReadAsStringAsync();
             }
