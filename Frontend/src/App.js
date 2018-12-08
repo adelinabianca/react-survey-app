@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { GET_SURVEY_URL, SUBMIT_SURVEY_URL, SUBMIT_REAL_TIME_URL, DEMO_URL } from './config/config';
+import { GET_SURVEY_URL, SUBMIT_SURVEY_URL, DEMO_URL } from './config/config';
 import "./App.css";
 import { Question } from "./Components/Question";
 
@@ -165,15 +165,12 @@ class App extends Component {
 
     questionnaire['UserId'] = this.state.uid;
     const url = `${SUBMIT_SURVEY_URL}`;
-    const url2 = `${SUBMIT_REAL_TIME_URL}`
 
-    Promise.all([
-      fetch(url, {
-        method: "post",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(questionnaire)
-      })
-    ]).then(response => {});
+    fetch(url, {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(questionnaire)
+    }).then(response => {});
   };
 
   render() {
@@ -212,10 +209,10 @@ class App extends Component {
                 <div className="col-md-12">
                   <div className="mbr-white">
                     <h1 className="mbr-section-title align-center mbr-bold pb-3 pt-3 mbr-fonts-style display-1">
-                      TECH SURVEY 2018
+                      HACK9 SURVEY 2018
                     </h1>
                     <p className="mbr-text align-center pb-3 mbr-fonts-style display-5">
-                      THE STATE OF THE LEVININE DEVELOPER ECOSYSTEM IN 2018
+                      THE STATE OF HACKING IN LEVI9 IN 2018
                     </p>
                   </div>
                 </div>
