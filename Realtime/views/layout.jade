@@ -21,7 +21,8 @@ html
       const urlParams = new URLSearchParams(window.location.search);
       const myParam = urlParams.get('formName');
 
-      fetch(`https://survey-hack9.azurewebsites.net/Survey?uid=${myParam}`).then((response) => {
+      if (myParam) {
+              fetch(`https://survey-hack9.azurewebsites.net/Survey?uid=${myParam}`).then((response) => {
         return response.json();
       }).then(response => {
 
@@ -45,11 +46,11 @@ html
 
           questionsContainer.insertAdjacentHTML("beforeend","<div class='questions-pies__pie pie-" + index + "'><div class='questions-pies__title'>" + question.question + "</div><div class='ct-pie ct-pie-" + index + "'></div></div>");
         
-            let labelsPie = ["Scala", "falalla", "fa", "faafaafa"];
+            let labelsPie = [];
 
             let data = {
-              series: [0, 0, 0, 0],
-            };
+              series: [],
+            }
 
             let sum = function(a, b) { return a + b };
 
@@ -74,8 +75,7 @@ html
       });
 
       socket.on('questionnaireStatus', (data) => {
-        console.log(data.questionnaireStatus.questions);
-        const questionnaireStatus = data.questionnaireStatus.questions;
+        const questionnaireStatus = data.questionnaireStatus;
 
         const newSeries = questionnaireStatus.map((question) => {
           if (!question.answers.length) {
@@ -124,3 +124,4 @@ html
 
         totalNumberContainer.innerHTML = `${data}`;
       });
+      }
