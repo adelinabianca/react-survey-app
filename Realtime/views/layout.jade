@@ -10,22 +10,28 @@ html
   body
     block content
     script.
-      var socket = io('https://survey-dashboards.azurewebsites.net');
+      let socket = io('https://survey-dashboards.azurewebsites.net');
+      let totalNumberOfPeople = 0;
 
-      // for future: use webworker
-      let answeredQuestionsByUser = {};
       let myChart = null;
       let labels = [];
       let series = [];
-      
-      fetch('https://survey-hack9.azurewebsites.net/Survey?uid=mobile').then((response) => {
+      let questionsPiecharts = {};
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const myParam = urlParams.get('formName');
+
+      fetch(`https://survey-hack9.azurewebsites.net/Survey?uid=${myParam}`).then((response) => {
         return response.json();
       }).then(response => {
+
         response.questions.forEach((q) => series.push(0));
 
         let labels = [];
         response.questions.forEach((q, index) => labels.push(`${index + 1}`));
 
+        const questionsContainer = document.getElementsByClassName('questions-pies')[0];
+        
         myChart = new Chartist.Line('.ct-chart', {
           labels: labels,
           series: [series],
@@ -33,34 +39,128 @@ html
           fullWidth: true,
           height: 250,
         });
+
+        response.questions.forEach((question, index) => {
+          let questionElement = document.createElement('div');
+
+          questionsContainer.insertAdjacentHTML("beforeend","<div class='questions-pies__pie pie-" + index + "'><div class='questions-pies__title'>" + question.question + "</div><div class='ct-pie ct-pie-" + index + "'></div></div>");
+        
+            let labelsPie = ["Scala", "falalla", "fa", "faafaafa"];
+
+            let data = {
+              series: [0, 0, 0, 0],
+            };
+
+            let sum = function(a, b) { return a + b };
+
+            const pieChart = new Chartist.Pie(`.ct-pie-${index}`, data, {
+              donut: true,
+              donutWidth: 60,
+              donutSolid: true,
+              startAngle: 270,
+              showLabel: true,
+              labelInterpolationFnc: function(value, idx) {
+                if (!value) {
+                  return;
+                }
+
+                let percentage = Math.round(value / data.series.reduce(sum) * 100) + '%';
+                return labelsPie[idx] + ' ' + percentage;
+              }
+            });  
+
+            questionsPiecharts[index] = pieChart;
+        });
       });
 
-      socket.on('questionnaire', (data) => {
-        const questionnaire = data.questionnaire;
+      socket.on('questionnaireStatus', (data) => {
+        const questionnaireStatus = [
+          {
+            "title": "What versions of C# do you regularly use?",
+            "answers": [
+              {
+                "answerTitle": "C# 5",
+                "count": 1
+              },
+            ]
+          },
+          {
+            "title": "What runtimes do you regularly use?",
+            "answers": [
+              {
+                "answerTitle": ".NET Core",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "title": "Are you planing to migrate to new standard in next 12 months?",
+            "answers": [
+              {
+                "answerTitle": "I'm not sure",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "title": "Which compilers do you regularly use?",
+            "answers": [
+              {
+                "answerTitle": "Clang",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "title": "What do you like about .NET?",
+            "answers": []
+          }
+        ];
 
-        const newSeries = series.map((entry, index) => {
-          if (questionnaire.questions[index].selectedAnswers.length) {
-
-            if (!answeredQuestionsByUser[questionnaire.userId]) {
-              answeredQuestionsByUser[questionnaire.userId] = [index + 1];
-              
-              return entry + 1;
-            }
-
-            if (answeredQuestionsByUser[questionnaire.userId].find((id) => id === index + 1)) {
-              return entry;
-            }
-
-            answeredQuestionsByUser[questionnaire.userId].push(index + 1);
-            return entry + 1;
+        const newSeries = questionnaireStatus.map((question) => {
+          if (!question.answers.length) {
+            return 0;
           }
 
-          return entry;
+          const answeredTimes = question.answers.reduce((acc, answer) => acc + answer.count, 0);
+
+          return answeredTimes;
         });
 
         series = newSeries;
 
         myChart.update({
-          series: [series],
+          series: [newSeries],
+        });
+
+        questionnaireStatus.forEach((question, index) => {
+          const questionContainer = document.getElementsByClassName(`pie-${index}`)[0];
+
+          const questionChart = questionsPiecharts[index];
+
+          let labelsPie = question.answers.map(answer => answer.answerTitle);
+
+            let data = {
+              series: question.answers.map(answer => answer.count),
+            };
+
+            let sum = function(a, b) { return a + b };
+
+          questionChart.update(data, {
+            labelInterpolationFnc: function(value, idx) {
+                if (!value) {
+                  return;
+                }
+
+                let percentage = Math.round(value / data.series.reduce(sum) * 100) + '%';
+                return labelsPie[idx] + ' ' + percentage;
+              }
+          });
         });
       }); 
+
+      socket.on('numberOfConnections', (data) => {
+        let totalNumberContainer = document.getElementsByClassName('total-number')[0];
+
+        totalNumberContainer.innerHTML = `${data}`;
+      });
