@@ -14,12 +14,12 @@ namespace SurveyCore.Controllers
     [Route("[controller]")]
     public class SurveyController : ControllerBase
     {
-        private readonly IAnswerService answerService;
+        private readonly ISurveyService surveyService;
         private readonly IAgreggationService aggregationService;
 
-        public SurveyController(IAnswerService answerService, IAgreggationService aggregationService)
+        public SurveyController(ISurveyService surveyService, IAgreggationService aggregationService)
         {
-            this.answerService = answerService;
+            this.surveyService = surveyService;
             this.aggregationService = aggregationService;
         }
 
@@ -27,7 +27,7 @@ namespace SurveyCore.Controllers
         [EnableCors("MyPolicy")]
         public IActionResult Get(string uid)
         {
-            var survey = answerService.GetSurvey(uid);
+            var survey = surveyService.GetSurvey(uid);
             if (survey == null)
             {
                 return NotFound();
@@ -41,12 +41,12 @@ namespace SurveyCore.Controllers
         [EnableCors("MyPolicy")]
         public async Task<IActionResult> Post([FromBody]SurveyData surveyData)
         {
-            answerService.UpdateAnswers(surveyData);
-            var form = answerService.GetSurveyFormByUid(surveyData.UserId);
+            surveyService.UpdateAnswers(surveyData);
+            //var form = surveyService.GetSurveyFormByUid(surveyData.UserId);
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://survey-dashboards.azurewebsites.net");
-                var content = new StringContent(JsonConvert.SerializeObject(aggregationService.GetChartData(form)));
+                var content = new StringContent(JsonConvert.SerializeObject(aggregationService.GetChartData(surveyData.FormName)));
                 var result = await client.PostAsync("/questionnaire/", content);
                 string resultContent = await result.Content.ReadAsStringAsync();
             }
@@ -57,7 +57,7 @@ namespace SurveyCore.Controllers
         [EnableCors("MyPolicy")]
         public IActionResult Delete(string uid)
         {
-            var result = answerService.DeleteAnswers(uid);
+            var result = surveyService.DeleteAnswers(uid);
             var message = $"Number of records updated: {result}";
             return Ok(message);
         }

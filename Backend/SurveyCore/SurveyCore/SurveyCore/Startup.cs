@@ -35,7 +35,7 @@ namespace SurveyCore
             services.AddDbContext<SurveyDbContext>(options => options.UseSqlServer(Configuration["Db:connectionString"]));
             services.AddTransient<ISurveyDbContext, SurveyDbContext>();
             services.AddTransient<ISurveyRepository, SurveyRepository>();
-            services.AddTransient<IAnswerService, AnswerService>();
+            services.AddTransient<ISurveyService, SurveyService>();
             services.AddTransient<IFeedbackService, FeedbackService>();
             services.AddTransient<IAgreggationService, AgreggationService>();
 

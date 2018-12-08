@@ -15,16 +15,16 @@ namespace SurveyCore.Services
 
         public string GenerateSurvey(string formName)
         {
-            var template = surveyRepository.GetSurveysByForm(formName).FirstOrDefault();
-            if (template == null)
+            var survey = surveyRepository.GetSurveysByForm(formName).FirstOrDefault();
+            if (survey == null)
             {
                 return null;
             }
 
-            template.UID = Guid.NewGuid().ToString();
-            template.Form = formName;
+            survey.UID = Guid.NewGuid().ToString();
+            survey.Form = formName;
 
-            var newSurvey = surveyRepository.InsertNewSurvey(template);
+            var newSurvey = surveyRepository.InsertNewSurvey(survey);
 
             return JsonConvert.SerializeObject(new {uid=newSurvey.UID});
         }
