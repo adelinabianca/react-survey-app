@@ -74,6 +74,9 @@ html
       });
 
       socket.on('questionnaireStatus', (data) => {
+        console.log(data.questionnaireStatus.questions);
+        const questionnaireStatus = data.questionnaireStatus.questions;
+
         const newSeries = questionnaireStatus.map((question) => {
           if (!question.answers.length) {
             return 0;
