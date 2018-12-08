@@ -15,7 +15,7 @@ namespace SurveyCore.Services
 
         public string GenerateSurvey(string formName)
         {
-            var survey = surveyRepository.GetSurveysByForm(formName).FirstOrDefault();
+            var survey = surveyRepository.GetSurveysByForm(formName).FirstOrDefault(s=> string.IsNullOrWhiteSpace(s.Answers));
             if (survey == null)
             {
                 return null;
@@ -24,6 +24,7 @@ namespace SurveyCore.Services
             survey.UID = Guid.NewGuid().ToString();
             survey.Form = formName;
             survey.Answers = string.Empty;
+            survey.Submitted = false;
 
             var newSurvey = surveyRepository.InsertNewSurvey(survey);
 
