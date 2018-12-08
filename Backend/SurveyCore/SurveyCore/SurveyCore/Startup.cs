@@ -38,6 +38,7 @@ namespace SurveyCore
             services.AddTransient<ISurveyService, SurveyService>();
             services.AddTransient<IFeedbackService, FeedbackService>();
             services.AddTransient<IAggregationService, AggregationService>();
+            services.AddTransient<IDashboardService, DashboardService>();
 
             services.AddSwaggerGen(c =>
             {
