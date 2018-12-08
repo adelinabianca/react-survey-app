@@ -42,7 +42,7 @@ class App extends Component {
             localStorage.setItem(surveyCode, uid);
             this.fetchRequest(uid);
           })
-          .catch(err => console.log(err))
+          .catch(err => this.setState({error: true}))
       }
     }
   }
