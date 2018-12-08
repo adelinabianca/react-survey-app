@@ -3,7 +3,7 @@ using SurveyCore.Models;
 
 namespace SurveyCore.Services
 {
-    public interface IAgreggationService
+    public interface IAggregationService
     {
         IEnumerable<ChartAggregate> GetChartData(string formName);
     }

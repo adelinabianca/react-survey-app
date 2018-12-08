@@ -7,10 +7,10 @@ using SurveyCore.Models;
 
 namespace SurveyCore.Services
 {
-    public class AgreggationService : IAgreggationService
+    public class AggregationService : IAggregationService
     {
         private ISurveyRepository surveyRepository;
-        public AgreggationService(ISurveyRepository surveyRepository)
+        public AggregationService(ISurveyRepository surveyRepository)
         {
             this.surveyRepository = surveyRepository;
         }
