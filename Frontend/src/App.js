@@ -172,14 +172,8 @@ class App extends Component {
         method: "post",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(questionnaire)
-      }),
-      fetch(url2, {
-        method: "post",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(questionnaire)
       })
     ]).then(response => {});
-    
   };
 
   render() {
