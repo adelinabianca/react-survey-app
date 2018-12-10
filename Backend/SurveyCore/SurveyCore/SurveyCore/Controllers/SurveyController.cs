@@ -13,11 +13,13 @@ namespace SurveyCore.Controllers
     {
         private readonly ISurveyService surveyService;
         private readonly IDashboardService dashboardService;
+        private readonly IAggregationService aggregationService;
 
-        public SurveyController(ISurveyService surveyService, IDashboardService dashboardService)
+        public SurveyController(ISurveyService surveyService, IDashboardService dashboardService, IAggregationService aggregationService)
         {
             this.surveyService = surveyService;
             this.dashboardService = dashboardService;
+            this.aggregationService = aggregationService;
         }
 
         [HttpGet]
@@ -32,6 +34,15 @@ namespace SurveyCore.Controllers
 
             var jsonSurvey = JsonConvert.DeserializeObject<SurveyData>(survey);
             return Ok(jsonSurvey);
+        }
+
+        [HttpGet]
+        [EnableCors("MyPolicy")]
+        [Route("Statistics")]
+        public IActionResult Get()
+        {
+            var statistics = aggregationService.GetSurveySummary();
+            return Ok(statistics);
         }
 
         [HttpPost]

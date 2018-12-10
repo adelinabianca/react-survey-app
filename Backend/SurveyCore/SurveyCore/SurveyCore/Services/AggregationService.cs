@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using SurveyCore.Infrastructure.Entities;
 using SurveyCore.Infrastructure.Repositories;
 using SurveyCore.Models;
 
@@ -9,6 +10,7 @@ namespace SurveyCore.Services
     public class AggregationService : IAggregationService
     {
         private readonly ISurveyRepository surveyRepository;
+
         public AggregationService(ISurveyRepository surveyRepository)
         {
             this.surveyRepository = surveyRepository;
@@ -33,11 +35,10 @@ namespace SurveyCore.Services
                 response.Add(chartAggregate);
             }
 
-            foreach (var surveyData in surveyDatas.Where(sd=>sd != null))
+            foreach (var surveyData in surveyDatas.Where(sd => sd != null))
             {
                 foreach (var surveyDataQuestion in surveyData.Questions)
                 {
-
                     foreach (var selectedAnswer in surveyDataQuestion.SelectedAnswers)
                     {
                         var question = response.Find(s => s.Title == surveyDataQuestion.Question);
@@ -54,7 +55,39 @@ namespace SurveyCore.Services
                     }
                 }
             }
+
             return response;
         }
+
+        public SurveySummary GetSurveySummary()
+        {
+            var submittedSurveys = surveyRepository.GetSurveys();
+            var surveySummary = new SurveySummary
+            {
+                TotalNumberOfAnswers = submittedSurveys.Count(survey => survey.Submitted),
+
+                //todo: rewrite this when we have the UID format(make it more )
+                TotalsPerDcs = new List<NumbersPerDc>
+                {
+                    new NumbersPerDc
+                    {
+                        DeliveryCenterName = "a.diaconu",
+                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.Contains("a.diaconu"))
+                    },
+                    new NumbersPerDc
+                    {
+                        DeliveryCenterName = "Serbia1",
+                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.Contains("Serbia1"))
+                    },
+                    new NumbersPerDc
+                    {
+                        DeliveryCenterName = "Serbia2",
+                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.Contains("Serbia2"))
+                    }
+                }
+            };
+
+            return surveySummary;
         }
+    }
 }
