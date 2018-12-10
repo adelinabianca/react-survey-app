@@ -23,6 +23,8 @@ body {
 
 .ct-label {
   font-weight: bold;
+  fill: rgb(255, 255, 255) !important;
+  font-size: 16px;
 }
 
 .charts {
@@ -37,9 +39,7 @@ body {
 }
 
 .ct-line {
-  /* Control the thikness of your lines */
   stroke-width: 4px;
-  /* Create a dashed line with a pattern */
   stroke-dasharray: 2px;
 
   -webkit-animation: dashoffset 1s linear infinite;
@@ -62,23 +62,32 @@ body {
 }
 
 .questions-pies {
-  margin-top: 100px; 
+  margin-top: 100px;
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-} 
-  
-  .questions-pies__title {
-    color: #5b4421;
-    text-align: center;
-    margin-bottom: 15px;
-  }
+}
 
-  .questions-pies__pie { 
-    width: 500px;
-    height: 500px;
-    margin-bottom: 150px;
-  }
+.questions-pies__title {
+  color: #5b4421;
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 22px;
+}
+
+.questions-pies__pie {
+  width: 500px;
+  height: 500px;
+  margin-bottom: 150px;
+}
+
+.ct-chart-container {
+  width: calc(100% + 300px);
+  margin-left: -150px;
+  padding: 50px 150px;
+  background: #c5ffcb4f;
+  margin-bottom: 50px;
+}
 
 .ct-pie {
   height: 100%;
@@ -86,7 +95,7 @@ body {
 
 .ct-pie1 {
   height: 100%;
-}  
+}
 
 .ct-pie2 {
   height: 100%;
@@ -98,7 +107,7 @@ body {
 
 .ct-pie4 {
   height: 100%;
-}  
+}
 
 .ct-pie5 {
   height: 100%;
@@ -106,6 +115,30 @@ body {
 
 .ct-pie6 {
   height: 100%;
+}
+
+.section-title {
+  font-size: 30px;
+  margin-left: 60px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #0eafb9bd;
+}
+
+.section-title--green {
+  color: #0eafb9bd;
+}
+
+.section-title--brown {
+  color: #dda458;
+}
+
+.section-subtitle {
+  margin-left: 65px;
+  font-style: italic;
+  font-size: 14px;
+  margin-bottom: 50px;
+  color: #555;
 }
 
 @-webkit-keyframes exploding-stroke {
