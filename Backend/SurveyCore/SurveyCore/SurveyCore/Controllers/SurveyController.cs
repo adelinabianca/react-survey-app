@@ -51,7 +51,7 @@ namespace SurveyCore.Controllers
         {
             surveyService.UpdateAnswers(surveyData);
             //var form = surveyService.GetSurveyFormByUid(surveyData.UserId);
-            await dashboardService.UpdateDashboard(surveyData);
+            //await dashboardService.UpdateDashboard(surveyData);
             return Ok(surveyData);
         }
 
