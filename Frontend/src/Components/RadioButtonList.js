@@ -54,7 +54,7 @@ export class RadioButtonList extends PureComponent {
 
   handleInputOptionChange = event => {
     this.setState({ inputAnswer: event.target.value }, () =>
-      this.props.saveAnswers("Other: " + this.state.inputAnswer)
+      this.props.saveAnswers(["Other: " + this.state.inputAnswer])
     );
   };
 

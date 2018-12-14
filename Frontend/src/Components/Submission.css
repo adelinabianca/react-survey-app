@@ -1,10 +1,27 @@
 .submission {
     text-align: center;
     max-width: 900px;
-    height: 300px;
+    min-height: 300px;
     margin: auto;
 }
-
+.statistics {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 100px;
+}
+div.tableRow {
+    display: flex;
+    padding: 10px 0;
+    flex-direction: row;
+    color: #1c5b96;
+}
+.withBorder {
+    border-bottom: 1px solid #1c5b96;
+}
+div.tableCell {
+     width: 150px;
+}
 .submission h3 {
     color: #1434a0;
     font-size: 2.8em;
@@ -38,4 +55,22 @@
     background-color: #1434a0;
     left: 81px;
     top: 120px;
+}
+
+@media (max-width: 760px) {
+    .statistics {
+        flex-direction: row;
+        justify-content: center;
+        margin-top: 60px;
+    }
+    div.tableRow {
+        flex-direction: column;
+    }
+    .withBorder {
+        border-bottom: none;
+        border-right: 1px solid #1c5b96;
+    }
+    div.tableCell {
+        padding: 4px 8px;
+    }
 }

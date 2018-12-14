@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { GET_SURVEY_URL, SUBMIT_SURVEY_URL, DEMO_URL } from './config/config';
+import { GET_SURVEY_URL, SUBMIT_SURVEY_URL, DEMO_URL, GET_STATISTICS_URL } from './config/config';
 import "./App.css";
 import { Question } from "./Components/Question";
 
@@ -17,7 +17,8 @@ class App extends Component {
       previousAnswer: { questionId: "", answers: [] },
       loading: true,
       error: false,
-      uid: ''
+      uid: '',
+      statistics: {}
     };
   }
 
@@ -173,8 +174,50 @@ class App extends Component {
     }).then(response => {});
   };
 
+  onFinishSurvey = (answer) => {
+    const {
+      answers,
+      questionnaireConfig,
+      questionnaireConfig: { questions }
+    } = this.state;
+
+    const indexOfQuestion = questions.map(question => question.id).indexOf(answer.questionId);
+    let questionnaire = Object.assign({}, questionnaireConfig);
+    let updatedAnswers = answers.slice();
+
+    if (answer.answers.length !== 0) {
+      questionnaire.questions[indexOfQuestion].selectedAnswers = answer.answers;
+      updatedAnswers = updatedAnswers.filter(
+        prevAnswer => prevAnswer.questionId !== answer.questionId
+      );
+      updatedAnswers = updatedAnswers.concat(answer);
+    }
+
+    this.setState({ answers: updatedAnswers, questionnaireConfig: questionnaire });
+
+    questionnaire['UserId'] = this.state.uid;
+    const url = `${SUBMIT_SURVEY_URL}`;
+    const statisticsUrl = `${GET_STATISTICS_URL}`;
+
+    
+    fetch(url, {
+        method: "post",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(questionnaire)
+      })
+    .then(() => {
+      fetch(statisticsUrl)
+        .then(data => data.json())
+        .then(data => {
+          debugger;
+          this.setState({statistics: data}, () => this.goToNextQuestion())
+        })
+        .catch(err => console.log(err))
+      });
+  }
+
   render() {
-    const { loading, questionIndex, questionnaireConfig, previousAnswer, answers } = this.state;
+    const { loading, questionIndex, questionnaireConfig, previousAnswer, answers, statistics } = this.state;
 
     let page;
 
@@ -192,11 +235,12 @@ class App extends Component {
             lastQuestionIndex={questionnaireConfig.questions.length - 1}
             saveQuestionAnswer={this.saveQuestionAnswer}
             onSubmitQuestionnaire={this.onSubmitQuestionnaire}
+            onFinishSurvey={this.onFinishSurvey}
             goToNextQuestion={this.goToNextQuestion}
             goToPreviousQuestion={this.goToPreviousQuestion}
             checkIfPreviousQuestionHasAnswer={this.checkIfPreviousQuestionHasAnswer}
             checkIfNextQuestionHasAnswer={this.checkIfNextQuestionHasAnswer}
-            {...{ answers, previousAnswer, questionIndex }}
+            {...{ answers, previousAnswer, questionIndex, statistics }}
           />
         </div>
       );

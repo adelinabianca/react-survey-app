@@ -36,8 +36,9 @@ export class Question extends Component {
         />
       );
     }
-
+    
     if (answerType === "multiple" || answerType === "multiple with other") {
+      
       return (
         <CheckboxList
           saveAnswers={this.saveAnswers}
@@ -95,13 +96,16 @@ export class Question extends Component {
   };
 
   onSubmit = () => {
-    const { onSubmitQuestionnaire, goToNextQuestion } = this.props;
-    onSubmitQuestionnaire(this.state.questionAnswers);
-    goToNextQuestion();
+    const { goToNextQuestion, onFinishSurvey } = this.props;
+    
+    onFinishSurvey(this.state.questionAnswers);
+    // onSubmitQuestionnaire(this.state.questionAnswers);
+
+    // setTimeout(goToNextQuestion(),600);
   };
 
   showComponent() {
-    const { question, questionIndex, lastQuestionIndex, previousAnswer } = this.props;
+    const { question, questionIndex, lastQuestionIndex, previousAnswer, statistics } = this.props;
 
     if (questionIndex <= lastQuestionIndex) {
       const isDisabled = !(
@@ -154,7 +158,7 @@ export class Question extends Component {
         </div>
       );
     } else {
-      return <Submission />;
+      return <Submission statistics={statistics} />;
     }
   }
 
