@@ -61,10 +61,10 @@ namespace SurveyCore.Services
 
         public SurveySummary GetSurveySummary()
         {
-            var submittedSurveys = surveyRepository.GetSurveys();
+            var submittedSurveys = surveyRepository.GetSubmittedSurveys();
             var surveySummary = new SurveySummary
             {
-                TotalNumberOfAnswers = submittedSurveys.Count(survey => survey.Submitted),
+                TotalNumberOfAnswers = submittedSurveys.Count(),
 
                 //iasi->vnfv
                 //belgrade->orytenqr

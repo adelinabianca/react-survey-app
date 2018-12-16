@@ -13,6 +13,6 @@ namespace SurveyCore.Infrastructure.Repositories
         Survey InsertNewSurvey(Survey surveyData);
         IEnumerable<Survey> GetSurveysByForm(string form);
         string GetSurveyFormByUid(string uid);
-        IEnumerable<Survey> GetSurveys();
+        IEnumerable<Survey> GetSubmittedSurveys();
     }
 }
