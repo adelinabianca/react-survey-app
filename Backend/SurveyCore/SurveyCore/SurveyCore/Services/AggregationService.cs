@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using SurveyCore.Infrastructure.Entities;
 using SurveyCore.Infrastructure.Repositories;
 using SurveyCore.Models;
 
