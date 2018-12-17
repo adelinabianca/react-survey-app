@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
-import { GET_STATISTICS_URL } from './../config/config;'
-import Spinner from './Spinner/Spinner';
+import { GET_STATISTICS_URL } from './../config/config'
+import Spinner from './Spinner';
 import "./Submission.css";
 
 class Submission extends Component {
@@ -51,7 +51,7 @@ class Submission extends Component {
           <div className="checkmark_kick" />
         </span>
         <h3>Thank you for submitting!</h3>
-        {this.renderStatistics}
+        {this.renderStatistics()}
       </div>
     );
   }
