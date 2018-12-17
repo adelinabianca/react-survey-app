@@ -17,8 +17,7 @@ class App extends Component {
       previousAnswer: { questionId: "", answers: [] },
       loading: true,
       error: false,
-      uid: '',
-      statistics: {}
+      uid: ''
     };
   }
 
@@ -197,7 +196,6 @@ class App extends Component {
 
     questionnaire['UserId'] = this.state.uid;
     const url = `${SUBMIT_SURVEY_URL}`;
-    const statisticsUrl = `${GET_STATISTICS_URL}`;
 
     
     fetch(url, {
@@ -205,19 +203,11 @@ class App extends Component {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(questionnaire)
       })
-    .then(() => {
-      fetch(statisticsUrl)
-        .then(data => data.json())
-        .then(data => {
-          debugger;
-          this.setState({statistics: data}, () => this.goToNextQuestion())
-        })
-        .catch(err => console.log(err))
-      });
+    .then(() => {});
   }
 
   render() {
-    const { loading, questionIndex, questionnaireConfig, previousAnswer, answers, statistics } = this.state;
+    const { loading, questionIndex, questionnaireConfig, previousAnswer, answers } = this.state;
 
     let page;
 
@@ -240,7 +230,7 @@ class App extends Component {
             goToPreviousQuestion={this.goToPreviousQuestion}
             checkIfPreviousQuestionHasAnswer={this.checkIfPreviousQuestionHasAnswer}
             checkIfNextQuestionHasAnswer={this.checkIfNextQuestionHasAnswer}
-            {...{ answers, previousAnswer, questionIndex, statistics }}
+            {...{ answers, previousAnswer, questionIndex }}
           />
         </div>
       );

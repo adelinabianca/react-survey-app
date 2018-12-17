@@ -96,12 +96,12 @@ export class Question extends Component {
   };
 
   onSubmit = () => {
-    const { goToNextQuestion, onFinishSurvey } = this.props;
+    const { goToNextQuestion, onSubmitQuestionnaire } = this.props;
     
-    onFinishSurvey(this.state.questionAnswers);
-    // onSubmitQuestionnaire(this.state.questionAnswers);
+    // onFinishSurvey(this.state.questionAnswers);
+    onSubmitQuestionnaire(this.state.questionAnswers);
 
-    // setTimeout(goToNextQuestion(),600);
+    goToNextQuestion();
   };
 
   showComponent() {
@@ -158,7 +158,7 @@ export class Question extends Component {
         </div>
       );
     } else {
-      return <Submission statistics={statistics} />;
+      return <Submission />;
     }
   }
 
