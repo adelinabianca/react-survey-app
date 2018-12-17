@@ -47,9 +47,9 @@ namespace SurveyCore.Infrastructure.Repositories
             return dbContext.Survey.FirstOrDefault(survey => survey.UID == uid).Form;
         }
 
-        public IEnumerable<Survey> GetSurveys()
+        public IEnumerable<Survey> GetSubmittedSurveys()
         {
-            return dbContext.Survey;
+            return dbContext.Survey.Where(survey => survey.Submitted);
         }
 
         public Survey InsertNewSurvey(Survey surveyData)
