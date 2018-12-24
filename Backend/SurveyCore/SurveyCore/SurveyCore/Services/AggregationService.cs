@@ -65,43 +65,49 @@ namespace SurveyCore.Services
             {
                 TotalNumberOfAnswers = submittedSurveys.Count(),
 
-                //iasi->vnfv
-                //belgrade->orytenqr
-                //novisad->abivfnq
-                //zrenjanin->merawnava
-                //kiev->xvri
-                //lviv->yivi
+                //AMS -> NZF
+                //BG  -> OT
+                //IA  -> VN
+                //KI  -> XV
+                //LV  -> YI
+                //NS  -> AF
+                //ZR  -> ME
                 TotalsPerDcs = new List<NumbersPerDc>
                 {
                     new NumbersPerDc
                     {
                         DeliveryCenterName = "Iasi",
-                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.StartsWith("vnfv"))
+                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.StartsWith("VN"))
                     },
                     new NumbersPerDc
                     {
                         DeliveryCenterName = "Belgrade",
-                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.Contains("orytenqr"))
+                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.Contains("OT"))
                     },
                     new NumbersPerDc
                     {
                         DeliveryCenterName = "Novi Sad",
-                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.Contains("abivfnq"))
+                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.Contains("AF"))
                     },
                     new NumbersPerDc
                     {
                         DeliveryCenterName = "Zrenjanin",
-                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.Contains("merawnava"))
+                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.Contains("ME"))
                     },
                     new NumbersPerDc
                     {
                         DeliveryCenterName = "Kiev",
-                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.Contains("xvri"))
+                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.Contains("XV"))
                     },
                     new NumbersPerDc
                     {
                         DeliveryCenterName = "Lviv",
-                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.Contains("yivi"))
+                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.Contains("YI"))
+                    },
+                    new NumbersPerDc
+                    {
+                        DeliveryCenterName = "Amsterdam",
+                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.Contains("NZF"))
                     }
                 }
             };
