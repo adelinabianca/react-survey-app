@@ -245,9 +245,6 @@ class App extends Component {
                     <h1 className="mbr-section-title align-center mbr-bold pb-3 pt-3 mbr-fonts-style display-1">
                       THE STATE OF LEVININE DEVELOPER ECOSYSTEM
                     </h1>
-                    <!--<p className="mbr-text align-center pb-3 mbr-fonts-style display-5">
-					 THE STATE OF LEVININE DEVELOPER ECOSYSTEM IN 2018
-                    </p>––>
                   </div>
                 </div>
               </div>
