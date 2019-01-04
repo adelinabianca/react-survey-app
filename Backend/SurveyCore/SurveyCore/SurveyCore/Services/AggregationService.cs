@@ -82,32 +82,27 @@ namespace SurveyCore.Services
                     new NumbersPerDc
                     {
                         DeliveryCenterName = "Belgrade",
-                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.Contains("OT"))
+                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.StartsWith("OT"))
                     },
                     new NumbersPerDc
                     {
                         DeliveryCenterName = "Novi Sad",
-                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.Contains("AF"))
+                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.StartsWith("AF"))
                     },
                     new NumbersPerDc
                     {
                         DeliveryCenterName = "Zrenjanin",
-                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.Contains("ME"))
+                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.StartsWith("ME"))
                     },
                     new NumbersPerDc
                     {
                         DeliveryCenterName = "Kiev",
-                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.Contains("XV"))
+                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.StartsWith("XV"))
                     },
                     new NumbersPerDc
                     {
                         DeliveryCenterName = "Lviv",
-                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.Contains("YI"))
-                    },
-                    new NumbersPerDc
-                    {
-                        DeliveryCenterName = "Amsterdam",
-                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.Contains("NZF"))
+                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.StartsWith("YI"))
                     }
                 }
             };
