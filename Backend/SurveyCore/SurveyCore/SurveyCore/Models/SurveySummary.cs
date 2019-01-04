@@ -12,5 +12,6 @@ namespace SurveyCore.Models
     {
         public string DeliveryCenterName { get; set; }
         public int TotalNumberOfAnswers { get; set; }
+        public string TotalNumberOfEmployees { get; internal set; }
     }
 }

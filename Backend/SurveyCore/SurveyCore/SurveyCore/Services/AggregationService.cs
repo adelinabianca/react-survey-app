@@ -77,32 +77,38 @@ namespace SurveyCore.Services
                     new NumbersPerDc
                     {
                         DeliveryCenterName = "Iasi",
-                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.StartsWith("VN"))
+                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.StartsWith("VN")),
+                        TotalNumberOfEmployees = "114"
                     },
                     new NumbersPerDc
                     {
                         DeliveryCenterName = "Belgrade",
-                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.StartsWith("OT"))
+                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.StartsWith("OT")),
+                        TotalNumberOfEmployees = "117"
                     },
                     new NumbersPerDc
                     {
                         DeliveryCenterName = "Novi Sad",
-                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.StartsWith("AF"))
+                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.StartsWith("AF")),
+                        TotalNumberOfEmployees = "346"
                     },
                     new NumbersPerDc
                     {
                         DeliveryCenterName = "Zrenjanin",
-                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.StartsWith("ME"))
+                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.StartsWith("ME")),
+                        TotalNumberOfEmployees = "38"
                     },
                     new NumbersPerDc
                     {
                         DeliveryCenterName = "Kiev",
-                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.StartsWith("XV"))
+                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.StartsWith("XV")),
+                        TotalNumberOfEmployees = "209"
                     },
                     new NumbersPerDc
                     {
                         DeliveryCenterName = "Lviv",
-                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.StartsWith("YI"))
+                        TotalNumberOfAnswers = submittedSurveys.Count(ss => ss.UID.StartsWith("YI")),
+                        TotalNumberOfEmployees = "43"
                     }
                 }
             };
