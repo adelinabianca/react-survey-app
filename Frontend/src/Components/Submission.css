@@ -6,22 +6,11 @@
 }
 .statistics {
     display: flex;
-    align-items: center;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     margin-top: 100px;
 }
-div.tableRow {
-    display: flex;
-    padding: 10px 0;
-    flex-direction: row;
-    color: #1c5b96;
-}
-.withBorder {
-    border-bottom: 1px solid #1c5b96;
-}
-div.tableCell {
-     width: 150px;
-}
+
 .submission h3 {
     color: #1434a0;
     font-size: 2.8em;
@@ -57,20 +46,31 @@ div.tableCell {
     top: 120px;
 }
 
+.pieChart {
+    width: 33%;
+    height: 200px;
+    margin-bottom: 30px;
+    color: rgb(20, 52, 160);
+}
+
+.series-a { 
+    fill: #1434a0;
+}
+.series-b {
+    fill: rgb(20, 52, 160,0.5);
+}
+
+.ct-label {
+    fill: white !important;
+}
+
 @media (max-width: 760px) {
     .statistics {
         flex-direction: row;
         justify-content: center;
         margin-top: 60px;
     }
-    div.tableRow {
-        flex-direction: column;
-    }
-    .withBorder {
-        border-bottom: none;
-        border-right: 1px solid #1c5b96;
-    }
-    div.tableCell {
-        padding: 4px 8px;
+    .ct-label {
+        font-size: 0.6rem;
     }
 }

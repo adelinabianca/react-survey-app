@@ -238,6 +238,9 @@ class App extends Component {
       page = (
         <div>
           <section className="header1 cover-photo" id="header1-3">
+            <div className='blue'>
+                <div className='tech9-title'>TECH9SURVEY</div>
+            </div>
             <div className="container-fluid">
               <div className="row">
                 <div className="col-md-12">

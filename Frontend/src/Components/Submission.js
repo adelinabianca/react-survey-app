@@ -26,20 +26,14 @@ class Submission extends Component {
     const { loading, statistics } = this.state;
     let statisticsTable = <Spinner />;
     if (!loading) {
-      const { totalNumberOfAnswers, totalsPerDcs } = statistics;
-	  statisticsTable = (<Bar statisticts={statistics} />);
-      // statisticsTable = (
-        // <div className="statistics">
-          // <div className="tableRow withBorder">
-            // {totalsPerDcs.map(dc => <div className="tableCell">{dc.deliveryCenterName}</div>)}
-            // <div className="tableCell">Total</div>
-          // </div>
-          // <div className="tableRow">
-            // {totalsPerDcs.map(dc => <div className="tableCell">{dc.totalNumberOfAnswers} answer(s)</div>)}
-            // <div className="tableCell">{totalNumberOfAnswers} answer(s)</div>
-          // </div>
-        // </div>
-      // )
+      const { totalsPerDcs } = statistics;
+	  statisticsTable = (
+      <div className="statistics">
+        {totalsPerDcs.map((dcs) => (
+            <div key={dcs.deliveryCenterName} className="pieChart">{dcs.deliveryCenterName}<Bar  statistics={dcs} /> </div>)
+          )}
+      </div>
+      );
     }
     return statisticsTable;
   }
