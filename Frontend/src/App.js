@@ -105,12 +105,16 @@ class App extends Component {
 
   goToNextQuestion = () => {
     const { questionIndex } = this.state;
+    const target = document.getElementById("scrollTo");
+    target.scrollIntoView();
 
     this.setState({ questionIndex: questionIndex + 1 });
   };
 
   goToPreviousQuestion = () => {
     const { questionIndex } = this.state;
+    const target = document.getElementById("scrollTo");
+    target.scrollIntoView();
 
     this.setState({ questionIndex: questionIndex - 1 });
   };
@@ -245,7 +249,7 @@ class App extends Component {
               <div className="row">
                 <div className="col-md-12">
                   <div className="mbr-white">
-                    <h1 className="mbr-section-title align-center mbr-bold pb-3 pt-3 mbr-fonts-style display-1">
+                    <h1 id="scrollTo" className="mbr-section-title align-center mbr-bold pb-3 pt-3 mbr-fonts-style display-1">
                       THE STATE OF LEVININE DEVELOPER ECOSYSTEM
                     </h1>
                   </div>
