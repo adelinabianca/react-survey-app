@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { GET_SURVEY_URL, SUBMIT_SURVEY_URL, DEMO_URL, GET_STATISTICS_URL } from './config/config';
+import { GET_SURVEY_URL, SUBMIT_SURVEY_URL, DEMO_URL } from './config/config';
 import "./App.css";
 import { Question } from "./Components/Question";
 

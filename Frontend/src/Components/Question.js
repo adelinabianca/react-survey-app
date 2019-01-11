@@ -98,14 +98,13 @@ export class Question extends Component {
   onSubmit = () => {
     const { goToNextQuestion, onSubmitQuestionnaire } = this.props;
     
-    // onFinishSurvey(this.state.questionAnswers);
     onSubmitQuestionnaire(this.state.questionAnswers);
 
     goToNextQuestion();
   };
 
   showComponent() {
-    const { question, questionIndex, lastQuestionIndex, previousAnswer, statistics } = this.props;
+    const { question, questionIndex, lastQuestionIndex, previousAnswer } = this.props;
 
     if (questionIndex <= lastQuestionIndex) {
       const isDisabled = !(

@@ -18,7 +18,7 @@ export class CheckboxList extends Component {
       this.setState({
         checkedAnswers: previousAnswer.answers,
         inputAnswer: previousAnswer.answers
-          .filter(prevAnswer => prevAnswer.includes("Other:"))
+          .filter(prevAnswer => prevAnswer.includes("Other: "))
           .map(e => e.substring(7))[0]
       });
     }
@@ -35,7 +35,7 @@ export class CheckboxList extends Component {
         inputAnswer:
           nextProps.previousAnswer.answers.length !== 0
             ? nextProps.previousAnswer.answers
-                .filter(prevAnswer => prevAnswer.includes("Other:"))
+                .filter(prevAnswer => prevAnswer.includes("Other: "))
                 .map(e => e.substring(7))[0]
             : []
       });
@@ -58,8 +58,9 @@ export class CheckboxList extends Component {
         prevState => ({
           checkedAnswers: prevState.checkedAnswers.filter(
             prevAnswer =>
-              prevAnswer !== answer && (answer === "Other" ? !prevAnswer.includes("Other:") : true)
-          )
+              prevAnswer !== answer && (answer.includes('Other') ? !prevAnswer.includes("Other") : true)
+          ),
+          inputAnswer: answer.includes('Other') ? '' : prevState.inputAnswer
         }),
         () => this.props.saveAnswers(this.state.checkedAnswers)
       );
@@ -67,9 +68,10 @@ export class CheckboxList extends Component {
   };
 
   handleInputOptionChange = event => {
+    const { target: { value } } = event;
     let updatedCheckedAnswers = this.state.checkedAnswers;
     let indexOfOtherOption = updatedCheckedAnswers.indexOf(
-      updatedCheckedAnswers.filter(answer => answer.includes("Other:"))[0]
+      updatedCheckedAnswers.filter(answer => answer.includes("Other: "))[0]
     );
 
     if (indexOfOtherOption !== -1) {
@@ -81,7 +83,7 @@ export class CheckboxList extends Component {
     this.setState(
       {
         checkedAnswers: updatedCheckedAnswers,
-        inputAnswer: event.target.value
+        inputAnswer: value
       },
       () => this.props.saveAnswers(this.state.checkedAnswers)
     );
